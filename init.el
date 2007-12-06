@@ -122,7 +122,7 @@
 
 (add-hook 'after-init-hook '(lambda ()
                               (progn
-                                (add-to-list 'default-frame-alist '(height . 55))
+                                (add-to-list 'default-frame-alist '(height . 46))
                                 (add-to-list 'default-frame-alist '(width . 150)))))
 
 
