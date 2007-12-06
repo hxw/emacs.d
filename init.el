@@ -243,6 +243,12 @@
 	    (replace-match (format "|=%7.2f |" total-value))
 	    nil
 	    )
+
+	   ((looking-at "|#[^|]+|")
+	    (message "totalvalue = %s" (match-string 0))
+	    (replace-match (format "|#%3d |" total-value))
+	    nil
+	    )
 	   
 	   (t (message "total value = %s" total-value) nil)
 	   )
