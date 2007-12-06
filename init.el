@@ -1,5 +1,5 @@
 ; .emacs
-
+; ======
 
 ; function keys
 ; -------------
@@ -18,6 +18,8 @@
 (global-set-key [f10] 'bury-buffer)
 (global-set-key [f11] 'my-server-edit)
 (global-set-key [f12] 'delete-other-windows)
+
+(global-set-key [C-S-f12] 'wl)
 
 
 ; miscellaneous keys
@@ -69,16 +71,21 @@
 ; ------------------------
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom -- don't edit or cut/paste it!
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(Buffer-menu-buffer+size-width 60)
+ '(Buffer-menu-mode-width 120)
  '(buffers-menu-max-size 30)
  '(c-file-offsets (quote ((statement-block-intro . +) (knr-argdecl-intro . +) (substatement-open . 0) (label . 0) (statement-cont . +))) t)
  '(c-offsets-alist (quote ((brace-list-intro . 0) (substatement-open . 0))))
  '(case-fold-search t)
  '(current-language-environment "UTF-8")
  '(default-input-method "rfc1345")
- '(face-font-family-alternatives (quote (("courier" "fixed") ("helv" "helvetica" "arial" "fixed") ("yhunifont" "ming for iso10646 "))))
- '(face-font-registry-alternatives (quote (("gb2312.1980" "gb2312.80&gb8565.88" "gbk*") ("jisx0208.1990" "jisx0208.1983" "jisx0208.1978") ("ksc5601.1989" "ksx1001.1992" "ksc5601.1987") ("big5-0" "big5*") ("muletibetan-2" "muletibetan-0") ("iso10646-1"))))
+ '(display-time-mode t)
+ '(face-font-family-alternatives (quote (("courier" "fixed") ("helv" "helvetica" "arial" "fixed") ("yhunifont" "ming for iso10646 " "ar pl mingti2l big5" "ar pl shanheisun uni" "ar pl new sung"))))
+ '(face-font-registry-alternatives (quote (("gb2312.1980" "gb2312.80&gb8565.88" "gbk*") ("jisx0208.1990" "jisx0208.1983" "jisx0208.1978") ("ksc5601.1989" "ksx1001.1992" "ksc5601.1987") ("big5-0" "big5.eten-0" "big5*") ("muletibetan-2" "muletibetan-0") ("iso10646-1"))))
  '(flyspell-default-dictionary "british")
  '(font-lock-use-colors t)
  '(global-font-lock-mode t nil (font-lock))
@@ -90,15 +97,18 @@
  '(sh-indent-for-do 0)
  '(sh-indent-for-then 0)
  '(sh-indentation 2)
- '(show-paren-mode t nil (paren))
+ '(show-paren-mode t)
+ '(speedbar-show-unknown-files t)
  '(tcl-indent-level 2)
  '(time-stamp-format "%:y-%02m-%02dT%02H:%02M:%02S %:z")
  '(tooltip-mode nil nil (tooltip))
  '(transient-mark-mode t)
  '(uniquify-buffer-name-style nil nil (uniquify)))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom -- don't edit or cut/paste it!
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 136 :width normal :family "wqy"))))
  '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal)))))
 
@@ -158,6 +168,88 @@
   (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
         ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
         (t (self-insert-command (or arg 1)))))
+
+
+; spreadsheet calculation
+; -----------------------
+
+(global-set-key [C-kp-multiply] 'sc-calc)
+(global-set-key [C-kp-add] 'sc-total)
+
+(defun sc-calc (arg)
+  "multiply quantity by unit price"
+  (interactive "p")
+  (let (
+	(qty 0)
+	(unit-price 0)
+	(total-price 0)
+	)
+    (if (search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" nil t)
+	(let (
+	      (start-pos (point))
+	      (end-pos (progn (end-of-line) (point)))
+	      )
+	  (goto-char start-pos)
+	  (backward-char 1)
+	  (setq qty (string-to-number (match-string 1)))
+	  (message "qty = %s" qty)
+	  (if (search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" end-pos t)
+	      (progn
+		(setq unit-price (string-to-number (match-string 1)))
+		(message "unit price = %s" unit-price)
+		(setq total-price (* unit-price qty))
+		(backward-char 1)
+		(message "total price = %s" total-price)
+		(if (search-forward-regexp "|[^|]+|" end-pos t)
+		    (progn
+		      (replace-match (format "| %7.2f |" total-price))
+		      )
+		  )
+		)
+	    )
+	  )
+      )
+    )
+  )
+
+(defun sc-total (arg)
+  "sum a column of numbers"
+  (interactive "p")
+  (let (
+	(current-value 0)
+	(total-value 0)
+	)
+    (while
+	(let (
+	      (start-pos (point))
+	      (end-pos (progn (end-of-line) (point)))
+	      )
+	  (goto-char start-pos)
+	  (cond
+	   ((looking-at "\\+") (next-line 1) t)
+	   ((looking-at "|[[:space:]]+|") (next-line 1) t)
+	   
+	   ((search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" end-pos t)
+	    (setq current-value (string-to-number (match-string 1)))
+	    (message "value = %s" current-value)
+	    (setq total-value (+ total-value current-value))
+	    (backward-char (string-width (match-string 0)))
+	    (next-line 1)
+	    t
+	    )
+	   
+	   ((looking-at "|=[^|]+|")
+	    (message "totalvalue = %s" (match-string 0))
+	    (replace-match (format "|=%7.2f |" total-value))
+	    nil
+	    )
+	   
+	   (t (message "total value = %s" total-value) nil)
+	   )
+	  )
+      )
+    )
+  )
 
 
 ; Toggle case of letter at the cursor
@@ -254,22 +346,105 @@
 (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
 (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
 
+(message "xrefactory loaded")
+
+
 ;(if (featurep 'mule) (set-language-environment '"Chinese-BIG5"))
-(if (featurep 'mule) (set-language-environment "UTF-8"))
+;(if (featurep 'mule) (set-language-environment "UTF-8"))
+;(utf-translate-cjk-load-tables)
 
-; setup server
-; ------------
+(if (not (member '("-*-*-medium-normal-r-*-13-*-*-*-*-*-fontset-chinese"
+		   . "fontset-chinese") fontset-alias-alist))
+    (progn
+      (create-fontset-from-fontset-spec
+       "-*-*-medium-r-normal-*-13-*-*-*-*-*-fontset-chinese,
+        ascii:-*-courier-medium-r-*--18-*-iso8859-1,
+        vietnamese-viscii-upper:-*-fixed-medium-r-*--16-*-viscii1.1-1,
+        vietnamese-viscii-lower:-*-fixed-medium-r-*--16-*-viscii1.1-1,
+        chinese-gb2312:-*-*shanheisun*-medium-r-*--18-*-gb2312*-*,
+        chinese-big5-1:-*-*shanheisun*-medium-r-*--18-*-big5*-*,
+        chinese-big5-2:-*-*shanheisun*-medium-r-*--18-*-big5*-*,
+        latin-iso8859-1:-*-fixed-medium-r-*--16-*-iso8859-1,
+        latin-iso8859-2:-*-fixed-medium-r-*--16-*-iso8859-2,
+        latin-iso8859-3:-*-fixed-medium-r-*--16-*-iso8859-3,
+        latin-iso8859-4:-*-fixed-medium-r-*--16-*-iso8859-4,
+        cyrillic-iso8859-5:-*-fixed-medium-r-*--16-*-iso8859-5,
+        arabic-iso8859-6:-*-fixed-medium-r-*--16-*-iso8859-6,
+        greek-iso8859-7:-*-fixed-medium-r-*--16-*-iso8859-7,
+        hebrew-iso8859-8:-*-fixed-medium-r-*--16-*-iso8859-8,
+        latin-iso8859-9:-*-fixed-medium-r-*--16-*-iso8859-9,
+        latin-iso8859-14:-*-fixed-medium-r-*--16-*-iso8859-14,
+        latin-iso8859-15:-*-fixed-medium-r-*--16-*-iso8859-15,
+        mulearabic-0:-*-fixed-medium-r-*--16-*-mulearabic-0,
+        mulearabic-1:-*-fixed-medium-r-*--16-*-mulearabic-1,
+        mulearabic-2:-*-fixed-medium-r-*--16-*-mulearabic-2,
+        muleaipa-1:-*-fixed-medium-r-*--16-*-muleipa-1,
+        ethiopic:-*-ethio*-medium-r-normal--16-*-*-*-*-*-admas-fontspecific
+        katakana-jisx0201:-*-fixed-medium-r-*--16-*-jisx0201.1976-*,
+        latin-jisx0201:-*-fixed-medium-r-*--16-*-jisx0201.1976-*,
+        japanese-jisx0208-1978:-*-fixed-medium-r-*--16-*-jisx0208.1978-*,
+        japanese-jisx0208:-*-fixed-medium-r-*--16-*-jisx0208.1983-*,
+        katakana-jisx0208:-*-fixed-medium-r-*--16-*-jisx0208.1983-*,
+        katakana-jisx0212:-*-fixed-medium-r-*--16-*-jisx0212.1990-*,
+        korean-ksc5601:-*-mincho-medium-r-*--16-*-ksc5601.1987-*,
+        thai-tis620:-etl-fixed-medium-r-normal--16-*-tis620.2529-1"
+	t)
 
-(server-start)
+      (setq default-frame-alist
+            (append
+             '((font . "fontset-chinese"))
+             default-frame-alist))
+      )
+  )
+
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
+
+
 ;; Xrefactory configuration part ;;
-;; some Xrefactory defaults can be set here
 (defvar xref-current-project nil) ;; can be also "my_project_name"
-(defvar xref-key-binding 'global) ;; can be also 'local or 'none
+;(defvar xref-key-binding 'global) ;; can be also 'local or 'none
+(defvar xref-key-binding 'none) ;; can be also 'local or 'none
 (setq load-path (cons "/data/home/hsw/Xrefactory/xref/emacs" load-path))
 (setq exec-path (cons "/data/home/hsw/Xrefactory/xref" exec-path))
 (load "xrefactory")
 ;; end of Xrefactory configuration part ;;
+
+;; Xrefactory key definitions
+
+(defun my-xref-add-bindings-to-keymap (keymap)
+  "Set up shortcut keys fior Xrefactory"
+  (define-key keymap [(f9)] 'xref-refactor)
+  (define-key keymap [(shift f9)] 'xref-completion)
+;  (define-key keymap [(shift f8)] 'xref-ide-compile-run)
+  (define-key keymap [(f7)] 'xref-delete-window)
+  (define-key keymap [(f6)] 'xref-push-and-goto-definition)
+  (define-key keymap [(shift f6)] 'xref-browse-symbol)
+  (define-key keymap [(f5)] 'xref-pop-and-return)
+  (define-key keymap [(shift f5)] 'xref-re-push)
+  (define-key keymap [(f4)] 'xref-next-reference)
+  (define-key keymap [(shift f4)] 'xref-alternative-next-reference)
+  (define-key keymap [(f3)] 'xref-previous-reference)
+  (define-key keymap [(shift f3)] 'xref-alternative-previous-reference)
+)
+
+(my-xref-add-bindings-to-keymap global-map)
+
 (message "xrefactory loaded")
+
+
+;; email system
+
+(message "loading Wanderlust Email Reader")
+
+(require 'wanderlust-startup) 
+
+; setup server
+; ------------
+
+(message "starting server")
+(server-start)
+
+
+(message ".emacs complete")
