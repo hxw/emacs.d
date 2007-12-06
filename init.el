@@ -4,103 +4,54 @@
 ; fonts
 ; -----
 
-;(set-fontset-font "fontset-default" 'ascii "-*-courier-medium-r-normal-*-16-*-*-*-*-*-iso8859-1")
-(set-fontset-font "fontset-default" 'vietnamese-viscii-upper "-*-fixed-medium-r-*--16-*-viscii1.1-1")
-(set-fontset-font "fontset-default" 'vietnamese-viscii-lower "-*-fixed-medium-r-*--16-*-viscii1.1-1")
-(set-fontset-font "fontset-default" 'chinese-gb2312 "-*-*shanheisun*-medium-r-*--16-*-gb2312*-*")
-(set-fontset-font "fontset-default" 'chinese-big5-1 "-*-*shanheisun*-medium-r-*--16-*-big5*-*")
-(set-fontset-font "fontset-default" 'chinese-big5-2 "-*-*shanheisun*-medium-r-*--16-*-big5*-*")
-(set-fontset-font "fontset-default" 'chinese-sisheng "-etl-fixed-medium-r-normal-*-16-*-*-*-*-*-sisheng_cwnn-0")
-(set-fontset-font "fontset-default" 'chinese-cns11643-1 "-hku-fixed-medium-r-normal-*-16-*-*-*-*-*-cns11643.1992-1")
-(set-fontset-font "fontset-default" 'chinese-cns11643-2 "-hku-fixed-medium-r-normal-*-16-*-*-*-*-*-cns11643.1992-2")
-(set-fontset-font "fontset-default" 'latin-iso8859-1 "-*-fixed-medium-r-*--16-*-iso8859-1")
-(set-fontset-font "fontset-default" 'latin-iso8859-2 "-*-fixed-medium-r-*--16-*-iso8859-2")
-(set-fontset-font "fontset-default" 'latin-iso8859-3 "-*-fixed-medium-r-*--16-*-iso8859-3")
-(set-fontset-font "fontset-default" 'latin-iso8859-4 "-*-fixed-medium-r-*--16-*-iso8859-4")
-(set-fontset-font "fontset-default" 'cyrillic-iso8859-5 "-*-fixed-medium-r-*--16-*-iso8859-5")
-(set-fontset-font "fontset-default" 'arabic-iso8859-6 "-*-fixed-medium-r-*--16-*-iso8859-6")
-(set-fontset-font "fontset-default" 'greek-iso8859-7 "-*-fixed-medium-r-*--16-*-iso8859-7")
-(set-fontset-font "fontset-default" 'hebrew-iso8859-8 "-*-fixed-medium-r-*--16-*-iso8859-8")
-(set-fontset-font "fontset-default" 'latin-iso8859-9 "-*-fixed-medium-r-*--16-*-iso8859-9")
-(set-fontset-font "fontset-default" 'latin-iso8859-14 "-*-fixed-medium-r-*--16-*-iso8859-14")
-(set-fontset-font "fontset-default" 'latin-iso8859-15 "-*-fixed-medium-r-*--16-*-iso8859-15")
-(set-fontset-font "fontset-default" 'arabic-digit ":-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0")
-(set-fontset-font "fontset-default" 'arabic-digit "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0")
-(set-fontset-font "fontset-default" 'arabic-1-column "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-1")
-(set-fontset-font "fontset-default" 'arabic-2-column "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-2")
-;(set-fontset-font "fontset-default" 'muleaipa-1 "-*-fixed-medium-r-*--16-*-muleipa-1")
-(set-fontset-font "fontset-default" 'ethiopic "-*-ethio*-medium-r-normal--16-*-*-*-*-*-admas-fontspecific")
-(set-fontset-font "fontset-default" 'ethiopic "-*-ethio*-medium-r-normal--16-*-*-*-*-*-ethiopic-unicode")
-(set-fontset-font "fontset-default" 'katakana-jisx0201 "-*-fixed-medium-r-*--16-*-jisx0201.1976-*")
-(set-fontset-font "fontset-default" 'latin-jisx0201 "-*-fixed-medium-r-*--16-*-jisx0201.1976-*")
-(set-fontset-font "fontset-default" 'japanese-jisx0208-1978 "-*-fixed-medium-r-*--16-*-jisx0208.1978-*")
-(set-fontset-font "fontset-default" 'japanese-jisx0208 "-*-fixed-medium-r-*--16-*-jisx0208.1983-*")
-(set-fontset-font "fontset-default" 'japanese-jisx0208 "-*-fixed-medium-r-*--16-*-jisx0208.1983-*")
-(set-fontset-font "fontset-default" 'japanese-jisx0212 "-*-fixed-medium-r-*--16-*-jisx0212.1990-*")
-(set-fontset-font "fontset-default" 'korean-ksc5601 "-*-mincho-medium-r-*--16-*-ksc5601.1987-*")
-(set-fontset-font "fontset-default" 'lao "-*-fixed-medium-r-normal-*-*-*-*-*-*-*-mulelao-1")
-(set-fontset-font "fontset-default" 'thai-tis620 "-etl-fixed-medium-r-normal--16-*-tis620.2529-1")
-(set-fontset-font "fontset-default" 'tibetan "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-0")
-(set-fontset-font "fontset-default" 'tibetan-1-column "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-1")
-(set-fontset-font "fontset-default" 'indian-is13194 "-*-fixed-medium-r-normal-*-16-*-*-*-*-*-is13194-devanagari")
-;(set-fontset-font "fontset-default" 'indian-1-column "-*-fixed-medium-r-normal-*-16-*-*-*-*-*-muleindian-1")
-(set-fontset-font "fontset-default" 'indian-2-column "-*-fixed-medium-r-normal-*-16-*-*-*-*-*-muleindian-2")
-(set-fontset-font "fontset-default" 'mule-unicode-0100-24ff "-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1")
-(set-fontset-font "fontset-default" 'mule-unicode-2500-33ff "-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1")
-(set-fontset-font "fontset-default" 'mule-unicode-e000-ffff "-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1")
+(setq fs "fontset-default")
 
+; cannot change ascii
+;(set-fontset-font fs 'ascii "-*-courier-medium-r-normal-*-16-*-*-*-*-*-iso8859-1")
 
-(if (not (member '("-*-*-medium-normal-r-*-13-*-*-*-*-*-fontset-chinese"
-		   . "fontset-chinese") fontset-alias-alist))
-    (progn
-      (create-fontset-from-fontset-spec
-       "-*-*-medium-r-normal-*-13-*-*-*-*-*-fontset-chinese,
-        ascii:-*-courier-medium-r-normal-*-16-*-*-*-*-*-iso8859-1,
-        vietnamese-viscii-upper:-*-fixed-medium-r-*--16-*-viscii1.1-1,
-        vietnamese-viscii-lower:-*-fixed-medium-r-*--16-*-viscii1.1-1,
-        chinese-gb2312:-*-*shanheisun*-medium-r-*--16-*-gb2312*-*,
-        chinese-big5-1:-*-*shanheisun*-medium-r-*--16-*-big5*-*,
-        chinese-big5-2:-*-*shanheisun*-medium-r-*--16-*-big5*-*,
-        chinese-sisheng:-etl-fixed-medium-r-normal-*-16-*-*-*-*-*-sisheng_cwnn-0,
-        chinese-cns11643-1:-hku-fixed-medium-r-normal-*-16-*-*-*-*-*-cns11643.1992-1,
-        chinese-cns11643-2:-hku-fixed-medium-r-normal-*-16-*-*-*-*-*-cns11643.1992-2,
-        latin-iso8859-1:-*-fixed-medium-r-*--16-*-iso8859-1,
-        latin-iso8859-2:-*-fixed-medium-r-*--16-*-iso8859-2,
-        latin-iso8859-3:-*-fixed-medium-r-*--16-*-iso8859-3,
-        latin-iso8859-4:-*-fixed-medium-r-*--16-*-iso8859-4,
-        cyrillic-iso8859-5:-*-fixed-medium-r-*--16-*-iso8859-5,
-        arabic-iso8859-6:-*-fixed-medium-r-*--16-*-iso8859-6,
-        greek-iso8859-7:-*-fixed-medium-r-*--16-*-iso8859-7,
-        hebrew-iso8859-8:-*-fixed-medium-r-*--16-*-iso8859-8,
-        latin-iso8859-9:-*-fixed-medium-r-*--16-*-iso8859-9,
-        latin-iso8859-14:-*-fixed-medium-r-*--16-*-iso8859-14,
-        latin-iso8859-15:-*-fixed-medium-r-*--16-*-iso8859-15,
-        arabic-digit::-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0,
-        mulearabic-0:-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0,
-        mulearabic-1:-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-1,
-        mulearabic-2:-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-2,
-        muleaipa-1:-*-fixed-medium-r-*--16-*-muleipa-1,
-        ethiopic:-*-ethio*-medium-r-normal--16-*-*-*-*-*-admas-fontspecific,
-        ethiopic:-*-ethio*-medium-r-normal--16-*-*-*-*-*-ethiopic-unicode,
-        katakana-jisx0201:-*-fixed-medium-r-*--16-*-jisx0201.1976-*,
-        latin-jisx0201:-*-fixed-medium-r-*--16-*-jisx0201.1976-*,
-        japanese-jisx0208-1978:-*-fixed-medium-r-*--16-*-jisx0208.1978-*,
-        japanese-jisx0208:-*-fixed-medium-r-*--16-*-jisx0208.1983-*,
-        katakana-jisx0208:-*-fixed-medium-r-*--16-*-jisx0208.1983-*,
-        katakana-jisx0212:-*-fixed-medium-r-*--16-*-jisx0212.1990-*,
-        korean-ksc5601:-*-mincho-medium-r-*--16-*-ksc5601.1987-*,
-        lao:-*-fixed-medium-r-normal-*-*-*-*-*-*-*-mulelao-1,
-        thai-tis620:-etl-fixed-medium-r-normal--16-*-tis620.2529-1,
-        tibetan:-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-0,
-        tibetan-1-column:-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-1,
-        indian-is13194:-*-fixed-medium-r-normal-*-16-*-*-*-*-*-is13194-devanagari,
-        indian-1-column:-*-fixed-medium-r-normal-*-16-*-*-*-*-*-muleindian-1,
-        indian-2-column:-*-fixed-medium-r-normal-*-16-*-*-*-*-*-muleindian-2,
-        mule-unicode-0100-24ff:-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1,
-        mule-unicode-2500-33ff:-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1,
-        mule-unicode-e000-ffff:-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1,
-        unicode-wide:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1"
-	t)
+(set-fontset-font fs 'vietnamese-viscii-upper "-*-fixed-medium-r-*--16-*-viscii1.1-1")
+(set-fontset-font fs 'vietnamese-viscii-lower "-*-fixed-medium-r-*--16-*-viscii1.1-1")
+(set-fontset-font fs 'chinese-gb2312 "-*-*shanheisun*-medium-r-*--16-*-gb2312*-*")
+(set-fontset-font fs 'chinese-big5-1 "-*-*shanheisun*-medium-r-*--16-*-big5*-*")
+(set-fontset-font fs 'chinese-big5-2 "-*-*shanheisun*-medium-r-*--16-*-big5*-*")
+(set-fontset-font fs 'chinese-sisheng "-etl-fixed-medium-r-normal-*-16-*-*-*-*-*-sisheng_cwnn-0")
+(set-fontset-font fs 'chinese-cns11643-1 "-hku-fixed-medium-r-normal-*-16-*-*-*-*-*-cns11643.1992-1")
+(set-fontset-font fs 'chinese-cns11643-2 "-hku-fixed-medium-r-normal-*-16-*-*-*-*-*-cns11643.1992-2")
+(set-fontset-font fs 'latin-iso8859-1 "-*-fixed-medium-r-*--16-*-iso8859-1")
+(set-fontset-font fs 'latin-iso8859-2 "-*-fixed-medium-r-*--16-*-iso8859-2")
+(set-fontset-font fs 'latin-iso8859-3 "-*-fixed-medium-r-*--16-*-iso8859-3")
+(set-fontset-font fs 'latin-iso8859-4 "-*-fixed-medium-r-*--16-*-iso8859-4")
+(set-fontset-font fs 'cyrillic-iso8859-5 "-*-fixed-medium-r-*--16-*-iso8859-5")
+(set-fontset-font fs 'arabic-iso8859-6 "-*-fixed-medium-r-*--16-*-iso8859-6")
+(set-fontset-font fs 'greek-iso8859-7 "-*-fixed-medium-r-*--16-*-iso8859-7")
+(set-fontset-font fs 'hebrew-iso8859-8 "-*-fixed-medium-r-*--16-*-iso8859-8")
+(set-fontset-font fs 'latin-iso8859-9 "-*-fixed-medium-r-*--16-*-iso8859-9")
+(set-fontset-font fs 'latin-iso8859-14 "-*-fixed-medium-r-*--16-*-iso8859-14")
+(set-fontset-font fs 'latin-iso8859-15 "-*-fixed-medium-r-*--16-*-iso8859-15")
+(set-fontset-font fs 'arabic-digit ":-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0")
+(set-fontset-font fs 'arabic-digit "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0")
+(set-fontset-font fs 'arabic-1-column "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-1")
+(set-fontset-font fs 'arabic-2-column "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-2")
+(set-fontset-font fs 'ipa "-*-fixed-medium-r-*--16-*-muleipa-1")
+(set-fontset-font fs 'ethiopic "-*-ethio*-medium-r-normal--16-*-*-*-*-*-admas-fontspecific")
+(set-fontset-font fs 'ethiopic "-*-ethio*-medium-r-normal--16-*-*-*-*-*-ethiopic-unicode")
+(set-fontset-font fs 'katakana-jisx0201 "-*-fixed-medium-r-*--16-*-jisx0201.1976-*")
+(set-fontset-font fs 'latin-jisx0201 "-*-fixed-medium-r-*--16-*-jisx0201.1976-*")
+(set-fontset-font fs 'japanese-jisx0208-1978 "-*-fixed-medium-r-*--16-*-jisx0208.1978-*")
+(set-fontset-font fs 'japanese-jisx0208 "-*-fixed-medium-r-*--16-*-jisx0208.1983-*")
+(set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--16-*-jisx0212.1990-*")
+(set-fontset-font fs 'japanese-jisx0213-2 "-*-fixed-medium-r-*--16-*-jisx0213.2000-*")
+(set-fontset-font fs 'korean-ksc5601 "-*-mincho-medium-r-*--16-*-ksc5601.1987-*")
+(set-fontset-font fs 'lao "-*-fixed-medium-r-normal-*-*-*-*-*-*-*-mulelao-1")
+(set-fontset-font fs 'thai-tis620 "-etl-fixed-medium-r-normal--16-*-tis620.2529-1")
+(set-fontset-font fs 'tibetan "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-0")
+(set-fontset-font fs 'tibetan-1-column "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-1")
+(set-fontset-font fs 'indian-is13194 "-*-fixed-medium-r-normal-*-16-*-*-*-*-*-is13194-devanagari")
+(set-fontset-font fs 'indian-2-column "-*-fixed-medium-r-normal-*-16-*-*-*-*-*-muleindian-2")
+(set-fontset-font fs 'mule-unicode-0100-24ff "-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1")
+(set-fontset-font fs 'mule-unicode-2500-33ff "-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1")
+(set-fontset-font fs 'mule-unicode-e000-ffff "-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1")
+
 
 ;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-0
 ;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-1
@@ -117,14 +68,6 @@
 ;        mule-unicode-0100-24ff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
 ;        mule-unicode-2500-33ff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
 ;        mule-unicode-e000-ffff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-
-      (setq default-frame-alist
-            (append
-             '((font . "fontset-chinese"))
-             default-frame-alist))
-      ;(set-face-font 'default "fontset-chinese")
-      )
-  )
 
 
 ; emacs customisation
@@ -171,7 +114,7 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :family "wqy"))))
+ '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :family "fixed"))))
  '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal)))))
 
 
