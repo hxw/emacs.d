@@ -55,6 +55,16 @@
 (global-set-key [mouse-5] 'my-mouse-wheel-up)
 
 
+; Ocaml mode
+; ----------
+
+(setq auto-mode-alist
+      (cons '("\\.ml[iylp]?$" . caml-mode) auto-mode-alist))
+(autoload 'caml-mode "caml" "Major mode for editing Caml code." t)
+(autoload 'run-caml "inf-caml" "Run an inferior Caml process." t)
+(autoload 'caml-hilit "caml-hilight" "Hilit19 patterns used for Caml mode" t)
+
+
 ; Ruby mode
 ; ---------
 
@@ -69,21 +79,24 @@
 
 ; emacs customisation menu
 ; ------------------------
+;;; '(c-offsets-alist (quote ((brace-list-intro . 0) (substatement-open . 0))))
+;;; '(c-file-offsets (quote ((statement-block-intro . +) (knr-argdecl-intro . +) (substatement-open . 0) (label . 0) (statement-cont . +))) t)
+;;latest '(c-offsets-alist (quote ((brace-list-intro . +) (substatement-open . 0))))
+
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(Buffer-menu-buffer+size-width 60)
+ '(Buffer-menu-buffer+size-width 100)
  '(Buffer-menu-mode-width 120)
  '(buffers-menu-max-size 30)
- '(c-file-offsets (quote ((statement-block-intro . +) (knr-argdecl-intro . +) (substatement-open . 0) (label . 0) (statement-cont . +))) t)
- '(c-offsets-alist (quote ((brace-list-intro . 0) (substatement-open . 0))))
+ '(c-file-offsets (quote ((brace-list-intro . +) (statement-block-intro . +) (knr-argdecl-intro . +) (substatement-open . 0) (label . 0) (statement-cont . +))) t)
  '(case-fold-search t)
  '(current-language-environment "UTF-8")
  '(default-input-method "rfc1345")
- '(display-time-mode t)
+ '(display-time-mode t nil (time))
  '(face-font-family-alternatives (quote (("courier" "fixed") ("helv" "helvetica" "arial" "fixed") ("yhunifont" "ming for iso10646 " "ar pl mingti2l big5" "ar pl shanheisun uni" "ar pl new sung"))))
  '(face-font-registry-alternatives (quote (("gb2312.1980" "gb2312.80&gb8565.88" "gbk*") ("jisx0208.1990" "jisx0208.1983" "jisx0208.1978") ("ksc5601.1989" "ksx1001.1992" "ksc5601.1987") ("big5-0" "big5.eten-0" "big5*") ("muletibetan-2" "muletibetan-0") ("iso10646-1"))))
  '(flyspell-default-dictionary "british")
@@ -97,13 +110,13 @@
  '(sh-indent-for-do 0)
  '(sh-indent-for-then 0)
  '(sh-indentation 2)
- '(show-paren-mode t)
+ '(show-paren-mode t nil (paren))
  '(speedbar-show-unknown-files t)
  '(tcl-indent-level 2)
  '(time-stamp-format "%:y-%02m-%02dT%02H:%02M:%02S %:z")
  '(tooltip-mode nil nil (tooltip))
  '(transient-mark-mode t)
- '(uniquify-buffer-name-style nil nil (uniquify)))
+ '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -155,6 +168,13 @@
              (setq comment-column '48)
 	     )
 	  )
+
+;(add-hook 'asm-mode-set-comment-hook
+;          '(lambda ()
+;             (setq asm-comment-char ?@)
+;	     )
+;	  )
+
 
 
 ; matching parentheses or insert a '%'
@@ -212,6 +232,21 @@
     )
   )
 
+(defun sc-replace-total (format-string total-value)
+  "replace the current match with the new value"
+  (message "current match  = %s" (match-string 0))
+  (let* (
+	(tot (format format-string total-value))
+	(len (- (length (match-string 0)) (length tot) 2))
+	)
+    (replace-match (concat "|" tot))
+    (dotimes (i len)
+      (insert " ")
+      )
+    (insert "|")
+    )
+  )
+
 (defun sc-total (arg)
   "sum a column of numbers"
   (interactive "p")
@@ -239,14 +274,12 @@
 	    )
 	   
 	   ((looking-at "|=[^|]+|")
-	    (message "totalvalue = %s" (match-string 0))
-	    (replace-match (format "|=%7.2f |" total-value))
+	    (sc-replace-total "=%7.2f" total-value)
 	    nil
 	    )
 
 	   ((looking-at "|#[^|]+|")
-	    (message "totalvalue = %s" (match-string 0))
-	    (replace-match (format "|#%3d |" total-value))
+	    (sc-replace-total "#%5d" total-value)
 	    nil
 	    )
 	   
@@ -352,8 +385,6 @@
 (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
 (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
 
-(message "xrefactory loaded")
-
 
 ;(if (featurep 'mule) (set-language-environment '"Chinese-BIG5"))
 ;(if (featurep 'mule) (set-language-environment "UTF-8"))
@@ -450,6 +481,24 @@
 ; ------------
 
 (message "starting server")
+(let ((dcop (executable-find "dcop"))
+      (dcop-buffer "*dcop*")
+      )
+  (if dcop
+      (save-excursion
+	(call-process "/usr/local/bin/dcop" nil dcop-buffer nil "kwin" "KWinInterface" "currentDesktop")
+	(set-buffer dcop-buffer)
+	(let ((screen-number (string-to-number (buffer-substring-no-properties 1 3)))
+	      )
+	  (message (format "/tmp/emacs%d-%d" (user-uid) screen-number))
+	  (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number))
+	  )
+	(kill-buffer dcop-buffer)
+	)
+    )
+  )
+
+(message server-socket-dir)
 (server-start)
 
 
