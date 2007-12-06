@@ -7,7 +7,7 @@
 (setq fs "fontset-default")
 
 ; cannot change ascii
-;(set-fontset-font fs 'ascii "-*-courier-medium-r-normal-*-16-*-*-*-*-*-iso8859-1")
+;(set-fontset-font fs 'ascii "--courier-medium-r-normal-*-16-*-*-*-*-*-iso8859-1")
 
 (set-fontset-font fs 'vietnamese-viscii-upper "-*-fixed-medium-r-*--16-*-viscii1.1-1")
 (set-fontset-font fs 'vietnamese-viscii-lower "-*-fixed-medium-r-*--16-*-viscii1.1-1")
@@ -114,8 +114,16 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :family "fixed"))))
+ '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal ))))
  '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal)))))
+
+; '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :family "fixed"))))
+
+
+(add-hook 'after-init-hook '(lambda ()
+                              (progn
+                                (add-to-list 'default-frame-alist '(height . 55))
+                                (add-to-list 'default-frame-alist '(width . 150)))))
 
 
 ; function keys
