@@ -1,15 +1,190 @@
-; .emacs
-; ======
+; init.el
+; =======
+
+; fonts
+; -----
+
+;(set-fontset-font "fontset-standard" 'ascii "-*-courier-medium-r-normal-*-16-*-*-*-*-*-iso8859-1")
+(set-fontset-font "fontset-standard" 'vietnamese-viscii-upper "-*-fixed-medium-r-*--16-*-viscii1.1-1")
+(set-fontset-font "fontset-standard" 'vietnamese-viscii-lower "-*-fixed-medium-r-*--16-*-viscii1.1-1")
+(set-fontset-font "fontset-standard" 'chinese-gb2312 "-*-*shanheisun*-medium-r-*--16-*-gb2312*-*")
+(set-fontset-font "fontset-standard" 'chinese-big5-1 "-*-*shanheisun*-medium-r-*--16-*-big5*-*")
+(set-fontset-font "fontset-standard" 'chinese-big5-2 "-*-*shanheisun*-medium-r-*--16-*-big5*-*")
+(set-fontset-font "fontset-standard" 'chinese-sisheng "-etl-fixed-medium-r-normal-*-16-*-*-*-*-*-sisheng_cwnn-0")
+(set-fontset-font "fontset-standard" 'chinese-cns11643-1 "-hku-fixed-medium-r-normal-*-16-*-*-*-*-*-cns11643.1992-1")
+(set-fontset-font "fontset-standard" 'chinese-cns11643-2 "-hku-fixed-medium-r-normal-*-16-*-*-*-*-*-cns11643.1992-2")
+(set-fontset-font "fontset-standard" 'latin-iso8859-1 "-*-fixed-medium-r-*--16-*-iso8859-1")
+(set-fontset-font "fontset-standard" 'latin-iso8859-2 "-*-fixed-medium-r-*--16-*-iso8859-2")
+(set-fontset-font "fontset-standard" 'latin-iso8859-3 "-*-fixed-medium-r-*--16-*-iso8859-3")
+(set-fontset-font "fontset-standard" 'latin-iso8859-4 "-*-fixed-medium-r-*--16-*-iso8859-4")
+(set-fontset-font "fontset-standard" 'cyrillic-iso8859-5 "-*-fixed-medium-r-*--16-*-iso8859-5")
+(set-fontset-font "fontset-standard" 'arabic-iso8859-6 "-*-fixed-medium-r-*--16-*-iso8859-6")
+(set-fontset-font "fontset-standard" 'greek-iso8859-7 "-*-fixed-medium-r-*--16-*-iso8859-7")
+(set-fontset-font "fontset-standard" 'hebrew-iso8859-8 "-*-fixed-medium-r-*--16-*-iso8859-8")
+(set-fontset-font "fontset-standard" 'latin-iso8859-9 "-*-fixed-medium-r-*--16-*-iso8859-9")
+(set-fontset-font "fontset-standard" 'latin-iso8859-14 "-*-fixed-medium-r-*--16-*-iso8859-14")
+(set-fontset-font "fontset-standard" 'latin-iso8859-15 "-*-fixed-medium-r-*--16-*-iso8859-15")
+(set-fontset-font "fontset-standard" 'arabic-digit ":-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0")
+(set-fontset-font "fontset-standard" 'arabic-digit "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0")
+(set-fontset-font "fontset-standard" 'arabic-1-column "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-1")
+(set-fontset-font "fontset-standard" 'arabic-2-column "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-2")
+;(set-fontset-font "fontset-standard" 'muleaipa-1 "-*-fixed-medium-r-*--16-*-muleipa-1")
+(set-fontset-font "fontset-standard" 'ethiopic "-*-ethio*-medium-r-normal--16-*-*-*-*-*-admas-fontspecific")
+(set-fontset-font "fontset-standard" 'ethiopic "-*-ethio*-medium-r-normal--16-*-*-*-*-*-ethiopic-unicode")
+(set-fontset-font "fontset-standard" 'katakana-jisx0201 "-*-fixed-medium-r-*--16-*-jisx0201.1976-*")
+(set-fontset-font "fontset-standard" 'latin-jisx0201 "-*-fixed-medium-r-*--16-*-jisx0201.1976-*")
+(set-fontset-font "fontset-standard" 'japanese-jisx0208-1978 "-*-fixed-medium-r-*--16-*-jisx0208.1978-*")
+(set-fontset-font "fontset-standard" 'japanese-jisx0208 "-*-fixed-medium-r-*--16-*-jisx0208.1983-*")
+(set-fontset-font "fontset-standard" 'japanese-jisx0208 "-*-fixed-medium-r-*--16-*-jisx0208.1983-*")
+(set-fontset-font "fontset-standard" 'japanese-jisx0212 "-*-fixed-medium-r-*--16-*-jisx0212.1990-*")
+(set-fontset-font "fontset-standard" 'korean-ksc5601 "-*-mincho-medium-r-*--16-*-ksc5601.1987-*")
+(set-fontset-font "fontset-standard" 'lao "-*-fixed-medium-r-normal-*-*-*-*-*-*-*-mulelao-1")
+(set-fontset-font "fontset-standard" 'thai-tis620 "-etl-fixed-medium-r-normal--16-*-tis620.2529-1")
+(set-fontset-font "fontset-standard" 'tibetan "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-0")
+(set-fontset-font "fontset-standard" 'tibetan-1-column "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-1")
+(set-fontset-font "fontset-standard" 'indian-is13194 "-*-fixed-medium-r-normal-*-16-*-*-*-*-*-is13194-devanagari")
+;(set-fontset-font "fontset-standard" 'indian-1-column "-*-fixed-medium-r-normal-*-16-*-*-*-*-*-muleindian-1")
+(set-fontset-font "fontset-standard" 'indian-2-column "-*-fixed-medium-r-normal-*-16-*-*-*-*-*-muleindian-2")
+(set-fontset-font "fontset-standard" 'mule-unicode-0100-24ff "-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1")
+(set-fontset-font "fontset-standard" 'mule-unicode-2500-33ff "-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1")
+(set-fontset-font "fontset-standard" 'mule-unicode-e000-ffff "-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1")
+
+
+(if (not (member '("-*-*-medium-normal-r-*-13-*-*-*-*-*-fontset-chinese"
+		   . "fontset-chinese") fontset-alias-alist))
+    (set-face-font 'default "fontset-standard")
+    (progn
+      (create-fontset-from-fontset-spec
+       "-*-*-medium-r-normal-*-13-*-*-*-*-*-fontset-chinese,
+        ascii:-*-courier-medium-r-normal-*-16-*-*-*-*-*-iso8859-1,
+        vietnamese-viscii-upper:-*-fixed-medium-r-*--16-*-viscii1.1-1,
+        vietnamese-viscii-lower:-*-fixed-medium-r-*--16-*-viscii1.1-1,
+        chinese-gb2312:-*-*shanheisun*-medium-r-*--16-*-gb2312*-*,
+        chinese-big5-1:-*-*shanheisun*-medium-r-*--16-*-big5*-*,
+        chinese-big5-2:-*-*shanheisun*-medium-r-*--16-*-big5*-*,
+        chinese-sisheng:-etl-fixed-medium-r-normal-*-16-*-*-*-*-*-sisheng_cwnn-0,
+        chinese-cns11643-1:-hku-fixed-medium-r-normal-*-16-*-*-*-*-*-cns11643.1992-1,
+        chinese-cns11643-2:-hku-fixed-medium-r-normal-*-16-*-*-*-*-*-cns11643.1992-2,
+        latin-iso8859-1:-*-fixed-medium-r-*--16-*-iso8859-1,
+        latin-iso8859-2:-*-fixed-medium-r-*--16-*-iso8859-2,
+        latin-iso8859-3:-*-fixed-medium-r-*--16-*-iso8859-3,
+        latin-iso8859-4:-*-fixed-medium-r-*--16-*-iso8859-4,
+        cyrillic-iso8859-5:-*-fixed-medium-r-*--16-*-iso8859-5,
+        arabic-iso8859-6:-*-fixed-medium-r-*--16-*-iso8859-6,
+        greek-iso8859-7:-*-fixed-medium-r-*--16-*-iso8859-7,
+        hebrew-iso8859-8:-*-fixed-medium-r-*--16-*-iso8859-8,
+        latin-iso8859-9:-*-fixed-medium-r-*--16-*-iso8859-9,
+        latin-iso8859-14:-*-fixed-medium-r-*--16-*-iso8859-14,
+        latin-iso8859-15:-*-fixed-medium-r-*--16-*-iso8859-15,
+        arabic-digit::-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0,
+        mulearabic-0:-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0,
+        mulearabic-1:-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-1,
+        mulearabic-2:-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-2,
+        muleaipa-1:-*-fixed-medium-r-*--16-*-muleipa-1,
+        ethiopic:-*-ethio*-medium-r-normal--16-*-*-*-*-*-admas-fontspecific,
+        ethiopic:-*-ethio*-medium-r-normal--16-*-*-*-*-*-ethiopic-unicode,
+        katakana-jisx0201:-*-fixed-medium-r-*--16-*-jisx0201.1976-*,
+        latin-jisx0201:-*-fixed-medium-r-*--16-*-jisx0201.1976-*,
+        japanese-jisx0208-1978:-*-fixed-medium-r-*--16-*-jisx0208.1978-*,
+        japanese-jisx0208:-*-fixed-medium-r-*--16-*-jisx0208.1983-*,
+        katakana-jisx0208:-*-fixed-medium-r-*--16-*-jisx0208.1983-*,
+        katakana-jisx0212:-*-fixed-medium-r-*--16-*-jisx0212.1990-*,
+        korean-ksc5601:-*-mincho-medium-r-*--16-*-ksc5601.1987-*,
+        lao:-*-fixed-medium-r-normal-*-*-*-*-*-*-*-mulelao-1,
+        thai-tis620:-etl-fixed-medium-r-normal--16-*-tis620.2529-1,
+        tibetan:-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-0,
+        tibetan-1-column:-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-1,
+        indian-is13194:-*-fixed-medium-r-normal-*-16-*-*-*-*-*-is13194-devanagari,
+        indian-1-column:-*-fixed-medium-r-normal-*-16-*-*-*-*-*-muleindian-1,
+        indian-2-column:-*-fixed-medium-r-normal-*-16-*-*-*-*-*-muleindian-2,
+        mule-unicode-0100-24ff:-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1,
+        mule-unicode-2500-33ff:-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1,
+        mule-unicode-e000-ffff:-misc-fixed-medium-r-normal-*-16-*-*-*-*-*-iso10646-1,
+        unicode-wide:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1"
+	t)
+
+;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-0
+;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-1
+;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-2
+
+;        chinese-gb2312:-*-fangsong ti-medium-r-normal--*-*-*-*-*-*-gb2312.1980-*,
+;        unicode-mono:-gnu-unifont-medium-r-normal--16-160-75-75-c-80-iso10646-1,
+;        unicode-wide:-gnu-unifont-medium-r-normal--16-160-75-75-c-80-iso10646-1,
+;        unicode-mono:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;        unicode-wide:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1"
+;        mule-unicode-0100-24ff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;        mule-unicode-2500-33ff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;        mule-unicode-e000-ffff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;        mule-unicode-0100-24ff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;        mule-unicode-2500-33ff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;        mule-unicode-e000-ffff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+
+      (setq default-frame-alist
+            (append
+             '((font . "fontset-chinese"))
+             default-frame-alist))
+      (set-face-font 'default "fontset-chinese")
+      )
+  )
+
+
+; emacs customisation
+; -------------------
+
+; '(face-font-family-alternatives (quote (("liberation mono" "courier" "fixed") ("helv" "helvetica" "arial" "fixed") ("yhunifont" "ming for iso10646 " "ar pl mingti2l big5" "ar pl shanheisun uni" "ar pl new sung"))))
+; '(face-font-registry-alternatives (quote (("iso10646-1") ("gb2312.1980" "gb2312.80&gb8565.88" "gbk*") ("jisx0208.1990" "jisx0208.1983" "jisx0208.1978") ("ksc5601.1989" "ksx1001.1992" "ksc5601.1987") ("big5-0" "big5.eten-0" "big5*") ("muletibetan-2" "muletibetan-0") ("iso10646-1"))))
+
+
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(Buffer-menu-buffer+size-width 100)
+ '(Buffer-menu-mode-width 120)
+ '(buffers-menu-max-size 30)
+ '(c-file-offsets (quote ((brace-list-intro . +) (statement-block-intro . +) (knr-argdecl-intro . +) (substatement-open . 0) (label . 0) (statement-cont . +))) t)
+ '(case-fold-search t)
+ '(current-language-environment "UTF-8")
+ '(default-input-method "rfc1345")
+ '(display-time-mode t nil (time))
+ '(flyspell-default-dictionary "british")
+ '(font-lock-use-colors t)
+ '(global-font-lock-mode t nil (font-lock))
+ '(indent-tabs-mode nil)
+ '(ispell-local-dictionary "british")
+ '(perl-indent-level 2)
+ '(scroll-bar-mode (quote right))
+ '(sh-basic-offset 2)
+ '(sh-indent-after-do (quote +))
+ '(sh-indent-for-do 0)
+ '(sh-indent-for-then 0)
+ '(sh-indentation 2)
+ '(show-paren-mode t nil (paren))
+ '(speedbar-show-unknown-files t)
+ '(tcl-indent-level 2)
+ '(time-stamp-format "%:y-%02m-%02dT%02H:%02M:%02S %:z")
+ '(tooltip-mode nil nil (tooltip))
+ '(transient-mark-mode t)
+ '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 140 :width normal :family "wqy"))))
+ '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal)))))
+
 
 ; function keys
 ; -------------
 
 ;(global-set-key [f1] 'save-buffers-kill-emacs)
 (global-set-key [f2] 'save-buffer)
-;(global-set-key [f3] 'kill-buffer)
+(global-set-key [f3] 'match-paren)
 (global-set-key [f4] 'switch-to-buffer)
 
-;(global-set-key [f5] 'vc-toggle-read-only)
+(global-set-key [f5] 'toggle-case-char-at-point)
 ;(global-set-key [f6] 'vc-finish-logentry)
 ;(global-set-key [f7] 'vc-register)
 (global-set-key [f8] 'call-last-kbd-macro)
@@ -36,6 +211,11 @@
 (global-set-key [C-prior] 'beginning-of-buffer) ; CTRL-Page Up
 (global-set-key [C-next] 'end-of-buffer) ; CTRL-Page Down
 
+(when window-system
+  (global-unset-key "\C-z") ; iconify-or-deiconify-frame (C-x C-z)
+  (global-unset-key [insert])
+)
+
 
 ; mouse wheel
 ; -----------
@@ -55,15 +235,252 @@
 (global-set-key [mouse-5] 'my-mouse-wheel-up)
 
 
+; w3m
+; ---
+
+; load the interface
+(autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
+(setq w3m-home-page "http://127.0.0.1/~hsw/")
+
+; To use emacs-w3m on Wanderlust:
+; (require 'mime-w3m)
+
+; To use octet stream viewer:
+
+; (require 'w3m)
+; (require 'octet)
+; (octet-mime-setup)
+
+
+
+; Unicode
+; -------
+
+(require 'cl)
+
+(defun unicode-symbol (name)
+  "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
+  or GREATER-THAN into an actual Unicode character code. "
+  (decode-char 'ucs (case name
+			  ;; arrows
+			  ('left-arrow 8592)
+			  ('up-arrow 8593)
+			  ('right-arrow 8594)
+			  ('down-arrow 8595)
+  
+			  ;; boxes
+			  ('double-vertical-bar #X2551)
+                        
+			  ;; relational operators
+			  ('equal #X003d)
+			  ('not-equal #X2260)
+			  ('identical #X2261)
+			  ('not-identical #X2262)
+			  ('less-than #X003c)
+			  ('greater-than #X003e)
+			  ('less-than-or-equal-to #X2264)
+			  ('greater-than-or-equal-to #X2265)
+  
+			  ;; logical operators
+			  ('logical-and #X2227)
+			  ('logical-or #X2228)
+			  ('logical-neg #X00AC)
+  
+			  ;; misc
+			  ('nil #X2205)
+			  ('horizontal-ellipsis #X2026)
+			  ('double-exclamation #X203C)
+			  ('prime #X2032)
+			  ('double-prime #X2033)
+			  ('for-all #X2200)
+			  ('there-exists #X2203)
+			  ('element-of #X2208)
+  
+			  ;; mathematical operators
+			  ('square-root #X221A)
+			  ('squared #X00B2)
+			  ('cubed #X00B3)
+  
+			  ;; letters
+			  ('lambda #X03BB)
+			  ('alpha #X03B1)
+			  ('beta #X03B2)
+			  ('gamma #X03B3)
+			  ('delta #X03B4))))
+                        
+(defun substitute-pattern-with-unicode (pattern symbol)
+  "Add a font lock hook to replace the matched part of PATTERN with the 
+  Unicode symbol SYMBOL looked up with UNICODE-SYMBOL."
+  (interactive)
+  (font-lock-add-keywords
+   nil `((,pattern (0 (progn (compose-region (match-beginning 1) (match-end 1)
+					     ,(unicode-symbol symbol))
+			     nil))))))
+  
+(defun substitute-patterns-with-unicode (patterns)
+  "Call SUBSTITUTE-PATTERN-WITH-UNICODE repeatedly."
+  (mapcar #'(lambda (x)
+	      (substitute-pattern-with-unicode (car x)
+					       (cdr x)))
+	  patterns))
+
+
 ; Ocaml mode
 ; ----------
 
 (setq auto-mode-alist
       (cons '("\\.ml[iylp]?$" . caml-mode) auto-mode-alist))
 (require 'caml-font)
+
+
+(defun ocaml-unicode ()
+  (interactive)
+  (substitute-patterns-with-unicode
+   (list (cons "\\(<-\\)" 'left-arrow)
+	 (cons "\\(->\\)" 'right-arrow)
+	 (cons "[^=]\\(=\\)[^=]" 'equal)
+	 (cons "\\(==\\)" 'identical)
+	 (cons "\\(\\!=\\)" 'not-identical)
+	 (cons "\\(<>\\)" 'not-equal)
+	 (cons "\\(()\\)" 'nil)
+	 (cons "\\<\\(sqrt\\)\\>" 'square-root)
+	 (cons "\\(&&\\)" 'logical-and)
+	 (cons "\\(||\\)" 'logical-or)
+	 (cons "\\<\\(not\\)\\>" 'logical-neg)
+	 (cons "\\(>\\)[^=]" 'greater-than)
+	 (cons "\\(<\\)[^=]" 'less-than)
+	 (cons "\\(>=\\)" 'greater-than-or-equal-to)
+	 (cons "\\(<=\\)" 'less-than-or-equal-to)
+	 (cons "\\<\\(alpha\\)\\>" 'alpha)
+	 (cons "\\<\\(beta\\)\\>" 'beta)
+	 (cons "\\<\\(gamma\\)\\>" 'gamma)
+	 (cons "\\<\\(delta\\)\\>" 'delta)
+	 (cons "\\(''\\)" 'double-prime)
+	 (cons "\\('\\)" 'prime)
+	 (cons "\\<\\(List.for_all\\)\\>" 'for-all)
+	 (cons "\\<\\(List.exists\\)\\>" 'there-exists)
+	 (cons "\\<\\(List.mem\\)\\>" 'element-of)
+	 (cons "^ +\\(|\\)" 'double-vertical-bar))))
+  
+(add-hook 'caml-mode-hook 'ocaml-unicode)
+(add-hook 'tuareg-mode-hook 'ocaml-unicode)
+
 (autoload 'caml-mode "caml" "Major mode for editing Caml code." t)
 (autoload 'run-caml "inf-caml" "Run an inferior Caml process." t)
-;;(autoload 'caml-hilit "caml-hilight" "Hilit19 patterns used for Caml mode" t)
+;(autoload 'caml-hilit "caml-hilight" "Hilit19 patterns used for Caml mode" t)
+
+
+; Haskell mode
+; ------------
+
+(setq auto-mode-alist
+      (append auto-mode-alist
+              '(("\\.[hg]s$"  . haskell-mode)
+                ("\\.hi$"     . haskell-mode)
+                ("\\.l[hg]s$" . literate-haskell-mode))))
+(autoload 'haskell-mode "haskell-mode"
+   "Major mode for editing Haskell scripts." t)
+(autoload 'literate-haskell-mode "haskell-mode"
+   "Major mode for editing literate Haskell scripts." t)
+
+; Add the following lines according to which modules you want to use:
+
+(add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
+(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+
+; Note that the two indentation modules are mutually exclusive:
+; add at most one.
+
+(if t
+    (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+  )
+
+; from mrd's blog (sequence.complete.org)
+; (add-hook 'haskell-mode-hook 'turn-on-font-lock)
+; (add-to-list 'auto-mode-alist '("\\.hs\\'" . haskell-mode))
+
+; I wrote my own "newline and indent" function which brings any
+; code you split onto the newline back up to the same indentation
+; level it was at previously.
+
+(if nil
+    (progn
+      (remove-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+      (remove-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+
+      ; Just use tab-stop indentation, 2-space tabs
+
+      (add-hook 'haskell-mode-hook
+		(lambda ()
+		  (turn-on-haskell-doc-mode)
+		  (turn-on-haskell-simple-indent)
+		  (setq indent-line-function 'tab-to-tab-stop)
+		  (setq tab-stop-list
+			(loop for i from 2 upto 120 by 2 collect i))
+		  (local-set-key (kbd "RET") 'newline-and-indent-relative))
+		)
+      ))
+
+(defun newline-and-indent-relative ()
+  (interactive)
+  (newline)
+  (indent-to-column (save-excursion
+                      (forward-line -1)
+                      (back-to-indentation)
+                      (current-column))))
+
+
+; change the display of some characters
+
+; commented out items are missing from the fonts
+(defun haskell-unicode ()
+  (interactive)
+  (substitute-patterns-with-unicode
+   (list (cons "[^<]\\(<-\\)" 'left-arrow)
+	 (cons "\\(->\\)[^>]" 'right-arrow)
+	 (cons "\\(==\\)" 'identical)
+	 (cons "\\(/=\\)" 'not-identical)
+	 (cons "\\(()\\)" 'nil)
+	 (cons "\\<\\(sqrt\\)\\>" 'square-root)
+	 (cons "\\(&&\\)" 'logical-and)
+	 (cons "\\(||\\)" 'logical-or)
+	 (cons "\\<\\(not\\)\\>" 'logical-neg)
+	 (cons "\\(>\\)[^=]" 'greater-than)
+	 (cons "\\(<\\)[^=]" 'less-than)
+	 (cons "[^>]\\(>=\\)" 'greater-than-or-equal-to)
+	 (cons "[^<]\\(<=\\)" 'less-than-or-equal-to)
+	 (cons "\\<\\(alpha\\)\\>" 'alpha)
+	 (cons "\\<\\(beta\\)\\>" 'beta)
+	 (cons "\\<\\(gamma\\)\\>" 'gamma)
+	 (cons "\\<\\(delta\\)\\>" 'delta)
+	 (cons "\\(''\\)" 'double-prime)
+	 (cons "\\('\\)" 'prime)
+	 (cons "\\(!!\\)" 'double-exclamation)
+	 (cons "\\(\\.\\.\\)" 'horizontal-ellipsis))))
+
+(add-hook 'haskell-mode-hook 'haskell-unicode)
+
+
+; Lisp mode
+; ---------
+
+(defun pretty-greek ()
+  (let ((greek '("alpha" "beta" "gamma" "delta" "epsilon" "zeta" "eta" "theta" "iota" "kappa" "lambda" "mu" "nu" "xi" "omicron" "pi" "rho" "sigma_final" "sigma" "tau" "upsilon" "phi" "chi" "psi" "omega")))
+    (loop for word in greek
+          for code = 97 then (+ 1 code)
+          do  (let ((greek-char (make-char 'greek-iso8859-7 code))) 
+                (font-lock-add-keywords nil
+                                        `((,(concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[a-zA-Z]")
+                                           (0 (progn (decompose-region (match-beginning 2) (match-end 2))
+                                                     nil)))))
+                (font-lock-add-keywords nil 
+                                        `((,(concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[^a-zA-Z]")
+                                           (0 (progn (compose-region (match-beginning 2) (match-end 2)
+                                                                     ,greek-char)
+                                                     nil)))))))))
+(add-hook 'lisp-mode-hook 'pretty-greek)
+(add-hook 'emacs-lisp-mode-hook 'pretty-greek)
 
 
 ; Ruby mode
@@ -78,67 +495,6 @@
 (add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys)))
 
 
-; emacs customisation menu
-; ------------------------
-;;; '(c-offsets-alist (quote ((brace-list-intro . 0) (substatement-open . 0))))
-;;; '(c-file-offsets (quote ((statement-block-intro . +) (knr-argdecl-intro . +) (substatement-open . 0) (label . 0) (statement-cont . +))) t)
-;;latest '(c-offsets-alist (quote ((brace-list-intro . +) (substatement-open . 0))))
-
-
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(Buffer-menu-buffer+size-width 100)
- '(Buffer-menu-mode-width 120)
- '(buffers-menu-max-size 30)
- '(c-file-offsets (quote ((brace-list-intro . +) (statement-block-intro . +) (knr-argdecl-intro . +) (substatement-open . 0) (label . 0) (statement-cont . +))) t)
- '(case-fold-search t)
- '(current-language-environment "UTF-8")
- '(default-input-method "rfc1345")
- '(display-time-mode t nil (time))
- '(face-font-family-alternatives (quote (("courier" "fixed") ("helv" "helvetica" "arial" "fixed") ("yhunifont" "ming for iso10646 " "ar pl mingti2l big5" "ar pl shanheisun uni" "ar pl new sung"))))
- '(face-font-registry-alternatives (quote (("gb2312.1980" "gb2312.80&gb8565.88" "gbk*") ("jisx0208.1990" "jisx0208.1983" "jisx0208.1978") ("ksc5601.1989" "ksx1001.1992" "ksc5601.1987") ("big5-0" "big5.eten-0" "big5*") ("muletibetan-2" "muletibetan-0") ("iso10646-1"))))
- '(flyspell-default-dictionary "british")
- '(font-lock-use-colors t)
- '(global-font-lock-mode t nil (font-lock))
- '(ispell-local-dictionary "british")
- '(perl-indent-level 2)
- '(scroll-bar-mode (quote right))
- '(sh-basic-offset 2)
- '(sh-indent-after-do (quote +))
- '(sh-indent-for-do 0)
- '(sh-indent-for-then 0)
- '(sh-indentation 2)
- '(show-paren-mode t nil (paren))
- '(speedbar-show-unknown-files t)
- '(tcl-indent-level 2)
- '(time-stamp-format "%:y-%02m-%02dT%02H:%02M:%02S %:z")
- '(tooltip-mode nil nil (tooltip))
- '(transient-mark-mode t)
- '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 136 :width normal :family "wqy"))))
- '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal)))))
-
-
-; for the F11 key: if server edit dispatch the buffer, else just kill it
-; ----------------------------------------------------------------------
-
-(defun my-server-edit (arg)
-"Exit server buffer and kill buffer"
-(interactive "p")
-  (if server-buffer-clients
-    (server-edit)
-    (kill-buffer (current-buffer))
-  )
-)
-
 ; miscellaneous items
 ; -------------------
 
@@ -150,6 +506,33 @@
 (setq vc-initial-comment 'T)
 
 (mouse-avoidance-mode 'animate)
+
+(put 'overwrite-mode 'disabled t)  ; disble nasty overstrike mode
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+
+
+(setq abbrev-file-name             ; tell emacs where to read abbrev
+      "~/.emacs.d/abbrev_defs")    ; definitions from...
+(setq save-abbrevs t)              ; save abbrevs when files are saved
+
+
+(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checking" t)
+
+(autoload 'folding-mode          "folding" "Folding mode" t)
+(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
+(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
+
+
+; Tramp
+; -----
+
+(require 'tramp)
+(setq tramp-debug-buffer t)
+(setq tramp-verbose 10)
+(setq tramp-default-method "ssh")
+
 
 ; Modes
 ; -----
@@ -181,7 +564,7 @@
 ; matching parentheses or insert a '%'
 ; ------------------------------------
 
-(global-set-key "%" 'match-paren)
+;(global-set-key "%" 'match-paren)
 
 (defun match-paren (arg)
   "Go to the matching parenthesis if on parenthesis otherwise insert %."
@@ -292,10 +675,55 @@
   )
 
 
+; binary numbering
+; ----------------
+
+(global-set-key [C-kp-divide] 'binary-increment)
+
+
+(defun binary-increment-string (bin-str)
+  "increment a string looking like '  1111 0101 1110 '"
+  (let ((carry 1))
+    (concat 
+     (reverse
+      (mapcar '(lambda (x)
+		 (cond
+		  ((and (= carry 1) (= x ?1)) ?0)
+		  ((and (= carry 1) (= x ?0)) (setq carry 0) ?1)
+		  (t x)))
+	      (reverse (string-to-list bin-str))))))
+  )
+
+
+(defun binary-increment (arg)
+  "read a binary string from the cursor and place the incremented value below it"
+  (interactive "p")
+  (beginning-of-line)
+  (let ((re "[[:space:]]*[01]+[01[:space:]]*[01][[:space:]]"))
+    (if (looking-at re)
+      (let ((start-pos (point)))
+	(goto-char start-pos) 
+	(if (looking-at re)
+	    (let ((binary-string (match-string 0)))
+	      (goto-char start-pos)
+	      (forward-line)
+	      (if (looking-at re)
+		  (delete-region (match-beginning 0) (match-end 0)))
+	      (insert-string (binary-increment-string binary-string))
+	      (goto-char start-pos)
+	      (forward-line)
+	      )
+	  )
+	)
+      )
+    )
+  )
+
+
 ; Toggle case of letter at the cursor
 ; -----------------------------------
 
-(global-set-key "`" 'toggle-case-char-at-point)
+;(global-set-key "`" 'toggle-case-char-at-point)
 
 (defun toggle-case-char-at-point (arg)
   "Convert the character at the cursor position to uppercase."
@@ -311,13 +739,18 @@
   (forward-char 1))
 
 
-;; HTML timestamps (in ISO 8601 format)
-;; ===============
+; HTML timestamps (in ISO 8601 format)
+; ------------------------------------
 
 (require 'time-stamp)
 
 (add-hook 'write-file-hooks 'time-stamp)
 
+(defun insert-date-iso ()
+ (interactive)
+ (insert (format-time-string "%Y-%m-%dT%R%z")))
+
+; can this be replaces by a variation of the above
 (defun my-current-time-zone ()
   "convert time zone to [+-]hh:mm"
   (let ((tz (car (current-time-zone)))
@@ -380,108 +813,39 @@
 ; for XEmacs html mode
 ;(setq html-helper-timestamp-hook 'my-html-insert-timestamp)
 
-(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checking" t)
 
-(autoload 'folding-mode          "folding" "Folding mode" t)
-(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
-(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
-
-
-;(if (featurep 'mule) (set-language-environment '"Chinese-BIG5"))
-;(if (featurep 'mule) (set-language-environment "UTF-8"))
-;(utf-translate-cjk-load-tables)
-
-(if (not (member '("-*-*-medium-normal-r-*-13-*-*-*-*-*-fontset-chinese"
-		   . "fontset-chinese") fontset-alias-alist))
-    (progn
-      (create-fontset-from-fontset-spec
-       "-*-*-medium-r-normal-*-13-*-*-*-*-*-fontset-chinese,
-        ascii:-*-courier-medium-r-*--18-*-iso8859-1,
-        vietnamese-viscii-upper:-*-fixed-medium-r-*--16-*-viscii1.1-1,
-        vietnamese-viscii-lower:-*-fixed-medium-r-*--16-*-viscii1.1-1,
-        chinese-gb2312:-*-*shanheisun*-medium-r-*--18-*-gb2312*-*,
-        chinese-big5-1:-*-*shanheisun*-medium-r-*--18-*-big5*-*,
-        chinese-big5-2:-*-*shanheisun*-medium-r-*--18-*-big5*-*,
-        latin-iso8859-1:-*-fixed-medium-r-*--16-*-iso8859-1,
-        latin-iso8859-2:-*-fixed-medium-r-*--16-*-iso8859-2,
-        latin-iso8859-3:-*-fixed-medium-r-*--16-*-iso8859-3,
-        latin-iso8859-4:-*-fixed-medium-r-*--16-*-iso8859-4,
-        cyrillic-iso8859-5:-*-fixed-medium-r-*--16-*-iso8859-5,
-        arabic-iso8859-6:-*-fixed-medium-r-*--16-*-iso8859-6,
-        greek-iso8859-7:-*-fixed-medium-r-*--16-*-iso8859-7,
-        hebrew-iso8859-8:-*-fixed-medium-r-*--16-*-iso8859-8,
-        latin-iso8859-9:-*-fixed-medium-r-*--16-*-iso8859-9,
-        latin-iso8859-14:-*-fixed-medium-r-*--16-*-iso8859-14,
-        latin-iso8859-15:-*-fixed-medium-r-*--16-*-iso8859-15,
-        mulearabic-0:-*-fixed-medium-r-*--16-*-mulearabic-0,
-        mulearabic-1:-*-fixed-medium-r-*--16-*-mulearabic-1,
-        mulearabic-2:-*-fixed-medium-r-*--16-*-mulearabic-2,
-        muleaipa-1:-*-fixed-medium-r-*--16-*-muleipa-1,
-        ethiopic:-*-ethio*-medium-r-normal--16-*-*-*-*-*-admas-fontspecific
-        katakana-jisx0201:-*-fixed-medium-r-*--16-*-jisx0201.1976-*,
-        latin-jisx0201:-*-fixed-medium-r-*--16-*-jisx0201.1976-*,
-        japanese-jisx0208-1978:-*-fixed-medium-r-*--16-*-jisx0208.1978-*,
-        japanese-jisx0208:-*-fixed-medium-r-*--16-*-jisx0208.1983-*,
-        katakana-jisx0208:-*-fixed-medium-r-*--16-*-jisx0208.1983-*,
-        katakana-jisx0212:-*-fixed-medium-r-*--16-*-jisx0212.1990-*,
-        korean-ksc5601:-*-mincho-medium-r-*--16-*-ksc5601.1987-*,
-        thai-tis620:-etl-fixed-medium-r-normal--16-*-tis620.2529-1"
-	t)
-
-      (setq default-frame-alist
-            (append
-             '((font . "fontset-chinese"))
-             default-frame-alist))
-      )
-  )
-
-
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-
-
-;; Xrefactory configuration part ;;
-(defvar xref-current-project nil) ;; can be also "my_project_name"
-;(defvar xref-key-binding 'global) ;; can be also 'local or 'none
-(defvar xref-key-binding 'none) ;; can be also 'local or 'none
-(setq load-path (cons "/data/home/hsw/Xrefactory/xref/emacs" load-path))
-(setq exec-path (cons "/data/home/hsw/Xrefactory/xref" exec-path))
-(load "xrefactory")
-;; end of Xrefactory configuration part ;;
-
-;; Xrefactory key definitions
-
-(defun my-xref-add-bindings-to-keymap (keymap)
-  "Set up shortcut keys fior Xrefactory"
-  (define-key keymap [(f9)] 'xref-refactor)
-  (define-key keymap [(shift f9)] 'xref-completion)
-;  (define-key keymap [(shift f8)] 'xref-ide-compile-run)
-  (define-key keymap [(f7)] 'xref-delete-window)
-  (define-key keymap [(f6)] 'xref-push-and-goto-definition)
-  (define-key keymap [(shift f6)] 'xref-browse-symbol)
-  (define-key keymap [(f5)] 'xref-pop-and-return)
-  (define-key keymap [(shift f5)] 'xref-re-push)
-  (define-key keymap [(f4)] 'xref-next-reference)
-  (define-key keymap [(shift f4)] 'xref-alternative-next-reference)
-  (define-key keymap [(f3)] 'xref-previous-reference)
-  (define-key keymap [(shift f3)] 'xref-alternative-previous-reference)
-)
-
-(my-xref-add-bindings-to-keymap global-map)
-
-(message "xrefactory loaded")
-
-
-;; email system
+; email system
+; ------------
 
 (message "loading Wanderlust Email Reader")
 
 (require 'wanderlust-startup) 
 
+
+; for the F11 key: if server edit dispatch the buffer, else just kill it
+; ----------------------------------------------------------------------
+
+(defun my-server-edit (arg)
+"Exit server buffer and kill buffer"
+(interactive "p")
+  (if server-buffer-clients
+    (server-edit)
+    (kill-buffer (current-buffer))
+  )
+)
+
+
 ; setup server
 ; ------------
 
+; setup the server socket to a different value dependant on the
+; current desktop number obtained from KDE dcop program.  Use a shell
+; script to determine the desktop number and call emacsclient with the
+; "-s <socket>" option.
+; The socket path looks like: /tmp/emacs<uid>-<desktop>
+
 (message "starting server")
+
 (let ((dcop (executable-find "dcop"))
       (dcop-buffer "*dcop*")
       )
@@ -500,7 +864,11 @@
   )
 
 (message server-socket-dir)
+;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
 (server-start)
 
 
-(message ".emacs complete")
+; finished
+; --------
+
+(message "initialisation complete")
