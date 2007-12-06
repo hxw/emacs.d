@@ -60,9 +60,10 @@
 
 (setq auto-mode-alist
       (cons '("\\.ml[iylp]?$" . caml-mode) auto-mode-alist))
+(require 'caml-font)
 (autoload 'caml-mode "caml" "Major mode for editing Caml code." t)
 (autoload 'run-caml "inf-caml" "Run an inferior Caml process." t)
-(autoload 'caml-hilit "caml-hilight" "Hilit19 patterns used for Caml mode" t)
+;;(autoload 'caml-hilit "caml-hilight" "Hilit19 patterns used for Caml mode" t)
 
 
 ; Ruby mode
