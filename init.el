@@ -96,6 +96,8 @@
  '(indent-tabs-mode nil)
  '(ispell-local-dictionary "british")
  '(perl-indent-level 2)
+ '(quack-pretty-lambda-p t)
+ '(quack-smart-open-paren-p t)
  '(scroll-bar-mode (quote right))
  '(sh-basic-offset 2)
  '(sh-indent-after-do (quote +))
@@ -132,14 +134,22 @@
 ;(global-set-key [f1] 'save-buffers-kill-emacs)
 (global-set-key [f2] 'save-buffer)
 (global-set-key [f3] 'match-paren)
-(global-set-key [f4] 'switch-to-buffer)
+;(global-set-key [f4] 'switch-to-buffer)
+(global-set-key [f4] (lambda () "toggle between buffers" (interactive) (switch-to-buffer nil)))
 
 (global-set-key [f5] 'toggle-case-char-at-point)
-;(global-set-key [f6] 'vc-finish-logentry)
-;(global-set-key [f7] 'vc-register)
+
+(global-set-key [f6] (lambda (arg)
+                       "set up flyspell"
+                       (interactive "p")
+                       (flyspell-mode 1)
+                       (flyspell-buffer)))
+
+
+(global-set-key [f7] nil)
 (global-set-key [f8] 'call-last-kbd-macro)
 
-;(global-set-key [f9] 'keyboard-quit) ; special?
+;(global-set-key [f9] nil)
 (global-set-key [f10] 'bury-buffer)
 (global-set-key [f11] 'my-server-edit)
 (global-set-key [f12] 'delete-other-windows)
@@ -511,13 +521,11 @@
 
 
 
-; matching parentheses or insert a '%'
-; ------------------------------------
-
-;(global-set-key "%" 'match-paren)
+; matching parentheses
+; --------------------
 
 (defun match-paren (arg)
-  "Go to the matching parenthesis if on parenthesis otherwise insert %."
+  "Go to the matching parenthesis if on parenthesis otherwise do nothing"
   (interactive "p")
   (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
         ((looking-at "\\s\)") (forward-char 1) (backward-list 1))
@@ -672,8 +680,6 @@
 
 ; Toggle case of letter at the cursor
 ; -----------------------------------
-
-;(global-set-key "`" 'toggle-case-char-at-point)
 
 (defun toggle-case-char-at-point (arg)
   "Convert the character at the cursor position to uppercase."
