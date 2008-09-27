@@ -4,6 +4,8 @@
 ; fonts
 ; -----
 
+(if nil
+    (progn
 (setq fs "fontset-default")
 
 ; cannot change ascii
@@ -52,7 +54,7 @@
 (set-fontset-font fs 'mule-unicode-2500-33ff "-misc-fixed-medium-r-normal-*-18-*-*-*-*-*-iso10646-1")
 (set-fontset-font fs 'mule-unicode-e000-ffff "-misc-fixed-medium-r-normal-*-18-*-*-*-*-*-iso10646-1")
 
-
+))
 ;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-0
 ;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-1
 ;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-2
@@ -89,12 +91,14 @@
  '(case-fold-search t)
  '(current-language-environment "UTF-8")
  '(default-input-method "rfc1345")
- '(display-time-mode t nil (time))
+ '(display-time-mode t)
  '(flyspell-default-dictionary "british")
  '(font-lock-use-colors t)
  '(global-font-lock-mode t nil (font-lock))
  '(indent-tabs-mode nil)
+ '(initial-frame-alist (quote ((top . 1) (left . 1) (width . 120) (height . 42))))
  '(ispell-local-dictionary "british")
+ '(lpr-page-header-switches (quote ("-F" "-t")))
  '(perl-indent-level 2)
  '(quack-pretty-lambda-p t)
  '(quack-smart-open-paren-p t)
@@ -104,22 +108,33 @@
  '(sh-indent-for-do 0)
  '(sh-indent-for-then 0)
  '(sh-indentation 2)
- '(show-paren-mode t nil (paren))
+ '(show-paren-mode t)
  '(speedbar-show-unknown-files t)
  '(tcl-indent-level 2)
  '(time-stamp-format "%:y-%02m-%02dT%02H:%02M:%02S %:z")
  '(tooltip-mode nil nil (tooltip))
  '(transient-mark-mode t)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
+;;(custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;; '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
+;; '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal)))))
+;;
+;;; '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :family "fixed"))))
+
+;; from old mac
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
- '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal)))))
+ '(default ((t (:foreground "blue4" :background "lavenderblush" :size "12pt" :family "apple-monaco")))))
 
-; '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :family "fixed"))))
+
+
 
 
 (add-hook 'after-init-hook '(lambda ()
@@ -199,8 +214,8 @@
 ; ---
 
 ; load the interface
-(autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
-(setq w3m-home-page "http://127.0.0.1/~hsw/")
+;;* (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
+;;*(setq w3m-home-page "http://127.0.0.1/~hsw/")
 
 ; To use emacs-w3m on Wanderlust:
 ; (require 'mime-w3m)
@@ -290,7 +305,7 @@
 
 (setq auto-mode-alist
       (cons '("\\.ml[iylp]?$" . caml-mode) auto-mode-alist))
-(require 'caml-font)
+;;(require 'caml-font)
 
 
 (defun ocaml-unicode ()
@@ -773,9 +788,9 @@
 ; email system
 ; ------------
 
-(message "loading Wanderlust Email Reader")
+;;* (message "loading Wanderlust Email Reader")
 
-(require 'wanderlust-startup) 
+;;* (require 'wanderlust-startup) 
 
 
 ; for the F11 key: if server edit dispatch the buffer, else just kill it
@@ -801,28 +816,24 @@
 ; The socket path looks like: /tmp/emacs<uid>-<desktop>
 
 (message "starting server")
+(if (eq system-type 'darwin)
+    (message "OS: darwin")
+  (progn
+    (message "OS: other")
+    (let ((dcop (executable-find "dcop"))
+          (dcop-buffer "*dcop*"))
+      (if dcop
+          (save-excursion
+            (call-process "/usr/local/bin/dcop" nil dcop-buffer nil "kwin" "KWinInterface" "currentDesktop")
+            (set-buffer dcop-buffer)
+            (let ((screen-number (string-to-number (buffer-substring-no-properties 1 3))))
+              (message (format "/tmp/emacs%d-%d" (user-uid) screen-number))
+              (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number)))
+	(kill-buffer dcop-buffer))))))
 
-(let ((dcop (executable-find "dcop"))
-      (dcop-buffer "*dcop*")
-      )
-  (if dcop
-      (save-excursion
-	(call-process "/usr/local/bin/dcop" nil dcop-buffer nil "kwin" "KWinInterface" "currentDesktop")
-	(set-buffer dcop-buffer)
-	(let ((screen-number (string-to-number (buffer-substring-no-properties 1 3)))
-	      )
-	  (message (format "/tmp/emacs%d-%d" (user-uid) screen-number))
-	  (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number))
-	  )
-	(kill-buffer dcop-buffer)
-	)
-    )
-  )
-
-(message server-socket-dir)
+;(message server-socket-dir)
 ;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
 (server-start)
-
 
 ; finished
 ; --------
