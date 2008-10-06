@@ -169,7 +169,7 @@
 (global-set-key [f11] 'my-server-edit)
 (global-set-key [f12] 'delete-other-windows)
 
-(global-set-key [C-S-f12] 'wl)
+;(global-set-key [C-S-f12] 'wl)
 
 
 ; miscellaneous keys
@@ -788,9 +788,9 @@
 ; email system
 ; ------------
 
-;;* (message "loading Wanderlust Email Reader")
+;(message "loading Wanderlust Email Reader")
 
-;;* (require 'wanderlust-startup) 
+;(require 'wanderlust-startup)
 
 
 ; for the F11 key: if server edit dispatch the buffer, else just kill it
@@ -837,5 +837,9 @@
 
 ; finished
 ; --------
+
+; not sure why the custo-set-variables does not work for this
+; perhaps the initial load of ispell forces "american"
+(ispell-change-dictionary "british")
 
 (message "initialisation complete")
