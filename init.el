@@ -1,6 +1,18 @@
 ; init.el
 ; =======
 
+; load-path
+; ---------
+
+(setq init-dir (concat "~" init-file-user "/.emacs.d"))
+;(setq init-dir (concat "/home/" user-login-name "/.emacs.d"))
+
+(setq load-path (append
+                 (list (concat init-dir ""))
+                 (list (concat init-dir "/lisp"))
+                 load-path))
+
+
 ; fonts
 ; -----
 
@@ -13,9 +25,12 @@
 
 (set-fontset-font fs 'vietnamese-viscii-upper "-*-fixed-medium-r-*--18-*-viscii1.1-1")
 (set-fontset-font fs 'vietnamese-viscii-lower "-*-fixed-medium-r-*--18-*-viscii1.1-1")
-(set-fontset-font fs 'chinese-gb2312 "-*-*shanheisun*-medium-r-*--18-*-gb2312*-*")
-(set-fontset-font fs 'chinese-big5-1 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
-(set-fontset-font fs 'chinese-big5-2 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
+;(set-fontset-font fs 'chinese-gb2312 "-*-*shanheisun*-medium-r-*--18-*-gb2312*-*")
+;(set-fontset-font fs 'chinese-big5-1 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
+;(set-fontset-font fs 'chinese-big5-2 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
+(set-fontset-font fs 'chinese-gb2312 "-*-*-medium-r-*--18-*-gb2312*-*")
+(set-fontset-font fs 'chinese-big5-1 "-*-*-medium-r-*--18-*-big5*-*")
+(set-fontset-font fs 'chinese-big5-2 "-*-*-medium-r-*--*-*-big5*-*")
 (set-fontset-font fs 'chinese-sisheng "-etl-fixed-medium-r-normal-*-18-*-*-*-*-*-sisheng_cwnn-0")
 (set-fontset-font fs 'chinese-cns11643-1 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-1")
 (set-fontset-font fs 'chinese-cns11643-2 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-2")
@@ -40,12 +55,16 @@
 (set-fontset-font fs 'katakana-jisx0201 "-*-fixed-medium-r-*--18-*-jisx0201.1976-*")
 (set-fontset-font fs 'latin-jisx0201 "-*-fixed-medium-r-*--18-*-jisx0201.1976-*")
 (set-fontset-font fs 'japanese-jisx0208-1978 "-*-fixed-medium-r-*--18-*-jisx0208.1978-*")
-(set-fontset-font fs 'japanese-jisx0208 "-*-fixed-medium-r-*--18-*-jisx0208.1983-*")
-(set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--18-*-jisx0212.1990-*")
+;(set-fontset-font fs 'japanese-jisx0208 "-*-fixed-medium-r-*--18-*-jisx0208.1990-*")
+(set-fontset-font fs 'japanese-jisx0208 "-Misc-Fixed-Medium-R-Normal--16-*-jisx0208.1990-0")
+;(set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--18-*-jisx0212.1990-*")
+(set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--16-*-jisx0212.1990-*")
 (set-fontset-font fs 'japanese-jisx0213-2 "-*-fixed-medium-r-*--18-*-jisx0213.2000-*")
-(set-fontset-font fs 'korean-ksc5601 "-*-mincho-medium-r-*--18-*-ksc5601.1987-*")
+;(set-fontset-font fs 'korean-ksc5601 "-*-mincho-medium-r-*--18-*-ksc5601.1987-*")
+(set-fontset-font fs 'korean-ksc5601 "-*-gulim-medium-r-*--18-*-ksc5601.1987-*")
 (set-fontset-font fs 'lao "-*-fixed-medium-r-normal-*-*-*-*-*-*-*-mulelao-1")
-(set-fontset-font fs 'thai-tis620 "-etl-fixed-medium-r-normal--18-*-tis620.2529-1")
+;(set-fontset-font fs 'thai-tis620 "-etl-fixed-medium-r-normal--18-*-tis620.2529-1")
+(set-fontset-font fs 'thai-tis620 "-misc-fixed-medium-r-normal--16-*-tis620.2529-1")
 (set-fontset-font fs 'tibetan "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-0")
 (set-fontset-font fs 'tibetan-1-column "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-1")
 (set-fontset-font fs 'indian-is13194 "-*-fixed-medium-r-normal-*-18-*-*-*-*-*-is13194-devanagari")
@@ -74,6 +93,8 @@
 
 ; emacs customisation
 ; -------------------
+
+(message "init.el: Customisation")
 
 ; '(face-font-family-alternatives (quote (("liberation mono" "courier" "fixed") ("helv" "helvetica" "arial" "fixed") ("yhunifont" "ming for iso10646 " "ar pl mingti2l big5" "ar pl shanheisun uni" "ar pl new sung"))))
 ; '(face-font-registry-alternatives (quote (("iso10646-1") ("gb2312.1980" "gb2312.80&gb8565.88" "gbk*") ("jisx0208.1990" "jisx0208.1983" "jisx0208.1978") ("ksc5601.1989" "ksx1001.1992" "ksc5601.1987") ("big5-0" "big5.eten-0" "big5*") ("muletibetan-2" "muletibetan-0") ("iso10646-1"))))
@@ -146,6 +167,8 @@
 ; function keys
 ; -------------
 
+(message "init.el: Function keys")
+
 ;(global-set-key [f1] 'save-buffers-kill-emacs)
 (global-set-key [f2] 'save-buffer)
 (global-set-key [f3] 'match-paren)
@@ -175,6 +198,9 @@
 ; miscellaneous keys
 ; ------------------
 
+(message "init.el: Global keys")
+
+
 (global-set-key "\M-z" 'save-buffer)
 (global-set-key "\M-g" 'goto-line)
 (global-set-key [kp_5] 'goto-line)   ; 5
@@ -195,6 +221,8 @@
 ; mouse wheel
 ; -----------
 
+(message "init.el: Mouse wheel")
+
 (defun my-mouse-wheel-up (arg)
 "Scroll display"
 (interactive "p")
@@ -213,6 +241,8 @@
 ; w3m
 ; ---
 
+(message "init.el: w3m")
+
 ; load the interface
 ;;* (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 ;;*(setq w3m-home-page "http://127.0.0.1/~hsw/")
@@ -230,6 +260,8 @@
 
 ; Unicode
 ; -------
+
+(message "init.el: unicode characters")
 
 (require 'cl)
 
@@ -303,6 +335,8 @@
 ; Ocaml mode
 ; ----------
 
+(message "init.el: ocaml")
+
 (setq auto-mode-alist
       (cons '("\\.ml[iylp]?$" . caml-mode) auto-mode-alist))
 ;;(require 'caml-font)
@@ -347,6 +381,9 @@
 
 ; Haskell mode
 ; ------------
+
+(message "init.el: Haskell")
+
 
 (setq auto-mode-alist
       (append auto-mode-alist
@@ -440,6 +477,8 @@
 ; Lisp mode
 ; ---------
 
+(message "init.el: lisp greek text")
+
 (defun pretty-greek ()
   (let ((greek '("alpha" "beta" "gamma" "delta" "epsilon" "zeta" "eta" "theta" "iota" "kappa" "lambda" "mu" "nu" "xi" "omicron" "pi" "rho" "sigma_final" "sigma" "tau" "upsilon" "phi" "chi" "psi" "omega")))
     (loop for word in greek
@@ -461,6 +500,8 @@
 ; Ruby mode
 ; ---------
 
+(message "init.el: ruby")
+
 (setq ruby-program-name "/usr/local/bin/ruby")
 (autoload 'ruby-mode "ruby-mode" "Mode for editing ruby source files")
 (add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
@@ -472,6 +513,9 @@
 
 ; miscellaneous items
 ; -------------------
+
+(message "init.el: miscellaneous")
+
 
 (line-number-mode 1)
 
@@ -503,6 +547,8 @@
 ; Tramp
 ; -----
 
+(message "init.el: Tramp set up")
+
 (require 'tramp)
 (setq tramp-debug-buffer t)
 (setq tramp-verbose 10)
@@ -511,6 +557,8 @@
 
 ; Modes
 ; -----
+
+(message "init.el: mode alist changes")
 
 (setq auto-mode-alist
   (append
@@ -539,6 +587,8 @@
 ; matching parentheses
 ; --------------------
 
+(message "init.el: Match parenteses")
+
 (defun match-paren (arg)
   "Go to the matching parenthesis if on parenthesis otherwise do nothing"
   (interactive "p")
@@ -549,6 +599,8 @@
 
 ; spreadsheet calculation
 ; -----------------------
+
+(message "init.el: Spreadsheet")
 
 (global-set-key [C-kp-multiply] 'sc-calc)
 (global-set-key [C-kp-add] 'sc-total)
@@ -648,8 +700,46 @@
   )
 
 
+; taskjuggler
+; -----------
+
+(message "init.el: taskjuggler")
+
+(load "taskjuggler-mode")
+
+
+; task name<digits> "desc"
+; replace the digits with tj-number and increment tj-number
+
+(global-set-key [C-kp-multiply] 'tj-increment)
+(global-set-key [C-kp-subtract] 'tj-reset)
+
+(setq tj-number 1)
+
+(defun tj-reset (arg)
+  "renumber tasks"
+  (interactive "p")
+  (setq tj-number 1)
+)
+
+
+(defun tj-increment (arg)
+  "renumber tasks"
+  (interactive "p")
+  (if (search-forward-regexp "[[:space:]]*task[[:space:]][[:alpha:]_-]*\\([[:digit:]]+\\)")
+      (progn
+        (backward-delete-char (string-width (match-string 1)))
+        (insert-string tj-number)
+        (setq tj-number (+ tj-number 1))
+        ))
+
+)
+
+
 ; binary numbering
 ; ----------------
+
+(message "init.el: Binary numbering")
 
 (global-set-key [C-kp-divide] 'binary-increment)
 
@@ -696,6 +786,8 @@
 ; Toggle case of letter at the cursor
 ; -----------------------------------
 
+(message "init.el: Toggle case")
+
 (defun toggle-case-char-at-point (arg)
   "Convert the character at the cursor position to uppercase."
   (interactive "p")
@@ -712,6 +804,8 @@
 
 ; HTML timestamps (in ISO 8601 format)
 ; ------------------------------------
+
+(message "init.el: HTML timestamps")
 
 (require 'time-stamp)
 
@@ -788,13 +882,15 @@
 ; email system
 ; ------------
 
-;(message "loading Wanderlust Email Reader")
+;(message "init.el: loading Wanderlust Email Reader")
 
 ;(require 'wanderlust-startup)
 
 
 ; for the F11 key: if server edit dispatch the buffer, else just kill it
 ; ----------------------------------------------------------------------
+
+(message "init.el: server-edit")
 
 (defun my-server-edit (arg)
 "Exit server buffer and kill buffer"
@@ -835,11 +931,18 @@
 ;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
 (server-start)
 
-; finished
-; --------
+
+; British dictionary
+; ------------------
+
+(message "init.el: British dictionary")
 
 ; not sure why the custo-set-variables does not work for this
 ; perhaps the initial load of ispell forces "american"
 (ispell-change-dictionary "british")
 
-(message "initialisation complete")
+
+; finished
+; --------
+
+(message "init.el: Initialisation complete")
