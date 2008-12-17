@@ -927,7 +927,7 @@
               (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number)))
 	(kill-buffer dcop-buffer))))))
 
-;(message server-socket-dir)
+;(message (format "init.el: server-socket-dir = %s" server-socket-dir))
 ;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
 (server-start)
 
