@@ -937,7 +937,7 @@
 
 (message "init.el: British dictionary")
 
-; not sure why the custo-set-variables does not work for this
+; not sure why the custom-set-variables does not work for this
 ; perhaps the initial load of ispell forces "american"
 (ispell-change-dictionary "british")
 
