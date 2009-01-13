@@ -897,10 +897,11 @@
 (interactive "p")
   (if server-buffer-clients
     (server-edit)
-    (kill-buffer (current-buffer))
+    (if window-system
+      (kill-buffer (current-buffer))
+      (save-buffers-kill-emacs))
   )
 )
-
 
 ; setup server
 ; ------------
@@ -929,8 +930,7 @@
 
 ;(message (format "init.el: server-socket-dir = %s" server-socket-dir))
 ;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
-(server-start)
-
+(if window-system (server-start))
 
 ; British dictionary
 ; ------------------
@@ -944,5 +944,15 @@
 
 ; finished
 ; --------
+
+(if window-system
+  nil
+  (progn
+    (setq inhibit-splash-screen t)
+    (menu-bar-mode -1)
+    (toggle-scroll-bar -1)
+    (setq backup-inhibited t)
+    (setq auto-save-default nil)
+    ))
 
 (message "init.el: Initialisation complete")
