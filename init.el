@@ -893,15 +893,18 @@
 (message "init.el: server-edit")
 
 (defun my-server-edit (arg)
-"Exit server buffer and kill buffer"
-(interactive "p")
-  (if server-buffer-clients
-    (server-edit)
+  "Exit server buffer and kill buffer"
+  (interactive "p")
+  (unless (if (functionp 'server-edit)
+              (if server-buffer-clients
+                  (server-edit)
+                nil)
+            nil)
     (if window-system
-      (kill-buffer (current-buffer))
+        (kill-buffer (current-buffer))
       (save-buffers-kill-emacs))
+    )
   )
-)
 
 ; setup server
 ; ------------
@@ -918,15 +921,45 @@
   (progn
     (message "OS: other")
     (let ((dcop (executable-find "dcop"))
-          (dcop-buffer "*dcop*"))
+          ;;(dcop-args '("KWinInterface" "currentDesktop"))
+          (qdbus (executable-find "qdbus"))
+          ;;(dbus-args '("org.kde.kwin" "/KWin" "currentDesktop"))
+          (work-buffer "*CurrentScreen*")
+          )
       (if dcop
           (save-excursion
-            (call-process "/usr/local/bin/dcop" nil dcop-buffer nil "kwin" "KWinInterface" "currentDesktop")
-            (set-buffer dcop-buffer)
-            (let ((screen-number (string-to-number (buffer-substring-no-properties 1 3))))
-              (message (format "/tmp/emacs%d-%d" (user-uid) screen-number))
-              (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number)))
-	(kill-buffer dcop-buffer))))))
+            (if (bufferp work-buffer) (kill-buffer work-buffer))
+            (call-process dcop nil work-buffer nil "kwin*")
+            (set-buffer work-buffer)
+            (beginning-of-buffer)
+            (let ((s (point)))
+              (end-of-line)
+              (let ((kwin (buffer-substring-no-properties s (point))))
+                (kill-buffer work-buffer)
+                
+                (call-process dcop nil work-buffer nil kwin "KWinInterface" "currentDesktop")
+                
+                (set-buffer work-buffer)
+                (let ((screen-number (string-to-number (buffer-string))))
+                  (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number))
+                  )
+                (kill-buffer work-buffer)
+                )
+              )
+            )
+        )
+      (if qdbus
+          (save-excursion
+            (if (bufferp work-buffer) (kill-buffer work-buffer))
+            (call-process qdbus nil work-buffer nil "org.kde.kwin" "/KWin" "currentDesktop")
+            (set-buffer work-buffer)
+            (let ((screen-number (string-to-number (buffer-string))))
+              (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number))
+              )
+            (kill-buffer work-buffer)
+            )
+        )
+      )))
 
 ;(message (format "init.el: server-socket-dir = %s" server-socket-dir))
 ;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
@@ -955,4 +988,7 @@
     (setq auto-save-default nil)
     ))
 
-(message "init.el: Initialisation complete")
+(if window-system
+    (message "init.el: Initialisation complete (X11)")
+    (message "init.el: Initialisation complete (command)")
+    )
