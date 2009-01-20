@@ -897,7 +897,7 @@
   (interactive "p")
   (unless (if (functionp 'server-edit)
               (if server-buffer-clients
-                  (server-edit)
+                  (progn (server-edit) 't)
                 nil)
             nil)
     (if window-system
