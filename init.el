@@ -511,6 +511,24 @@
 (add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys)))
 
 
+;; C mode
+;; ------
+
+(message "init.el: C styles")
+
+;; A partial list of the better known styles:
+;;   “gnu”         The default style for GNU projects
+;;   “k&r”         What Kernighan and Ritchie, the authors of C used in their book
+;;   “bsd”         What BSD developers use, aka “Allman style” after Eric Allman.
+;;   “stroustrup”  What Stroustrup, the author of C++ used in his book
+;;   “linux”       What the Linux developers use for kernel development
+;;   “python”      What Python developers use for extension modules
+;;   “java”        The default style for java-mode (see below)
+;;   “user”        When you want to define your own style
+
+(setq c-default-style "linux")
+
+
 ;; miscellaneous items
 ;; -------------------
 
