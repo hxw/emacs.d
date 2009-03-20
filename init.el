@@ -16,8 +16,7 @@
 ; fonts
 ; -----
 
-(if (not (eq system-type 'darwin))
-    (progn
+(when (not (eq system-type 'darwin))
 (setq fs "fontset-default")
 
 ; cannot change ascii
@@ -73,7 +72,7 @@
 (set-fontset-font fs 'mule-unicode-2500-33ff "-misc-fixed-medium-r-normal-*-18-*-*-*-*-*-iso10646-1")
 (set-fontset-font fs 'mule-unicode-e000-ffff "-misc-fixed-medium-r-normal-*-18-*-*-*-*-*-iso10646-1")
 
-))
+)
 ;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-0
 ;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-1
 ;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-2
@@ -278,10 +277,10 @@
 			  ('up-arrow 8593)
 			  ('right-arrow 8594)
 			  ('down-arrow 8595)
-  
+
 			  ;; boxes
 			  ('double-vertical-bar #X2551)
-                        
+
 			  ;; relational operators
 			  ('equal #X003d)
 			  ('not-equal #X2260)
@@ -291,12 +290,12 @@
 			  ('greater-than #X003e)
 			  ('less-than-or-equal-to #X2264)
 			  ('greater-than-or-equal-to #X2265)
-  
+
 			  ;; logical operators
 			  ('logical-and #X2227)
 			  ('logical-or #X2228)
 			  ('logical-neg #X00AC)
-  
+
 			  ;; misc
 			  ('nil #X2205)
 			  ('horizontal-ellipsis #X2026)
@@ -306,28 +305,28 @@
 			  ('for-all #X2200)
 			  ('there-exists #X2203)
 			  ('element-of #X2208)
-  
+
 			  ;; mathematical operators
 			  ('square-root #X221A)
 			  ('squared #X00B2)
 			  ('cubed #X00B3)
-  
+
 			  ;; letters
 			  ('lambda #X03BB)
 			  ('alpha #X03B1)
 			  ('beta #X03B2)
 			  ('gamma #X03B3)
 			  ('delta #X03B4))))
-                        
+
 (defun substitute-pattern-with-unicode (pattern symbol)
-  "Add a font lock hook to replace the matched part of PATTERN with the 
+  "Add a font lock hook to replace the matched part of PATTERN with the
   Unicode symbol SYMBOL looked up with UNICODE-SYMBOL."
   (interactive)
   (font-lock-add-keywords
    nil `((,pattern (0 (progn (compose-region (match-beginning 1) (match-end 1)
 					     ,(unicode-symbol symbol))
 			     nil))))))
-  
+
 (defun substitute-patterns-with-unicode (patterns)
   "Call SUBSTITUTE-PATTERN-WITH-UNICODE repeatedly."
   (mapcar #'(lambda (x)
@@ -374,7 +373,7 @@
 	 (cons "\\<\\(List.exists\\)\\>" 'there-exists)
 	 (cons "\\<\\(List.mem\\)\\>" 'element-of)
 	 (cons "^ +\\(|\\)" 'double-vertical-bar))))
-  
+
 (add-hook 'caml-mode-hook 'ocaml-unicode)
 (add-hook 'tuareg-mode-hook 'ocaml-unicode)
 
@@ -420,23 +419,22 @@
 ; code you split onto the newline back up to the same indentation
 ; level it was at previously.
 
-(if nil
-    (progn
-      (remove-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-      (remove-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
+(when nil
+  (remove-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+  (remove-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
 
-      ; Just use tab-stop indentation, 2-space tabs
+  ;; Just use tab-stop indentation, 2-space tabs
 
-      (add-hook 'haskell-mode-hook
-		(lambda ()
-		  (turn-on-haskell-doc-mode)
-		  (turn-on-haskell-simple-indent)
-		  (setq indent-line-function 'tab-to-tab-stop)
-		  (setq tab-stop-list
-			(loop for i from 2 upto 120 by 2 collect i))
-		  (local-set-key (kbd "RET") 'newline-and-indent-relative))
-		)
-      ))
+  (add-hook 'haskell-mode-hook
+            (lambda ()
+              (turn-on-haskell-doc-mode)
+              (turn-on-haskell-simple-indent)
+              (setq indent-line-function 'tab-to-tab-stop)
+              (setq tab-stop-list
+                    (loop for i from 2 upto 120 by 2 collect i))
+              (local-set-key (kbd "RET") 'newline-and-indent-relative))
+            )
+  )
 
 (defun newline-and-indent-relative ()
   (interactive)
@@ -487,12 +485,12 @@
   (let ((greek '("alpha" "beta" "gamma" "delta" "epsilon" "zeta" "eta" "theta" "iota" "kappa" "lambda" "mu" "nu" "xi" "omicron" "pi" "rho" "sigma_final" "sigma" "tau" "upsilon" "phi" "chi" "psi" "omega")))
     (loop for word in greek
           for code = 97 then (+ 1 code)
-          do  (let ((greek-char (make-char 'greek-iso8859-7 code))) 
+          do  (let ((greek-char (make-char 'greek-iso8859-7 code)))
                 (font-lock-add-keywords nil
                                         `((,(concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[a-zA-Z]")
                                            (0 (progn (decompose-region (match-beginning 2) (match-end 2))
                                                      nil)))))
-                (font-lock-add-keywords nil 
+                (font-lock-add-keywords nil
                                         `((,(concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[^a-zA-Z]")
                                            (0 (progn (compose-region (match-beginning 2) (match-end 2)
                                                                      ,greek-char)
@@ -692,7 +690,7 @@
 	  (cond
 	   ((looking-at "\\+") (next-line 1) t)
 	   ((looking-at "|[[:space:]]+|") (next-line 1) t)
-	   
+
 	   ((search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" end-pos t)
 	    (setq current-value (string-to-number (match-string 1)))
 	    (message "value = %s" current-value)
@@ -701,7 +699,7 @@
 	    (next-line 1)
 	    t
 	    )
-	   
+
 	   ((looking-at "|=[^|]+|")
 	    (sc-replace-total "=%7.2f" total-value)
 	    nil
@@ -711,7 +709,7 @@
 	    (sc-replace-total "#%5d" total-value)
 	    nil
 	    )
-	   
+
 	   (t (message "total value = %s" total-value) nil)
 	   )
 	  )
@@ -767,7 +765,7 @@
 (defun binary-increment-string (bin-str)
   "increment a string looking like '  1111 0101 1110 '"
   (let ((carry 1))
-    (concat 
+    (concat
      (reverse
       (mapcar '(lambda (x)
 		 (cond
@@ -785,7 +783,7 @@
   (let ((re "[[:space:]]*[01]+[01[:space:]]*[01][[:space:]]"))
     (if (looking-at re)
       (let ((start-pos (point)))
-	(goto-char start-pos) 
+	(goto-char start-pos)
 	(if (looking-at re)
 	    (let ((binary-string (match-string 0)))
 	      (goto-char start-pos)
@@ -956,9 +954,9 @@
               (end-of-line)
               (let ((kwin (buffer-substring-no-properties s (point))))
                 (kill-buffer work-buffer)
-                
+
                 (call-process dcop nil work-buffer nil kwin "KWinInterface" "currentDesktop")
-                
+
                 (set-buffer work-buffer)
                 (let ((screen-number (string-to-number (buffer-string))))
                   (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number))
@@ -982,11 +980,11 @@
         )
       )))
 
-(if window-system
-    (progn
+(when window-system
       (message (format "init.el: server-socket-dir = %s" server-socket-dir))
       ;;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
-      (server-start)))
+      (server-start))
+
 
 ; British dictionary
 ; ------------------
@@ -998,18 +996,20 @@
 (ispell-change-dictionary "british")
 
 
+; special options for non-X11
+; ---------------------------
+
+(unless window-system
+  (setq inhibit-splash-screen t)
+  (menu-bar-mode -1)
+  (toggle-scroll-bar -1)
+  (setq backup-inhibited t)
+  (setq auto-save-default nil)
+  )
+
+
 ; finished
 ; --------
-
-(if window-system
-  nil
-  (progn
-    (setq inhibit-splash-screen t)
-    (menu-bar-mode -1)
-    (toggle-scroll-bar -1)
-    (setq backup-inhibited t)
-    (setq auto-save-default nil)
-    ))
 
 (if window-system
     (message "init.el: Initialisation complete (X11)")
