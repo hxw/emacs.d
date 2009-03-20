@@ -587,6 +587,22 @@
 ;	  )
 
 
+;; removing spaces at end-of-line
+;; ------------------------------
+
+(message "init.el: Remove spaces")
+
+(defun my-remove-trailing-spaces ()
+  "Remove extraneous spaces at the end of each line"
+  (message "remove trailing spaces")
+  (save-excursion
+    (goto-char 0)
+    (while (search-forward-regexp "[[:space:]]+$" nil t)
+      (replace-match "" nil nil)))
+  nil)
+
+(add-hook 'write-file-hooks 'my-remove-trailing-spaces)
+
 
 ; matching parentheses
 ; --------------------
