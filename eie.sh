@@ -1,6 +1,7 @@
 #!/bin/sh
 
-CommandLineEditors="emacs:-nw jove vim vi nano"
+# format:  command:-option
+CommandLineEditors="jove: emacs:-nw vim: vi: nano:"
 FrameEditors="emacsclient gnuclient"
 
 nf=0
