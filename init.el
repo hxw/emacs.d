@@ -626,16 +626,7 @@
 
 (message "init.el: Remove spaces")
 
-(defun my-remove-trailing-spaces ()
-  "Remove extraneous spaces at the end of each line"
-  (message "remove trailing spaces")
-  (save-excursion
-    (goto-char (point-min))
-    (while (search-forward-regexp "[[:space:]]+$" nil t)
-      (replace-match "" nil nil)))
-  nil)
-
-(add-hook 'before-save-hook 'my-remove-trailing-spaces)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 
 ;; matching parentheses
