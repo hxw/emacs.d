@@ -1,11 +1,11 @@
-; init.el
-; =======
+;; init.el
+;; =======
 
-; load-path
-; ---------
+;; load-path
+;; ---------
 
 (setq init-dir (concat "~" init-file-user "/.emacs.d"))
-;(setq init-dir (concat "/home/" user-login-name "/.emacs.d"))
+;;(setq init-dir (concat "/home/" user-login-name "/.emacs.d"))
 
 (setq load-path (append
                  (list (concat init-dir ""))
@@ -13,20 +13,20 @@
                  load-path))
 
 
-; fonts
-; -----
+;; fonts
+;; -----
 
 (when (not (eq system-type 'darwin))
 (setq fs "fontset-default")
 
-; cannot change ascii
-;(set-fontset-font fs 'ascii "--courier-medium-r-normal-*-18-*-*-*-*-*-iso8859-1")
+;; cannot change ascii
+;;(set-fontset-font fs 'ascii "--courier-medium-r-normal-*-18-*-*-*-*-*-iso8859-1")
 
 (set-fontset-font fs 'vietnamese-viscii-upper "-*-fixed-medium-r-*--18-*-viscii1.1-1")
 (set-fontset-font fs 'vietnamese-viscii-lower "-*-fixed-medium-r-*--18-*-viscii1.1-1")
-;(set-fontset-font fs 'chinese-gb2312 "-*-*shanheisun*-medium-r-*--18-*-gb2312*-*")
-;(set-fontset-font fs 'chinese-big5-1 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
-;(set-fontset-font fs 'chinese-big5-2 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
+;;(set-fontset-font fs 'chinese-gb2312 "-*-*shanheisun*-medium-r-*--18-*-gb2312*-*")
+;;(set-fontset-font fs 'chinese-big5-1 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
+;;(set-fontset-font fs 'chinese-big5-2 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
 ;;(set-fontset-font fs 'chinese-gb2312 "-*-*-medium-r-*--18-*-gb2312*-*")
 ;;(set-fontset-font fs 'chinese-big5-1 "-*-*-medium-r-*--18-*-big5*-*")
 ;;(set-fontset-font fs 'chinese-big5-2 "-*-*-medium-r-*--*-*-big5*-*")
@@ -54,15 +54,15 @@
 (set-fontset-font fs 'katakana-jisx0201 "-*-fixed-medium-r-*--18-*-jisx0201.1976-*")
 (set-fontset-font fs 'latin-jisx0201 "-*-fixed-medium-r-*--18-*-jisx0201.1976-*")
 (set-fontset-font fs 'japanese-jisx0208-1978 "-*-fixed-medium-r-*--18-*-jisx0208.1978-*")
-;(set-fontset-font fs 'japanese-jisx0208 "-*-fixed-medium-r-*--18-*-jisx0208.1990-*")
+;;(set-fontset-font fs 'japanese-jisx0208 "-*-fixed-medium-r-*--18-*-jisx0208.1990-*")
 (set-fontset-font fs 'japanese-jisx0208 "-Misc-Fixed-Medium-R-Normal--16-*-jisx0208.1990-0")
-;(set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--18-*-jisx0212.1990-*")
+;;(set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--18-*-jisx0212.1990-*")
 (set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--16-*-jisx0212.1990-*")
 (set-fontset-font fs 'japanese-jisx0213-2 "-*-fixed-medium-r-*--18-*-jisx0213.2000-*")
-;(set-fontset-font fs 'korean-ksc5601 "-*-mincho-medium-r-*--18-*-ksc5601.1987-*")
-;(set-fontset-font fs 'korean-ksc5601 "-*-medium-r-*--18-*-ksc5601.1987-*")
+;;(set-fontset-font fs 'korean-ksc5601 "-*-mincho-medium-r-*--18-*-ksc5601.1987-*")
+;;(set-fontset-font fs 'korean-ksc5601 "-*-medium-r-*--18-*-ksc5601.1987-*")
 (set-fontset-font fs 'lao "-*-fixed-medium-r-normal-*-*-*-*-*-*-*-mulelao-1")
-;(set-fontset-font fs 'thai-tis620 "-etl-fixed-medium-r-normal--18-*-tis620.2529-1")
+;;(set-fontset-font fs 'thai-tis620 "-etl-fixed-medium-r-normal--18-*-tis620.2529-1")
 (set-fontset-font fs 'thai-tis620 "-misc-fixed-medium-r-normal--16-*-tis620.2529-1")
 (set-fontset-font fs 'tibetan "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-0")
 (set-fontset-font fs 'tibetan-1-column "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-1")
@@ -73,30 +73,31 @@
 (set-fontset-font fs 'mule-unicode-e000-ffff "-misc-fixed-medium-r-normal-*-18-*-*-*-*-*-iso10646-1")
 
 )
-;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-0
-;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-1
-;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-2
 
-;        chinese-gb2312:-*-fangsong ti-medium-r-normal--*-*-*-*-*-*-gb2312.1980-*,
-;        unicode-mono:-gnu-unifont-medium-r-normal--16-160-75-75-c-80-iso10646-1,
-;        unicode-wide:-gnu-unifont-medium-r-normal--16-160-75-75-c-80-iso10646-1,
-;        unicode-mono:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;        unicode-wide:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1"
-;        mule-unicode-0100-24ff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;        mule-unicode-2500-33ff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;        mule-unicode-e000-ffff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;        mule-unicode-0100-24ff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;        mule-unicode-2500-33ff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;        mule-unicode-e000-ffff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-0
+;;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-1
+;;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-2
+
+;;        chinese-gb2312:-*-fangsong ti-medium-r-normal--*-*-*-*-*-*-gb2312.1980-*,
+;;        unicode-mono:-gnu-unifont-medium-r-normal--16-160-75-75-c-80-iso10646-1,
+;;        unicode-wide:-gnu-unifont-medium-r-normal--16-160-75-75-c-80-iso10646-1,
+;;        unicode-mono:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;;        unicode-wide:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1"
+;;        mule-unicode-0100-24ff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;;        mule-unicode-2500-33ff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;;        mule-unicode-e000-ffff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;;        mule-unicode-0100-24ff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;;        mule-unicode-2500-33ff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+;;        mule-unicode-e000-ffff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
 
 
-; emacs customisation
-; -------------------
+;; emacs customisation
+;; -------------------
 
 (message "init.el: Customisation")
 
-; '(face-font-family-alternatives (quote (("liberation mono" "courier" "fixed") ("helv" "helvetica" "arial" "fixed") ("yhunifont" "ming for iso10646 " "ar pl mingti2l big5" "ar pl shanheisun uni" "ar pl new sung"))))
-; '(face-font-registry-alternatives (quote (("iso10646-1") ("gb2312.1980" "gb2312.80&gb8565.88" "gbk*") ("jisx0208.1990" "jisx0208.1983" "jisx0208.1978") ("ksc5601.1989" "ksx1001.1992" "ksc5601.1987") ("big5-0" "big5.eten-0" "big5*") ("muletibetan-2" "muletibetan-0") ("iso10646-1"))))
+;; '(face-font-family-alternatives (quote (("liberation mono" "courier" "fixed") ("helv" "helvetica" "arial" "fixed") ("yhunifont" "ming for iso10646 " "ar pl mingti2l big5" "ar pl shanheisun uni" "ar pl new sung"))))
+;; '(face-font-registry-alternatives (quote (("iso10646-1") ("gb2312.1980" "gb2312.80&gb8565.88" "gbk*") ("jisx0208.1990" "jisx0208.1983" "jisx0208.1978") ("ksc5601.1989" "ksx1001.1992" "ksc5601.1987") ("big5-0" "big5.eten-0" "big5*") ("muletibetan-2" "muletibetan-0") ("iso10646-1"))))
 
 
 (custom-set-variables
@@ -157,7 +158,6 @@
    '(default ((t (:foreground "blue4" :background "lavenderblush" :size "12pt" :family "apple-monaco"))))))
 
 
-
 ; adjust window size
 ; ------------------
 
@@ -167,15 +167,15 @@
                                 (add-to-list 'default-frame-alist '(width . 150)))))
 
 
-; function keys
-; -------------
+;; function keys
+;; -------------
 
 (message "init.el: Function keys")
 
-;(global-set-key [f1] 'save-buffers-kill-emacs)
+;;(global-set-key [f1] 'save-buffers-kill-emacs)
 (global-set-key [f2] 'save-buffer)
 (global-set-key [f3] 'match-paren)
-;(global-set-key [f4] 'switch-to-buffer)
+;;(global-set-key [f4] 'switch-to-buffer)
 (global-set-key [f4] (lambda () "toggle between buffers" (interactive) (switch-to-buffer nil)))
 
 (global-set-key [f5] 'toggle-case-char-at-point)
@@ -190,16 +190,16 @@
 (global-set-key [f7] 'set-mark-command)
 (global-set-key [f8] 'call-last-kbd-macro)
 
-;(global-set-key [f9] nil)
+;;(global-set-key [f9] nil)
 (global-set-key [f10] 'bury-buffer)
 (global-set-key [f11] 'my-server-edit)
 (global-set-key [f12] 'delete-other-windows)
 
-;(global-set-key [C-S-f12] 'wl)
+;;(global-set-key [C-S-f12] 'wl)
 
 
-; miscellaneous keys
-; ------------------
+;; miscellaneous keys
+;; ------------------
 
 (message "init.el: Global keys")
 
@@ -221,8 +221,8 @@
 )
 
 
-; mouse wheel
-; -----------
+;; mouse wheel
+;; -----------
 
 (message "init.el: Mouse wheel")
 
@@ -241,28 +241,26 @@
 (global-set-key [mouse-5] 'my-mouse-wheel-up)
 
 
-; w3m
-; ---
+;; w3m
+;; ---
 
-(message "init.el: w3m")
-
-; load the interface
+;;*(message "init.el: w3m")
+;; load the interface
 ;;* (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 ;;*(setq w3m-home-page "http://127.0.0.1/~hsw/")
 
-; To use emacs-w3m on Wanderlust:
-; (require 'mime-w3m)
+;; To use emacs-w3m on Wanderlust:
+;; (require 'mime-w3m)
 
-; To use octet stream viewer:
+;; To use octet stream viewer:
 
-; (require 'w3m)
-; (require 'octet)
-; (octet-mime-setup)
+;; (require 'w3m)
+;; (require 'octet)
+;; (octet-mime-setup)
 
 
-
-; Unicode
-; -------
+;; Unicode
+;; -------
 
 (message "init.el: unicode characters")
 
@@ -335,8 +333,8 @@
 	  patterns))
 
 
-; Ocaml mode
-; ----------
+;; Ocaml mode
+;; ----------
 
 (message "init.el: ocaml")
 
@@ -379,11 +377,11 @@
 
 (autoload 'caml-mode "caml" "Major mode for editing Caml code." t)
 (autoload 'run-caml "inf-caml" "Run an inferior Caml process." t)
-;(autoload 'caml-hilit "caml-hilight" "Hilit19 patterns used for Caml mode" t)
+;;(autoload 'caml-hilit "caml-hilight" "Hilit19 patterns used for Caml mode" t)
 
 
-; Haskell mode
-; ------------
+;; Haskell mode
+;; ------------
 
 (message "init.el: Haskell")
 
@@ -398,26 +396,26 @@
 (autoload 'literate-haskell-mode "haskell-mode"
    "Major mode for editing literate Haskell scripts." t)
 
-; Add the following lines according to which modules you want to use:
+;; Add the following lines according to which modules you want to use:
 
 (add-hook 'haskell-mode-hook 'turn-on-haskell-decl-scan)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 
-; Note that the two indentation modules are mutually exclusive:
-; add at most one.
+;; Note that the two indentation modules are mutually exclusive:
+;; add at most one.
 
 (if t
     (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
   (add-hook 'haskell-mode-hook 'turn-on-haskell-simple-indent)
   )
 
-; from mrd's blog (sequence.complete.org)
-; (add-hook 'haskell-mode-hook 'turn-on-font-lock)
-; (add-to-list 'auto-mode-alist '("\\.hs\\'" . haskell-mode))
+;; from mrd's blog (sequence.complete.org)
+;; (add-hook 'haskell-mode-hook 'turn-on-font-lock)
+;; (add-to-list 'auto-mode-alist '("\\.hs\\'" . haskell-mode))
 
-; I wrote my own "newline and indent" function which brings any
-; code you split onto the newline back up to the same indentation
-; level it was at previously.
+;; I wrote my own "newline and indent" function which brings any
+;; code you split onto the newline back up to the same indentation
+;; level it was at previously.
 
 (when nil
   (remove-hook 'haskell-mode-hook 'turn-on-haskell-indent)
@@ -445,9 +443,9 @@
                       (current-column))))
 
 
-; change the display of some characters
+;; change the display of some characters
 
-; commented out items are missing from the fonts
+;; commented out items are missing from the fonts
 (defun haskell-unicode ()
   (interactive)
   (substitute-patterns-with-unicode
@@ -476,8 +474,8 @@
 (add-hook 'haskell-mode-hook 'haskell-unicode)
 
 
-; Lisp mode
-; ---------
+;; Lisp mode
+;; ---------
 
 (message "init.el: lisp greek text")
 
@@ -499,8 +497,8 @@
 (add-hook 'emacs-lisp-mode-hook 'pretty-greek)
 
 
-; Ruby mode
-; ---------
+;; Ruby mode
+;; ---------
 
 (message "init.el: ruby")
 
@@ -513,8 +511,8 @@
 (add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys)))
 
 
-; miscellaneous items
-; -------------------
+;; miscellaneous items
+;; -------------------
 
 (message "init.el: miscellaneous")
 
@@ -546,8 +544,8 @@
 (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
 
 
-; Tramp
-; -----
+;; Tramp
+;; -----
 
 (message "init.el: Tramp set up")
 
@@ -557,8 +555,8 @@
 (setq tramp-default-method "ssh")
 
 
-; Modes
-; -----
+;; Modes
+;; -----
 
 (message "init.el: mode alist changes")
 
@@ -578,11 +576,11 @@
 	     )
 	  )
 
-;(add-hook 'asm-mode-set-comment-hook
-;          '(lambda ()
-;             (setq asm-comment-char ?@)
-;	     )
-;	  )
+;;(add-hook 'asm-mode-set-comment-hook
+;;          '(lambda ()
+;;             (setq asm-comment-char ?@)
+;;	     )
+;;	  )
 
 
 ;; removing spaces at end-of-line
@@ -602,8 +600,8 @@
 (add-hook 'write-file-hooks 'my-remove-trailing-spaces)
 
 
-; matching parentheses
-; --------------------
+;; matching parentheses
+;; --------------------
 
 (message "init.el: Match parenteses")
 
@@ -615,8 +613,8 @@
         (t (self-insert-command (or arg 1)))))
 
 
-; spreadsheet calculation
-; -----------------------
+;; spreadsheet calculation
+;; -----------------------
 
 (message "init.el: Spreadsheet")
 
@@ -718,44 +716,44 @@
   )
 
 
-; taskjuggler
-; -----------
+;; taskjuggler
+;; -----------
 
-;* (message "init.el: taskjuggler")
-;*
-;* (load "taskjuggler-mode")
-;*
-;*
-;* ; task name<digits> "desc"
-;* ; replace the digits with tj-number and increment tj-number
-;*
-;* (global-set-key [C-kp-multiply] 'tj-increment)
-;* (global-set-key [C-kp-subtract] 'tj-reset)
-;*
-;* (setq tj-number 1)
-;*
-;* (defun tj-reset (arg)
-;*   "renumber tasks"
-;*   (interactive "p")
-;*   (setq tj-number 1)
-;* )
-;*
-;*
-;* (defun tj-increment (arg)
-;*   "renumber tasks"
-;*   (interactive "p")
-;*   (if (search-forward-regexp "[[:space:]]*task[[:space:]][[:alpha:]_-]*\\([[:digit:]]+\\)")
-;*       (progn
-;*         (backward-delete-char (string-width (match-string 1)))
-;*         (insert-string tj-number)
-;*         (setq tj-number (+ tj-number 1))
-;*         ))
-;*
-;* )
+;;* (message "init.el: taskjuggler")
+;;*
+;;* (load "taskjuggler-mode")
+;;*
+;;*
+;;* ; task name<digits> "desc"
+;;* ; replace the digits with tj-number and increment tj-number
+;;*
+;;* (global-set-key [C-kp-multiply] 'tj-increment)
+;;* (global-set-key [C-kp-subtract] 'tj-reset)
+;;*
+;;* (setq tj-number 1)
+;;*
+;;* (defun tj-reset (arg)
+;;*   "renumber tasks"
+;;*   (interactive "p")
+;;*   (setq tj-number 1)
+;;* )
+;;*
+;;*
+;;* (defun tj-increment (arg)
+;;*   "renumber tasks"
+;;*   (interactive "p")
+;;*   (if (search-forward-regexp "[[:space:]]*task[[:space:]][[:alpha:]_-]*\\([[:digit:]]+\\)")
+;;*       (progn
+;;*         (backward-delete-char (string-width (match-string 1)))
+;;*         (insert-string tj-number)
+;;*         (setq tj-number (+ tj-number 1))
+;;*         ))
+;;*
+;;* )
 
 
-; binary numbering
-; ----------------
+;; binary numbering
+;; ----------------
 
 (message "init.el: Binary numbering")
 
@@ -801,8 +799,8 @@
   )
 
 
-; Toggle case of letter at the cursor
-; -----------------------------------
+;; Toggle case of letter at the cursor
+;; -----------------------------------
 
 (message "init.el: Toggle case")
 
@@ -820,8 +818,8 @@
   (forward-char 1))
 
 
-; HTML timestamps (in ISO 8601 format)
-; ------------------------------------
+;; HTML timestamps (in ISO 8601 format)
+;; ------------------------------------
 
 (message "init.el: HTML timestamps")
 
@@ -833,7 +831,7 @@
  (interactive)
  (insert (format-time-string "%Y-%m-%dT%R%z")))
 
-; can this be replaces by a variation of the above
+;; can this be replaces by a variation of the above
 (defun my-current-time-zone ()
   "convert time zone to [+-]hh:mm"
   (let ((tz (car (current-time-zone)))
@@ -893,20 +891,20 @@
 
 (add-hook 'write-file-hooks 'my-html-replace-timestamp)
 
-; for XEmacs html mode
-;(setq html-helper-timestamp-hook 'my-html-insert-timestamp)
+;; for XEmacs html mode
+;;(setq html-helper-timestamp-hook 'my-html-insert-timestamp)
 
 
-; email system
-; ------------
+;; email system
+;; ------------
 
-;(message "init.el: loading Wanderlust Email Reader")
+;;(message "init.el: loading Wanderlust Email Reader")
 
-;(require 'wanderlust-startup)
+;;(require 'wanderlust-startup)
 
 
-; for the F11 key: if server edit dispatch the buffer, else just kill it
-; ----------------------------------------------------------------------
+;; for the F11 key: if server edit dispatch the buffer, else just kill it
+;; ----------------------------------------------------------------------
 
 (message "init.el: server-edit")
 
@@ -924,14 +922,14 @@
     )
   )
 
-; setup server
-; ------------
+;; setup server
+;; ------------
 
-; setup the server socket to a different value dependant on the
-; current desktop number obtained from KDE dcop program.  Use a shell
-; script to determine the desktop number and call emacsclient with the
-; "-s <socket>" option.
-; The socket path looks like: /tmp/emacs<uid>-<desktop>
+;; setup the server socket to a different value dependant on the
+;; current desktop number obtained from KDE dcop program.  Use a shell
+;; script to determine the desktop number and call emacsclient with the
+;; "-s <socket>" option.
+;; The socket path looks like: /tmp/emacs<uid>-<desktop>
 
 (message "starting server")
 (if (eq system-type 'darwin)
@@ -986,18 +984,18 @@
       (server-start))
 
 
-; British dictionary
-; ------------------
+;; British dictionary
+;; ------------------
 
 (message "init.el: British dictionary")
 
-; not sure why the custom-set-variables does not work for this
-; perhaps the initial load of ispell forces "american"
+;; not sure why the custom-set-variables does not work for this
+;; perhaps the initial load of ispell forces "american"
 (ispell-change-dictionary "british")
 
 
-; special options for non-X11
-; ---------------------------
+;; special options for non-X11
+;; ---------------------------
 
 (unless window-system
   (setq inhibit-splash-screen t)
@@ -1008,8 +1006,8 @@
   )
 
 
-; finished
-; --------
+;; finished
+;; --------
 
 (if window-system
     (message "init.el: Initialisation complete (X11)")
