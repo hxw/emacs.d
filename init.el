@@ -13,6 +13,13 @@
                  load-path))
 
 
+;; my screen size - so it is easy to change
+;; ----------------------------------------
+
+(setq my-lines 46)
+(setq my-columns 123)
+
+
 ;; fonts
 ;; -----
 
@@ -163,8 +170,8 @@
 
 (add-hook 'after-init-hook '(lambda ()
                               (progn
-                                (add-to-list 'default-frame-alist '(height . 46))
-                                (add-to-list 'default-frame-alist '(width . 150)))))
+                                (add-to-list 'default-frame-alist (cons 'height my-lines))
+                                (add-to-list 'default-frame-alist (cons 'width my-columns)))))
 
 
 ;; function keys
