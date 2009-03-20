@@ -526,7 +526,20 @@
 ;;   “java”        The default style for java-mode (see below)
 ;;   “user”        When you want to define your own style
 
-(setq c-default-style "linux")
+(setq c-default-style "bsd")
+
+
+(defun my-tabify ()
+  "tabify the buffer for certain file types"
+  (when (or (string= (substring mode-name 0 2) "C/")
+            (string= (substring mode-name 0 4) "C++/"))
+    (message "tabifying buffer before save")
+    (save-excursion
+      (tabify (point-min) (point-max)))
+    )
+)
+
+(add-hook 'before-save-hook 'my-tabify)
 
 
 ;; miscellaneous items
@@ -610,12 +623,12 @@
   "Remove extraneous spaces at the end of each line"
   (message "remove trailing spaces")
   (save-excursion
-    (goto-char 0)
+    (goto-char (point-min))
     (while (search-forward-regexp "[[:space:]]+$" nil t)
       (replace-match "" nil nil)))
   nil)
 
-(add-hook 'write-file-hooks 'my-remove-trailing-spaces)
+(add-hook 'before-save-hook 'my-remove-trailing-spaces)
 
 
 ;; matching parentheses
@@ -843,7 +856,7 @@
 
 (require 'time-stamp)
 
-(add-hook 'write-file-hooks 'time-stamp)
+(add-hook 'before-save-hook 'time-stamp)
 
 (defun insert-date-iso ()
   (interactive)
@@ -907,7 +920,7 @@
   nil
   )
 
-(add-hook 'write-file-hooks 'my-html-replace-timestamp)
+(add-hook 'before-save-hook 'my-html-replace-timestamp)
 
 ;; for XEmacs html mode
 ;;(setq html-helper-timestamp-hook 'my-html-insert-timestamp)
