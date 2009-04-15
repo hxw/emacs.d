@@ -188,7 +188,7 @@
                        (flyspell-buffer)))
 
 
-(global-set-key [f7] nil)
+(global-set-key [f7] 'set-mark-command)
 (global-set-key [f8] 'call-last-kbd-macro)
 
 ;(global-set-key [f9] nil)
