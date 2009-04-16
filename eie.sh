@@ -4,6 +4,23 @@
 CommandLineEditors="jove: emacs:-nw vim: vi: nano:"
 FrameEditors="emacsclient gnuclient"
 
+DesktopNumber()
+{
+  local CurrentDesktop kwin
+  CurrentDesktop=$(qdbus org.kde.kwin /KWin currentDesktop 2> /dev/null)
+
+  if [ -z "${CurrentDesktop}" ]
+  then
+    kwin=$(dcop 'kwin*' 2> /dev/null | head -n 1)
+    CurrentDesktop=$(dcop "${kwin}" KWinInterface currentDesktop 2> /dev/null)
+  fi
+  if [ -z "${CurrentDesktop}" ]
+  then
+    CurrentDesktop=$(wmctrl -d 2>&1 | awk '/^[[:digit:]]+[[:space:]]+\*[[:space:]]/{ print $1 }')
+  fi
+  echo ${CurrentDesktop}
+}
+
 nf=0
 nw=0
 while :
@@ -17,12 +34,16 @@ do
       nw=1
       shift
       ;;
+    --desktop-number)
+      DesktopNumber
+      exit 0
+      shift
+      ;;
     *)
       break
       ;;
   esac
 done
-
 
 # command line edit
 editor=
@@ -44,15 +65,7 @@ do
 done
 [ -z "${frame_editor}" ] && echo "warning: no in frame editor"
 
-CurrentDesktop=$(qdbus org.kde.kwin /KWin currentDesktop 2> /dev/null)
-
-if [ -z "${CurrentDesktop=}" ]
-then
-  kwin=$(dcop 'kwin*' | head -n 1)
-  CurrentDesktop=$(dcop "${kwin}" KWinInterface currentDesktop 2> /dev/null)
-  #echo kwin = ${kwin}
-fi
-#echo dt = ${CurrentDesktop}
+CurrentDesktop=$(DesktopNumber)
 
 if [ "$?" -eq 0 -a "${nf}" -eq 0 -a -n "${frame_editor}" ]
 then

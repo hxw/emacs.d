@@ -960,52 +960,24 @@
 ;; "-s <socket>" option.
 ;; The socket path looks like: /tmp/emacs<uid>-<desktop>
 
-(message "starting server")
+(message "init.el: Starting server")
+
 (if (eq system-type 'darwin)
     (message "OS: darwin")
   (progn
     (message "OS: other")
-    (let ((dcop (executable-find "dcop"))
-          ;;(dcop-args '("KWinInterface" "currentDesktop"))
-          (qdbus (executable-find "qdbus"))
-          ;;(dbus-args '("org.kde.kwin" "/KWin" "currentDesktop"))
+    (let ((qdesktop (executable-find "eie"))
           (work-buffer "*CurrentScreen*")
           )
-      (if dcop
+      (if qdesktop
           (save-excursion
             (if (bufferp work-buffer) (kill-buffer work-buffer))
-            (call-process dcop nil work-buffer nil "kwin*")
-            (set-buffer work-buffer)
-            (beginning-of-buffer)
-            (let ((s (point)))
-              (end-of-line)
-              (let ((kwin (buffer-substring-no-properties s (point))))
-                (kill-buffer work-buffer)
-
-                (call-process dcop nil work-buffer nil kwin "KWinInterface" "currentDesktop")
-
-                (set-buffer work-buffer)
-                (let ((screen-number (string-to-number (buffer-string))))
-                  (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number))
-                  )
-                (kill-buffer work-buffer)
-                )
-              )
-            )
-        )
-      (if qdbus
-          (save-excursion
-            (if (bufferp work-buffer) (kill-buffer work-buffer))
-            (call-process qdbus nil work-buffer nil "org.kde.kwin" "/KWin" "currentDesktop")
+            (call-process qdesktop nil work-buffer nil "--desktop-number")
             (set-buffer work-buffer)
             (let ((screen-number (string-to-number (buffer-string))))
-              (if (/= 0 screen-number)
-                  (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number))
-                ))
-            (kill-buffer work-buffer)
-            )
-        )
-      )))
+              (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number))
+              )
+            (kill-buffer work-buffer))))))
 
 (when window-system
   (message (format "init.el: server-socket-dir = %s" server-socket-dir))
