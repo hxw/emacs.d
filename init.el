@@ -546,6 +546,8 @@
     )
 )
 
+(setq tabify-regexp "^\t* [ \t]+")
+
 (add-hook 'before-save-hook 'my-tabify)
 
 
