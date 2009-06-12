@@ -605,6 +605,7 @@
        '(("\\.a77\\'" . asm-mode)
          ("\\.inc\\'" . asm-mode)
          ("\\.js\\'" . java-mode)
+         ("\\.4th\\'" . forth-mode)
          )
        auto-mode-alist
        )
@@ -612,7 +613,7 @@
 
 (add-hook 'asm-mode-hook
           '(lambda ()
-             (setq comment-column '48)
+             (setq comment-column '54)
 	     )
 	  )
 
