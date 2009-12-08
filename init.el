@@ -538,8 +538,9 @@
 
 (defun my-tabify ()
   "tabify the buffer for certain file types"
-  (when (or (string= (substring mode-name 0 2) "C/")
-            (string= (substring mode-name 0 4) "C++/"))
+  (interactive)
+  (when (or (string= (substring mode-name 0 (min 2 (length mode-name))) "C/")
+            (string= (substring mode-name 0 (min 4 (length mode-name))) "C++/"))
     (message "tabifying buffer before save")
     (save-excursion
       (tabify (point-min) (point-max)))
@@ -893,6 +894,7 @@
 
 (defun my-html-replace-timestamp ()
   "Customised timestamp insertion function."
+  (interactive)
   (let ((cur (point)))
     (beginning-of-line)
     (goto-char (point-max))
