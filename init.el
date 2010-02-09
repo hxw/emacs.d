@@ -481,6 +481,18 @@
 (add-hook 'haskell-mode-hook 'haskell-unicode)
 
 
+;; Fundamental mode
+;; ----------------
+
+(defun activate-flyspell ()
+  (let ((fn (file-name-nondirectory buffer-file-name)))
+    (cond
+     ((string-equal fn "COMMIT_EDITMSG")
+      (flyspell-mode)))))
+
+(add-hook 'find-file-hook 'activate-flyspell)
+
+
 ;; Lisp mode
 ;; ---------
 
