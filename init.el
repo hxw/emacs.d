@@ -488,6 +488,8 @@
   (let ((fn (file-name-nondirectory buffer-file-name)))
     (cond
      ((string-equal fn "COMMIT_EDITMSG")
+      (flyspell-mode))
+     ((string-equal fn "svn-commit.tmp")
       (flyspell-mode)))))
 
 (add-hook 'find-file-hook 'activate-flyspell)
