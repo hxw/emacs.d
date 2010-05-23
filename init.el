@@ -16,7 +16,7 @@
 ; fonts
 ; -----
 
-(if nil
+(if (not (eq system-type 'darwin))
     (progn
 (setq fs "fontset-default")
 
@@ -28,12 +28,12 @@
 ;(set-fontset-font fs 'chinese-gb2312 "-*-*shanheisun*-medium-r-*--18-*-gb2312*-*")
 ;(set-fontset-font fs 'chinese-big5-1 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
 ;(set-fontset-font fs 'chinese-big5-2 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
-(set-fontset-font fs 'chinese-gb2312 "-*-*-medium-r-*--18-*-gb2312*-*")
-(set-fontset-font fs 'chinese-big5-1 "-*-*-medium-r-*--18-*-big5*-*")
-(set-fontset-font fs 'chinese-big5-2 "-*-*-medium-r-*--*-*-big5*-*")
-(set-fontset-font fs 'chinese-sisheng "-etl-fixed-medium-r-normal-*-18-*-*-*-*-*-sisheng_cwnn-0")
-(set-fontset-font fs 'chinese-cns11643-1 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-1")
-(set-fontset-font fs 'chinese-cns11643-2 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-2")
+;;(set-fontset-font fs 'chinese-gb2312 "-*-*-medium-r-*--18-*-gb2312*-*")
+;;(set-fontset-font fs 'chinese-big5-1 "-*-*-medium-r-*--18-*-big5*-*")
+;;(set-fontset-font fs 'chinese-big5-2 "-*-*-medium-r-*--*-*-big5*-*")
+;;(set-fontset-font fs 'chinese-sisheng "-etl-fixed-medium-r-normal-*-18-*-*-*-*-*-sisheng_cwnn-0")
+;;(set-fontset-font fs 'chinese-cns11643-1 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-1")
+;;(set-fontset-font fs 'chinese-cns11643-2 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-2")
 (set-fontset-font fs 'latin-iso8859-1 "-*-fixed-medium-r-*--18-*-iso8859-1")
 (set-fontset-font fs 'latin-iso8859-2 "-*-fixed-medium-r-*--18-*-iso8859-2")
 (set-fontset-font fs 'latin-iso8859-3 "-*-fixed-medium-r-*--18-*-iso8859-3")
@@ -61,7 +61,7 @@
 (set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--16-*-jisx0212.1990-*")
 (set-fontset-font fs 'japanese-jisx0213-2 "-*-fixed-medium-r-*--18-*-jisx0213.2000-*")
 ;(set-fontset-font fs 'korean-ksc5601 "-*-mincho-medium-r-*--18-*-ksc5601.1987-*")
-(set-fontset-font fs 'korean-ksc5601 "-*-gulim-medium-r-*--18-*-ksc5601.1987-*")
+;(set-fontset-font fs 'korean-ksc5601 "-*-medium-r-*--18-*-ksc5601.1987-*")
 (set-fontset-font fs 'lao "-*-fixed-medium-r-normal-*-*-*-*-*-*-*-mulelao-1")
 ;(set-fontset-font fs 'thai-tis620 "-etl-fixed-medium-r-normal--18-*-tis620.2529-1")
 (set-fontset-font fs 'thai-tis620 "-misc-fixed-medium-r-normal--16-*-tis620.2529-1")
@@ -136,27 +136,31 @@
  '(tooltip-mode nil nil (tooltip))
  '(transient-mark-mode t)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
-;;(custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;; '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
-;; '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal)))))
-;;
-;;; '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :family "fixed"))))
-
-;; from old mac
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:foreground "blue4" :background "lavenderblush" :size "12pt" :family "apple-monaco")))))
 
 
+(if (not (eq system-type 'darwin))
+    (custom-set-faces
+     ;; custom-set-faces was added by Custom.
+     ;; If you edit it by hand, you could mess it up, so be careful.
+     ;; Your init file should contain only one such instance.
+     ;; If there is more than one, they won't work right.
+     ;; '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
+     ;; '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal)))))
+     ;;
+     '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :family "fixed")))))
+
+  ;; from old mac
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(default ((t (:foreground "blue4" :background "lavenderblush" :size "12pt" :family "apple-monaco"))))))
 
 
+
+; adjust window size
+; ------------------
 
 (add-hook 'after-init-hook '(lambda ()
                               (progn
@@ -703,37 +707,37 @@
 ; taskjuggler
 ; -----------
 
-(message "init.el: taskjuggler")
-
-(load "taskjuggler-mode")
-
-
-; task name<digits> "desc"
-; replace the digits with tj-number and increment tj-number
-
-(global-set-key [C-kp-multiply] 'tj-increment)
-(global-set-key [C-kp-subtract] 'tj-reset)
-
-(setq tj-number 1)
-
-(defun tj-reset (arg)
-  "renumber tasks"
-  (interactive "p")
-  (setq tj-number 1)
-)
-
-
-(defun tj-increment (arg)
-  "renumber tasks"
-  (interactive "p")
-  (if (search-forward-regexp "[[:space:]]*task[[:space:]][[:alpha:]_-]*\\([[:digit:]]+\\)")
-      (progn
-        (backward-delete-char (string-width (match-string 1)))
-        (insert-string tj-number)
-        (setq tj-number (+ tj-number 1))
-        ))
-
-)
+;* (message "init.el: taskjuggler")
+;*
+;* (load "taskjuggler-mode")
+;*
+;*
+;* ; task name<digits> "desc"
+;* ; replace the digits with tj-number and increment tj-number
+;*
+;* (global-set-key [C-kp-multiply] 'tj-increment)
+;* (global-set-key [C-kp-subtract] 'tj-reset)
+;*
+;* (setq tj-number 1)
+;*
+;* (defun tj-reset (arg)
+;*   "renumber tasks"
+;*   (interactive "p")
+;*   (setq tj-number 1)
+;* )
+;*
+;*
+;* (defun tj-increment (arg)
+;*   "renumber tasks"
+;*   (interactive "p")
+;*   (if (search-forward-regexp "[[:space:]]*task[[:space:]][[:alpha:]_-]*\\([[:digit:]]+\\)")
+;*       (progn
+;*         (backward-delete-char (string-width (match-string 1)))
+;*         (insert-string tj-number)
+;*         (setq tj-number (+ tj-number 1))
+;*         ))
+;*
+;* )
 
 
 ; binary numbering
@@ -962,9 +966,11 @@
         )
       )))
 
-;(message (format "init.el: server-socket-dir = %s" server-socket-dir))
-;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
-(if window-system (server-start))
+(if window-system
+    (progn
+      (message (format "init.el: server-socket-dir = %s" server-socket-dir))
+      ;;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
+      (server-start)))
 
 ; British dictionary
 ; ------------------
