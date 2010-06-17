@@ -563,11 +563,13 @@
 (defun my-tabify ()
   "tabify the buffer for certain file types"
   (interactive)
-  (when (or (string= (substring mode-name 0 (min 2 (length mode-name))) "C/")
-            (string= (substring mode-name 0 (min 4 (length mode-name))) "C++/"))
-    (message "tabifying buffer before save")
-    (save-excursion
-      (tabify (point-min) (point-max)))
+  (when (stringp mode-name)
+    (when (or (string= (substring mode-name 0 (min 2 (length mode-name))) "C/")
+              (string= (substring mode-name 0 (min 4 (length mode-name))) "C++/"))
+      (message "tabifying buffer before save")
+      (save-excursion
+        (tabify (point-min) (point-max)))
+      )
     )
   )
 
