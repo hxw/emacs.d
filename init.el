@@ -16,14 +16,17 @@
 ;; my screen size - so it is easy to change
 ;; ----------------------------------------
 
-(setq my-lines 46)
+(setq my-lines 38)
 (setq my-columns 123)
 
 
 ;; fonts
 ;; -----
 
-(when (not (eq system-type 'darwin))
+(unless (eq system-type 'darwin)
+
+  (message "init.el: Create fontset")
+
   (setq fs "fontset-default")
 
   ;; cannot change ascii
@@ -34,12 +37,12 @@
   ;;(set-fontset-font fs 'chinese-gb2312 "-*-*shanheisun*-medium-r-*--18-*-gb2312*-*")
   ;;(set-fontset-font fs 'chinese-big5-1 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
   ;;(set-fontset-font fs 'chinese-big5-2 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
-  ;;(set-fontset-font fs 'chinese-gb2312 "-*-*-medium-r-*--18-*-gb2312*-*")
-  ;;(set-fontset-font fs 'chinese-big5-1 "-*-*-medium-r-*--18-*-big5*-*")
-  ;;(set-fontset-font fs 'chinese-big5-2 "-*-*-medium-r-*--*-*-big5*-*")
-  ;;(set-fontset-font fs 'chinese-sisheng "-etl-fixed-medium-r-normal-*-18-*-*-*-*-*-sisheng_cwnn-0")
-  ;;(set-fontset-font fs 'chinese-cns11643-1 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-1")
-  ;;(set-fontset-font fs 'chinese-cns11643-2 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-2")
+  (set-fontset-font fs 'chinese-gb2312 "-*-*-medium-r-*--18-*-gb2312*-*")
+  (set-fontset-font fs 'chinese-big5-1 "-*-*-medium-r-*--18-*-big5*-*")
+  (set-fontset-font fs 'chinese-big5-2 "-*-*-medium-r-*--18-*-big5*-*")
+  (set-fontset-font fs 'chinese-sisheng "-etl-fixed-medium-r-normal-*-18-*-*-*-*-*-sisheng_cwnn-0")
+  (set-fontset-font fs 'chinese-cns11643-1 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-1")
+  (set-fontset-font fs 'chinese-cns11643-2 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-2")
   (set-fontset-font fs 'latin-iso8859-1 "-*-fixed-medium-r-*--18-*-iso8859-1")
   (set-fontset-font fs 'latin-iso8859-2 "-*-fixed-medium-r-*--18-*-iso8859-2")
   (set-fontset-font fs 'latin-iso8859-3 "-*-fixed-medium-r-*--18-*-iso8859-3")
@@ -66,8 +69,9 @@
   ;;(set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--18-*-jisx0212.1990-*")
   (set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--16-*-jisx0212.1990-*")
   (set-fontset-font fs 'japanese-jisx0213-2 "-*-fixed-medium-r-*--18-*-jisx0213.2000-*")
-  ;;(set-fontset-font fs 'korean-ksc5601 "-*-mincho-medium-r-*--18-*-ksc5601.1987-*")
-  ;;(set-fontset-font fs 'korean-ksc5601 "-*-medium-r-*--18-*-ksc5601.1987-*")
+  (set-fontset-font fs 'korean-ksc5601 "-*-mincho-medium-r-*--16-*-ksc5601.1987-*")
+  ;;(set-fontset-font fs 'korean-ksc5601 "-*-gulim-medium-r-*--18-*-ksc5601.1987-*")
+  ;;(set-fontset-font fs 'korean-ksc5601 "-*-batang-medium-r-*--*-*-ksc5601.1987-*")
   (set-fontset-font fs 'lao "-*-fixed-medium-r-normal-*-*-*-*-*-*-*-mulelao-1")
   ;;(set-fontset-font fs 'thai-tis620 "-etl-fixed-medium-r-normal--18-*-tis620.2529-1")
   (set-fontset-font fs 'thai-tis620 "-misc-fixed-medium-r-normal--16-*-tis620.2529-1")
@@ -78,7 +82,6 @@
   (set-fontset-font fs 'mule-unicode-0100-24ff "-misc-fixed-medium-r-normal-*-18-*-*-*-*-*-iso10646-1")
   (set-fontset-font fs 'mule-unicode-2500-33ff "-misc-fixed-medium-r-normal-*-18-*-*-*-*-*-iso10646-1")
   (set-fontset-font fs 'mule-unicode-e000-ffff "-misc-fixed-medium-r-normal-*-18-*-*-*-*-*-iso10646-1")
-
   )
 
 ;;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-0
@@ -119,14 +122,12 @@
  '(case-fold-search t)
  '(current-language-environment "UTF-8")
  '(default-input-method "rfc1345")
- '(display-time-mode t)
+ '(display-time-mode t nil (time))
  '(flyspell-default-dictionary "british")
  '(font-lock-use-colors t)
  '(global-font-lock-mode t nil (font-lock))
  '(indent-tabs-mode nil)
- '(initial-frame-alist (quote ((top . 1) (left . 1) (width . 120) (height . 42))))
  '(ispell-local-dictionary "british")
- '(lpr-page-header-switches (quote ("-F" "-t")))
  '(perl-indent-level 2)
  '(quack-pretty-lambda-p t)
  '(quack-smart-open-paren-p t)
@@ -136,7 +137,7 @@
  '(sh-indent-for-do 0)
  '(sh-indent-for-then 0)
  '(sh-indentation 2)
- '(show-paren-mode t)
+ '(show-paren-mode t nil (paren))
  '(speedbar-show-unknown-files t)
  '(tcl-indent-level 2)
  '(time-stamp-format "%:y-%02m-%02dT%02H:%02M:%02S %:z")
@@ -144,25 +145,25 @@
  '(transient-mark-mode t)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
-
-(if (not (eq system-type 'darwin))
+(if (eq system-type 'darwin)
     (custom-set-faces
      ;; custom-set-faces was added by Custom.
      ;; If you edit it by hand, you could mess it up, so be careful.
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
-     ;; '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
-     ;; '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal)))))
-     ;;
-     '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :family "fixed")))))
+     -   '(default ((t (:foreground "blue4" :background "lavenderblush" :size "12pt" :family "apple-monaco")))))
 
-  ;; from old mac
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   '(default ((t (:foreground "blue4" :background "lavenderblush" :size "12pt" :family "apple-monaco"))))))
+   '(default ((t (:stipple nil :background "MistyRose" :foreground "blue4"
+                           :inverse-video nil :box nil :strike-through nil
+                           :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
+   '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))))
+
+;; '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :family "fixed"))))
 
 
 ;; adjust window size
@@ -347,7 +348,7 @@
 
 (setq auto-mode-alist
       (cons '("\\.ml[iylp]?$" . caml-mode) auto-mode-alist))
-;;(require 'caml-font)
+(require 'caml-font)
 
 
 (defun ocaml-unicode ()
