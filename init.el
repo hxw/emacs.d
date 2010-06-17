@@ -253,6 +253,7 @@
 ;; ---
 
 ;;* (message "init.el: w3m")
+;;*
 ;;* ;; load the interface
 ;;* (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
 ;;* (setq w3m-home-page "http://127.0.0.1/~hsw/")
