@@ -663,7 +663,7 @@
 ;; matching parentheses
 ;; --------------------
 
-(message "init.el: Match parenteses")
+(message "init.el: Match parentheses")
 
 (defun match-paren (arg)
   "Go to the matching parenthesis if on parenthesis otherwise do nothing"
