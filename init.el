@@ -518,6 +518,15 @@
 (add-hook 'lisp-mode-hook 'pretty-greek)
 (add-hook 'emacs-lisp-mode-hook 'pretty-greek)
 
+;; enable slime
+;; ------------
+
+(require 'slime)
+(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+;; Optionally, specify the lisp program you are using. Default is "lisp"
+(setq inferior-lisp-program "sbcl")
+
 
 ;; Ruby mode
 ;; ---------
