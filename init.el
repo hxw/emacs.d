@@ -991,12 +991,13 @@
 ;; "-s <socket>" option.
 ;; The socket path looks like: /tmp/emacs<uid>-<desktop>
 
-(message "init.el: Starting server")
-
 (if (eq system-type 'darwin)
     (message "OS: darwin")
   (progn
     (message "OS: other")
+
+    (message "init.el: Starting server")
+
     (let ((qdesktop (executable-find "eie"))
           (work-buffer "*CurrentScreen*")
           )
@@ -1008,12 +1009,12 @@
             (let ((screen-number (string-to-number (buffer-string))))
               (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number))
               )
-            (kill-buffer work-buffer))))))
+            (kill-buffer work-buffer))))
 
-(when window-system
-  (message (format "init.el: server-socket-dir = %s" server-socket-dir))
-  ;;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
-  (server-start))
+    (when window-system
+      (message (format "init.el: server-socket-dir = %s" server-socket-dir))
+      ;;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
+      (server-start))))
 
 
 ;; British dictionary
