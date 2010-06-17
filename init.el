@@ -251,10 +251,10 @@
 ;; w3m
 ;; ---
 
-;;*(message "init.el: w3m")
-;; load the interface
+;;* (message "init.el: w3m")
+;;* ;; load the interface
 ;;* (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
-;;*(setq w3m-home-page "http://127.0.0.1/~hsw/")
+;;* (setq w3m-home-page "http://127.0.0.1/~hsw/")
 
 ;; To use emacs-w3m on Wanderlust:
 ;; (require 'mime-w3m)
@@ -559,7 +559,7 @@
     (save-excursion
       (tabify (point-min) (point-max)))
     )
-)
+  )
 
 (setq tabify-regexp "^\t* [ \t]+")
 
@@ -771,8 +771,8 @@
 ;;* (load "taskjuggler-mode")
 ;;*
 ;;*
-;;* ; task name<digits> "desc"
-;;* ; replace the digits with tj-number and increment tj-number
+;;* ;; task name<digits> "desc"
+;;* ;; replace the digits with tj-number and increment tj-number
 ;;*
 ;;* (global-set-key [C-kp-multiply] 'tj-increment)
 ;;* (global-set-key [C-kp-subtract] 'tj-reset)
