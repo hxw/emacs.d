@@ -1,4 +1,5 @@
 #!/bin/sh
+# edit file in EMACS, fallback to others if emacs is not present
 
 # format:  command:-option
 CommandLineEditors="jove: emacs:-nw vim: vi: nano:"
