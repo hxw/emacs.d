@@ -1,0 +1,148 @@
+#!/bin/sh
+# copy source-file and Indent using Emacs
+
+ERROR()
+{
+  echo error: $*
+  exit 1
+}
+
+USAGE()
+{
+  [ -z "$1" ] || echo error: $*
+  echo usage: $(basename "$0") '<options...>'
+  echo ' --copy source-file destination-file      Copy indented and tabified source to destination'
+  echo ' --in-place source-files...               In place tabify and indent of each file'
+  echo ' --overwrite                              For --copy to overwrite destination'
+  exit 1
+}
+
+EmacsIndentAndTabity()
+{
+  local verbose overwrite source destination out
+  verbose="$1"; shift
+  overwrite="$1"; shift
+  source=$(readlink -m "$1"); shift
+  destination=$(readlink -m "$1"); shift
+
+  out='cat > /dev/null'
+
+  [ -f "${source}" ] || USAGE source file: ${source} does not exist
+
+  [ -d "${destination}" ] && USAGE destination: ${destination} cannot be a directory
+
+  [ -f "${destination}" -a X"${overwrite}" != X"yes" ] && USAGE file: ${destination} already exists
+
+  if [ X"${verbose}" = X"yes" ]
+    then
+    echo "indent/tabify ${source} -> ${destination}"
+    out='cat'
+  fi
+
+  # use emacs to indent and tabify file
+  # and change DOS style EOL (CRLF) to Unix style (LF)
+  emacs --batch --execute='
+    (progn
+      (setq c-default-style "bsd")
+
+      (setq tabify-regexp "^\t* [ \t]+")
+
+      (find-file "'${source}'")
+
+      (set-buffer-file-coding-system '"'"'unix)
+
+      (goto-line 1)
+      (while (search-forward "\r" nil t)
+        (replace-match "" nil t))
+
+      (delete-trailing-whitespace)
+
+      (tabify (point-min) (point-max))
+      (indent-region (point-min) (point-max))
+
+      (write-file "'${destination}'" nil)
+      (kill-emacs 0))
+  ' 2>&1 | eval ${out}
+}
+
+
+# main program
+# ------------
+
+verbose=no
+overwrite=no
+InPlace=no
+copy=no
+debug=''
+
+getopt=/usr/local/bin/getopt
+[ -x "${getopt}" ] || getopt=getopt
+args=$(${getopt} -o hvoicd: --long=help,verbose,overwrite,in-place,copy,debug: -- "$@") || exit 1
+# replace the arguments with the parsed values
+eval set -- "${args}"
+
+while :
+do
+  case "$1" in
+    -v|--verbose)
+      verbose=yes
+      shift
+      ;;
+
+    -o|--overwrite)
+      overwrite=yes
+      shift
+      ;;
+
+    -i|--in-place)
+      InPlace=yes
+      overwrite=yes
+      shift
+      ;;
+
+    -c|--copy)
+      copy=yes
+      shift
+      ;;
+
+    -d|--debug)
+      debug=$2
+      shift 2
+      ;;
+
+    --)
+      shift
+      break
+      ;;
+
+    -h|--help)
+      USAGE
+      ;;
+
+    *)
+      USAGE invalid option: $1
+      ;;
+  esac
+done
+
+#echo verbose = ${verbose}
+#echo ARGS = "$@"
+
+[ X"${InPlace}" = X"${copy}" ] && USAGE must have only one option set
+
+if [ X"${copy}" = X"yes" ]
+then
+  [ -z "$1" ] && USAGE missing source file
+  [ -z "$2" ] && USAGE missing destination file
+
+  EmacsIndentAndTabity "${verbose}" "${overwrite}" "$1" "$2"
+fi
+
+if [ X"${InPlace}" = X"yes" ]
+then
+
+  for source in "$@"
+  do
+    EmacsIndentAndTabity "${verbose}" "${overwrite}" "${source}" "${source}"
+  done
+fi
