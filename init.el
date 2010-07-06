@@ -612,6 +612,16 @@
 (add-hook 'before-save-hook 'my-tabify)
 
 
+;; awk mode
+;; --------
+
+(message "init.el: awk styles")
+
+(add-hook 'awk-mode-hook
+          '(lambda ()
+             (setq c-basic-offset 4)))
+
+
 ;; miscellaneous items
 ;; -------------------
 
