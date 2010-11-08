@@ -161,9 +161,13 @@
    '(default ((t (:stipple nil :background "MistyRose" :foreground "blue4"
                            :inverse-video nil :box nil :strike-through nil
                            :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
-   '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))))
-
-;; '(default ((t (:stipple nil :background "lavenderblush" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :family "fixed"))))
+   '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
+   '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray10" :height 0.8))))
+   '(tabbar-selected ((t (:inherit tabbar-default :foreground "blue"
+                                   :box (:line-width 1 :color "white" :style pressed-button)))))
+   '(tabbar-unselected ((t (:inherit tabbar-default :foreground "gray20"
+                                     :box (:line-width 1 :color "white" :style released-button))))))
+)
 
 
 ;; adjust window size
@@ -247,6 +251,27 @@
 
 (global-set-key [mouse-4] 'my-mouse-wheel-down)
 (global-set-key [mouse-5] 'my-mouse-wheel-up)
+
+
+;; tabbar
+;; ------
+
+;; from: http://www.emacswiki.org/emacs/TabBarMode
+
+(require 'tabbar)
+(tabbar-mode)
+
+(setq tabbar-buffer-groups-function
+      (lambda ()
+        (list "All Buffers")))
+
+(setq tabbar-buffer-list-function
+      (lambda ()
+        (remove-if
+         (lambda(buffer)
+           (let ((name (buffer-name buffer)))
+             (and (find (aref name 0) " *") (not (string= "*scratch*" name)))))
+         (buffer-list))))
 
 
 ;; w3m
