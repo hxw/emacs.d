@@ -6,3 +6,4 @@ apt-get install emacs-goodies-el
 apt-get install ocaml-mode haskell-mode
 apt-get install slime
 apt-get install pyflakes
+apt-get install yasnippet
