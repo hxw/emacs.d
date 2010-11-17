@@ -647,6 +647,32 @@
              (setq c-basic-offset 4)))
 
 
+;; Python and Django
+;; -----------------
+
+;; see this: http://stackoverflow.com/questions/1257236/django-emacs-as-textmate-replacement
+;; look at the answer by: http://stackoverflow.com/users/2354/benjamin-pollack
+
+
+(when (load "flymake" t)
+  (defun flymake-pyflakes-init ()
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+           (local-file (file-relative-name
+                        temp-file
+                        (file-name-directory buffer-file-name))))
+      (list "pyflakes" (list local-file))))
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.py\\'" flymake-pyflakes-init)))
+
+(add-hook 'python-mode-hook 'flymake-mode)
+
+;; nXhtml mode, from: http://ourcomments.org/Emacs/nXhtml/doc/nxhtml.html
+(when (load "~/nxhtml/autostart.el")
+  (setq mumamo-background-colors nil)
+  (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode)))
+
+
 ;; miscellaneous items
 ;; -------------------
 
