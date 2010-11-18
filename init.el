@@ -270,7 +270,9 @@
         (remove-if
          (lambda(buffer)
            (let ((name (buffer-name buffer)))
-             (and (find (aref name 0) " *") (not (string= "*scratch*" name)))))
+             (or (string-match "\\.html-template-indent-buffer$" name)
+                 (and (find (aref name 0) " *")
+                      (not (string= "*scratch*" name))))))
          (buffer-list))))
 
 
