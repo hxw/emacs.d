@@ -16,8 +16,17 @@
 ;; my screen size - so it is easy to change
 ;; ----------------------------------------
 
-(setq my-lines 38)
-(setq my-columns 123)
+;;(setq my-lines 38)
+;;(setq my-columns 123)
+
+(defun my-lines ()
+  "compute screen lines"
+  (/ (- (display-pixel-height) 150) (frame-char-height)))
+
+(defun my-columns ()
+  "compute screen columns"
+  (/ (- (display-pixel-width) 50) (frame-char-width)))
+
 
 
 ;; fonts
@@ -175,8 +184,8 @@
 
 (add-hook 'after-init-hook '(lambda ()
                               (progn
-                                (add-to-list 'default-frame-alist (cons 'height my-lines))
-                                (add-to-list 'default-frame-alist (cons 'width my-columns)))))
+                                (add-to-list 'default-frame-alist (cons 'height (my-lines)))
+                                (add-to-list 'default-frame-alist (cons 'width (my-columns))))))
 
 
 ;; function keys
@@ -665,12 +674,15 @@
                         (file-name-directory buffer-file-name))))
       (list "pyflakes" (list local-file))))
   (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pyflakes-init)))
+               '("\\.py\\'" flymake-pyflakes-init))
 
-(add-hook 'python-mode-hook 'flymake-mode)
+  (add-hook 'python-mode-hook 'flymake-mode))
+
 
 ;; nXhtml mode, from: http://ourcomments.org/Emacs/nXhtml/doc/nxhtml.html
-(when (load "~/nxhtml/autostart.el")
+;; ----------------------------------------------------------------------
+
+(when (load "~/nxhtml/autostart.el" t)
   (setq mumamo-background-colors nil)
   (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode)))
 
@@ -1121,6 +1133,14 @@
 ;; not sure why the custom-set-variables does not work for this
 ;; perhaps the initial load of ispell forces "american"
 (ispell-change-dictionary "british")
+
+
+;; special options for X11
+;; ---------------------------
+
+(when window-system
+  (set-frame-position (selected-frame) 0 0)
+  (set-frame-parameter (selected-frame) 'fullscreen 'fullwidth))
 
 
 ;; special options for non-X11
