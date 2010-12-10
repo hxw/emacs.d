@@ -182,7 +182,7 @@
 ;; adjust window size
 ;; ------------------
 
-(add-hook 'after-init-hook '(lambda ()
+(add-hook 'after-init-hook #'(lambda ()
                               (progn
                                 (add-to-list 'default-frame-alist (cons 'height (my-lines)))
                                 (add-to-list 'default-frame-alist (cons 'width (my-columns))))))
@@ -580,7 +580,7 @@
 ;;        (sbcl ("sbcl") :coding-system utf-8-unix)))
 ;;        (sbcl ("sbcl" "--core" "~/sbcl.core-for-slime"))))
       (list (list 'sbcl (list "sbcl" "--core" (expand-file-name "~/sbcl.core-with-swank"))
-                  :init '(lambda (port-file _)
+                  :init #'(lambda (port-file _)
                            (format "(swank:start-server %S)\n" port-file))
                   :coding-system 'utf-8-unix)))
 
@@ -611,7 +611,7 @@
 (add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
 (autoload 'run-ruby "inf-ruby" "Run an inferior Ruby process")
 (autoload 'inf-ruby-keys "inf-ruby" "Set local key defs for inf-ruby in ruby-mode")
-(add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys)))
+(add-hook 'ruby-mode-hook #'(lambda () (inf-ruby-keys)))
 
 
 ;; C mode
@@ -656,7 +656,7 @@
 (message "init.el: awk styles")
 
 (add-hook 'awk-mode-hook
-          '(lambda ()
+          #'(lambda ()
              (setq c-basic-offset 4)))
 
 
@@ -750,13 +750,13 @@
       )
 
 (add-hook 'asm-mode-hook
-          '(lambda ()
+          #'(lambda ()
              (setq comment-column '54)
 	     )
 	  )
 
 ;;(add-hook 'asm-mode-set-comment-hook
-;;          '(lambda ()
+;;          #'(lambda ()
 ;;             (setq asm-comment-char ?@)
 ;;	     )
 ;;	  )
@@ -934,7 +934,7 @@
   (let ((carry 1))
     (concat
      (reverse
-      (mapcar '(lambda (x)
+      (mapcar #'(lambda (x)
 		 (cond
 		  ((and (= carry 1) (= x ?1)) ?0)
 		  ((and (= carry 1) (= x ?0)) (setq carry 0) ?1)
