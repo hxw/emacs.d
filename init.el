@@ -947,7 +947,7 @@
   "read a binary string from the cursor and place the incremented value below it"
   (interactive "p")
   (beginning-of-line)
-  (let ((re "[[:space:]]*[01]+[01[:space:]]*[01][[:space:]]"))
+  (let ((re "[[:space:]]*\\([01]+[01[:space:]]*\\)+"))
     (if (looking-at re)
         (let ((start-pos (point)))
           (goto-char start-pos)
