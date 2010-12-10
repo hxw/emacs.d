@@ -522,6 +522,8 @@
 ;; Fundamental mode
 ;; ----------------
 
+(setq flyspell-issue-welcome-flag nil) ;; workaround bug #619015 in ubuntu 10.10
+
 (defun activate-flyspell ()
   (let ((fn (file-name-nondirectory buffer-file-name)))
     (cond
