@@ -650,6 +650,16 @@
 (add-hook 'before-save-hook 'my-tabify)
 
 
+;; Java mode
+;; ---------
+
+(message "init.el: Java styles")
+
+
+(add-hook 'java-mode-hook #'(lambda ()
+                              (setq c-basic-offset 4)))
+
+
 ;; awk mode
 ;; --------
 
