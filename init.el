@@ -752,7 +752,7 @@
       (append
        '(("\\.a77\\'" . asm-mode)
          ("\\.inc\\'" . asm-mode)
-         ("\\.js\\'" . java-mode)
+         ("\\.js\\'" . js2-mode)
          ("\\.4th\\'" . forth-mode)
          )
        auto-mode-alist
