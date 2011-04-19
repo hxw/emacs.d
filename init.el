@@ -120,10 +120,10 @@
 
 
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
  '(Buffer-menu-buffer+size-width 100)
  '(Buffer-menu-mode-width 120)
  '(buffers-menu-max-size 30)
@@ -138,6 +138,10 @@
  '(indent-tabs-mode nil)
  '(ispell-local-dictionary "british")
  '(perl-indent-level 2)
+ '(ps-font-size (quote (8 . 8.5)))
+ '(ps-landscape-mode t)
+ '(ps-printer-name "HP-5550")
+ '(ps-printer-name-option "-P")
  '(quack-pretty-lambda-p t)
  '(quack-smart-open-paren-p t)
  '(scroll-bar-mode (quote right))
@@ -196,7 +200,6 @@
 ;;(global-set-key [f1] 'save-buffers-kill-emacs)
 (global-set-key [f2] 'save-buffer)
 (global-set-key [f3] 'match-paren)
-;;(global-set-key [f4] 'switch-to-buffer)
 (global-set-key [f4] (lambda () "toggle between buffers" (interactive) (switch-to-buffer nil)))
 
 (global-set-key [f5] 'toggle-case-char-at-point)
@@ -213,7 +216,7 @@
 
 (global-set-key [f8] 'call-last-kbd-macro)
 
-;;(global-set-key [f9] nil)
+(global-set-key [f9] 'delete-trailing-whitespace)
 (global-set-key [f10] 'bury-buffer)
 (global-set-key [f11] 'my-server-edit)
 (global-set-key [f12] 'delete-other-windows)
@@ -323,6 +326,11 @@
                       ('right-arrow 8594)
                       ('down-arrow 8595)
 
+                      ('leftwards-double-arrow #X21D0)
+                      ('upwards-double-arrow #X21D1)
+                      ('rightwards-double-arrow #X21D2)
+                      ('downwards-double-arrow #X21D3)
+
                       ;; boxes
                       ('double-vertical-bar #X2551)
 
@@ -335,6 +343,9 @@
                       ('greater-than #X003e)
                       ('less-than-or-equal-to #X2264)
                       ('greater-than-or-equal-to #X2265)
+
+                      ('equivalent-to #X224D)
+                      ('strictly-equivalent-to #X2263)
 
                       ;; logical operators
                       ('logical-and #X2227)
@@ -519,6 +530,34 @@
 	 (cons "\\(\\.\\.\\)" 'horizontal-ellipsis))))
 
 (add-hook 'haskell-mode-hook 'haskell-unicode)
+
+
+;; Erlang mode
+;; -----------
+
+(defun erlang-unicode ()
+  (interactive)
+  (substitute-patterns-with-unicode
+   (list (cons "[^<]\\(<-\\)" 'left-arrow)
+	 (cons "\\(->\\)[^>]" 'right-arrow)
+	 (cons "\\(=:=\\)" 'identical)
+	 (cons "\\(=/=\\)" 'not-identical)
+	 (cons "[^=]\\(==\\)[^=]" 'equal)
+	 (cons "[^=]\\(/=\\)" 'not-equal)
+	 (cons "[^=/<>]\\(=\\)[^=/<>]" 'equivalent-to)
+	 ;;(cons "\\(\\[\\]\\)" 'nil)
+	 (cons "\\<\\(sqrt\\)\\>" 'square-root)
+	 ;;(cons "\\(&&\\)" 'logical-and)
+	 ;;(cons "\\(||\\)" 'logical-or)
+	 ;;(cons "\\<\\(not\\)\\>" 'logical-neg)
+	 (cons "\\(>\\)[^=]" 'greater-than)
+	 (cons "[^=]\\(<\\)" 'less-than)
+	 (cons "\\(>=\\)" 'greater-than-or-equal-to)
+	 (cons "\\(=<\\)" 'less-than-or-equal-to)
+	 (cons "\\(!!\\)" 'double-exclamation)
+         )))
+
+(add-hook 'erlang-mode-hook 'erlang-unicode)
 
 
 ;; Fundamental mode
@@ -1176,3 +1215,13 @@
     (message "init.el: Initialisation complete (X11)")
   (message "init.el: Initialisation complete (command)")
   )
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(default ((t (:stipple nil :background "MistyRose" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
+ '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
+ '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray10" :height 0.8))))
+ '(tabbar-selected ((t (:inherit tabbar-default :foreground "blue" :box (:line-width 1 :color "white" :style pressed-button)))))
+ '(tabbar-unselected ((t (:inherit tabbar-default :foreground "gray20" :box (:line-width 1 :color "white" :style released-button))))))
