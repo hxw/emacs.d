@@ -137,6 +137,12 @@
  '(global-font-lock-mode t nil (font-lock))
  '(indent-tabs-mode nil)
  '(ispell-local-dictionary "british")
+ '(js2-allow-keywords-as-property-names nil)
+ '(js2-auto-indent-p t)
+ '(js2-bounce-indent-p nil)
+ '(js2-cleanup-whitespace t)
+ '(js2-enter-indents-newline t)
+ '(js2-indent-on-enter-key t)
  '(perl-indent-level 2)
  '(ps-font-size (quote (8 . 8.5)))
  '(ps-landscape-mode t)
@@ -197,31 +203,28 @@
 
 (message "init.el: Function keys")
 
-;;(global-set-key [f1] 'save-buffers-kill-emacs)
-(global-set-key [f2] 'save-buffer)
-(global-set-key [f3] 'match-paren)
-(global-set-key [f4] (lambda () "toggle between buffers" (interactive) (switch-to-buffer nil)))
+;;(global-set-key (kbd "<f1>") 'save-buffers-kill-emacs)
+(global-set-key (kbd "<f2>") 'save-buffer)
+(global-set-key (kbd "<f3>") 'match-paren)
+(global-set-key (kbd "<f4>") (lambda () "toggle between buffers" (interactive) (switch-to-buffer nil)))
 
-(global-set-key [f5] 'toggle-case-char-at-point)
+(global-set-key (kbd "<f5>") 'toggle-case-char-at-point)
 
-(global-set-key [f6] (lambda (arg)
+(global-set-key (kbd "<f6>") (lambda (arg)
                        "set up flyspell"
                        (interactive "p")
                        (flyspell-mode 1)
                        (flyspell-buffer)))
 
 
-(global-set-key [f7] 'set-mark-command)
-(global-set-key [?\s- ] 'set-mark-command)
+(global-set-key (kbd "<f7>") 'set-mark-command)
+(global-set-key (kbd "S-SPC") 'set-mark-command)
+(global-set-key (kbd "<f8>") 'call-last-kbd-macro)
 
-(global-set-key [f8] 'call-last-kbd-macro)
-
-(global-set-key [f9] 'delete-trailing-whitespace)
-(global-set-key [f10] 'bury-buffer)
-(global-set-key [f11] 'my-server-edit)
-(global-set-key [f12] 'delete-other-windows)
-
-;;(global-set-key [C-S-f12] 'wl)
+(global-set-key (kbd "<f9>") 'delete-trailing-whitespace)
+(global-set-key (kbd "<f10>") 'bury-buffer)
+(global-set-key (kbd "<f11>") 'my-server-edit)
+(global-set-key (kbd "<f12>") 'delete-other-windows)
 
 
 ;; miscellaneous keys
@@ -230,20 +233,20 @@
 (message "init.el: Global keys")
 
 
-(global-set-key "\M-z" 'save-buffer)
-(global-set-key "\M-g" 'goto-line)
-(global-set-key [kp_5] 'goto-line)   ; 5
-(global-set-key [begin] 'goto-line)   ; 5
-(global-set-key "\C-\\" 'undo)
-(global-set-key "\M-ESC" 'keyboard-quit) ; Esc-Esc
-(global-set-key [pause] 'eval-region) ; Pause
+(global-set-key (kbd "M-z") 'save-buffer)
+(global-set-key (kbd "M-g") 'goto-line)
+(global-set-key (kbd "<kp_5>") 'goto-line)   ; 5
+(global-set-key (kbd "<home>") 'goto-line)   ; 5
+(global-set-key (kbd "C-\\") 'undo)
+(global-set-key (kbd "M-ESC") 'keyboard-quit) ; Esc-Esc
+(global-set-key (kbd "<pause>") 'eval-region) ; Pause
 
-(global-set-key [C-prior] 'beginning-of-buffer) ; CTRL-Page Up
-(global-set-key [C-next] 'end-of-buffer) ; CTRL-Page Down
+(global-set-key (kbd "C-<prior>") 'beginning-of-buffer) ; CTRL-Page Up
+(global-set-key (kbd "C-<next>") 'end-of-buffer) ; CTRL-Page Down
 
 (when window-system
-  (global-unset-key "\C-z") ; iconify-or-deiconify-frame (C-x C-z)
-  (global-unset-key [insert])
+  (global-unset-key (kbd "C-z")) ; iconify-or-deiconify-frame (C-x C-z)
+  (global-unset-key (kbd "<insert>"))
   )
 
 
@@ -263,8 +266,8 @@
   (scroll-down 1)
   )
 
-(global-set-key [mouse-4] 'my-mouse-wheel-down)
-(global-set-key [mouse-5] 'my-mouse-wheel-up)
+(global-set-key (kbd "<mouse-4>") 'my-mouse-wheel-down)
+(global-set-key (kbd "<mouse-5>") 'my-mouse-wheel-up)
 
 
 ;; tabbar
@@ -540,6 +543,8 @@
   (substitute-patterns-with-unicode
    (list (cons "[^<]\\(<-\\)" 'left-arrow)
 	 (cons "\\(->\\)[^>]" 'right-arrow)
+         (cons "[^<]\\(<=\\)" 'leftwards-double-arrow)
+	 (cons "\\(=>\\)[^>]" 'rightwards-double-arrow)
 	 (cons "\\(=:=\\)" 'identical)
 	 (cons "\\(=/=\\)" 'not-identical)
 	 (cons "[^=]\\(==\\)[^=]" 'equal)
@@ -718,6 +723,9 @@
 ;; look at the answer by: http://stackoverflow.com/users/2354/benjamin-pollack
 
 
+(defun my-set-flymake-mode ()
+  (flymake-mode 1))
+
 (when (load "flymake" t)
   (defun flymake-pyflakes-init ()
     (let* ((temp-file (flymake-init-create-temp-buffer-copy
@@ -729,7 +737,7 @@
   (add-to-list 'flymake-allowed-file-name-masks
                '("\\.py\\'" flymake-pyflakes-init))
 
-  (add-hook 'python-mode-hook 'flymake-mode))
+  (add-hook 'python-mode-hook 'my-set-flymake-mode))
 
 
 ;; nXhtml mode, from: http://ourcomments.org/Emacs/nXhtml/doc/nxhtml.html
@@ -838,8 +846,8 @@
 
 (message "init.el: Spreadsheet")
 
-(global-set-key [C-kp-multiply] 'sc-calc)
-(global-set-key [C-kp-add] 'sc-total)
+(global-set-key (kbd "C-<kp-multiply>") 'sc-calc)
+(global-set-key (kbd "C-<kp-add>") 'sc-total)
 
 (defun sc-calc (arg)
   "multiply quantity by unit price"
@@ -947,8 +955,8 @@
 ;;* ;; task name<digits> "desc"
 ;;* ;; replace the digits with tj-number and increment tj-number
 ;;*
-;;* (global-set-key [C-kp-multiply] 'tj-increment)
-;;* (global-set-key [C-kp-subtract] 'tj-reset)
+;;* (global-set-key (kbd "C-<kp-multiply>") 'tj-increment)
+;;* (global-set-key (kbd "C-<kp-subtract>") 'tj-reset)
 ;;*
 ;;* (setq tj-number 1)
 ;;*
@@ -977,7 +985,7 @@
 
 (message "init.el: Binary numbering")
 
-(global-set-key [C-kp-divide] 'binary-increment)
+(global-set-key (kbd "C-<kp-divide>") 'binary-increment)
 
 
 (defun binary-increment-string (bin-str)
@@ -1051,30 +1059,10 @@
   (interactive)
   (insert (format-time-string "%Y-%m-%dT%R%z")))
 
-;; can this be replaces by a variation of the above
-(defun my-current-time-zone ()
-  "convert time zone to [+-]hh:mm"
-  (let ((tz (car (current-time-zone)))
-	(sec-per-hr (* 60 60))
-        )
-    (cond
-     ((> tz 0) (format "+%02d:%02d"
-                       (/ tz sec-per-hr)
-                       (% tz sec-per-hr)))
-     ((format "+%02d:%02d"
-              (/ (- tz) sec-per-hr)
-              (% (- tz) sec-per-hr)))
-     )
-    )
-  )
-
 (defun my-html-insert-timestamp ()
   "Customised timestamp insertion function."
   (insert "Last modified: "
-	  (time-stamp-yyyy-mm-dd)
-	  "T"
-	  (time-stamp-hh:mm:ss)
-	  (my-current-time-zone)
+	  (format-time-string "%Y-%m-%dT%R%z")
 	  "\n"
 	  )
   )
