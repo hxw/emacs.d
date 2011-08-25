@@ -13,6 +13,15 @@
                  load-path))
 
 
+;; enable or disable some options
+;; ------------------------------
+
+(setq *local-tabbar-enabled* nil)
+
+;; override certain of the above options on a machine-by-machine basis
+(load "local-config" t)
+
+
 ;; my screen size - so it is easy to change
 ;; ----------------------------------------
 
@@ -179,13 +188,15 @@
    ;; If there is more than one, they won't work right.
    '(default ((t (:stipple nil :background "MistyRose" :foreground "blue4"
                            :inverse-video nil :box nil :strike-through nil
-                           :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
+                           :overline nil :underline nil :slant normal
+                           :weight normal :width normal :height 120))))
    '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
    '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray10" :height 0.8))))
    '(tabbar-selected ((t (:inherit tabbar-default :foreground "blue"
                                    :box (:line-width 1 :color "white" :style pressed-button)))))
    '(tabbar-unselected ((t (:inherit tabbar-default :foreground "gray20"
                                      :box (:line-width 1 :color "white" :style released-button))))))
+
 )
 
 
@@ -275,23 +286,24 @@
 
 ;; from: http://www.emacswiki.org/emacs/TabBarMode
 
-(require 'tabbar)
-(tabbar-mode)
+(when *local-tabbar-enabled*
+  (require 'tabbar)
+  (tabbar-mode)
 
-(setq tabbar-buffer-groups-function
-      (lambda ()
-        (list "All Buffers")))
+  (setq tabbar-buffer-groups-function
+        (lambda ()
+          (list "All Buffers")))
 
-(setq tabbar-buffer-list-function
-      (lambda ()
-        (remove-if
-         (lambda(buffer)
-           (let ((name (buffer-name buffer)))
-             (or (string-match "\\.html-template-indent-buffer$" name)
-                 (and (find (aref name 0) " *")
-                      (not (string= "*scratch*" name))))))
-         (buffer-list))))
-
+  (setq tabbar-buffer-list-function
+        (lambda ()
+          (remove-if
+           (lambda(buffer)
+             (let ((name (buffer-name buffer)))
+               (or (string-match "\\.html-template-indent-buffer$" name)
+                   (and (find (aref name 0) " *")
+                        (not (string= "*scratch*" name))))))
+           (buffer-list))))
+  )
 
 ;; w3m
 ;; ---
@@ -744,6 +756,7 @@
 ;; ----------------------------------------------------------------------
 
 (when (load "~/nxhtml/autostart.el" t)
+  (message "init.el: nXhtml")
   (setq mumamo-background-colors nil)
   (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode)))
 
@@ -1203,13 +1216,3 @@
     (message "init.el: Initialisation complete (X11)")
   (message "init.el: Initialisation complete (command)")
   )
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:stipple nil :background "MistyRose" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
- '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
- '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray10" :height 0.8))))
- '(tabbar-selected ((t (:inherit tabbar-default :foreground "blue" :box (:line-width 1 :color "white" :style pressed-button)))))
- '(tabbar-unselected ((t (:inherit tabbar-default :foreground "gray20" :box (:line-width 1 :color "white" :style released-button))))))
