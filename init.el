@@ -412,7 +412,7 @@
 (message "init.el: ocaml")
 
 (setq auto-mode-alist
-      (cons '("\\.ml[iylp]?$" . caml-mode) auto-mode-alist))
+      (cons '("\\.ml[iylp]?$" . tuareg-mode) auto-mode-alist))
 (require 'caml-font)
 
 
