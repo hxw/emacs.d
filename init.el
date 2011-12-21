@@ -815,6 +815,8 @@
 
 (message "init.el: mode alist changes")
 
+(require 'markdown-mode)
+
 (setq auto-mode-alist
       (append
        '(("\\.a77\\'" . asm-mode)
