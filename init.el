@@ -123,6 +123,7 @@
 ;; -------------------
 
 (message "init.el: Customisation")
+(require 'ps-mule)
 
 ;; '(face-font-family-alternatives (quote (("liberation mono" "courier" "fixed") ("helv" "helvetica" "arial" "fixed") ("yhunifont" "ming for iso10646 " "ar pl mingti2l big5" "ar pl shanheisun uni" "ar pl new sung"))))
 ;; '(face-font-registry-alternatives (quote (("iso10646-1") ("gb2312.1980" "gb2312.80&gb8565.88" "gbk*") ("jisx0208.1990" "jisx0208.1983" "jisx0208.1978") ("ksc5601.1989" "ksx1001.1992" "ksc5601.1987") ("big5-0" "big5.eten-0" "big5*") ("muletibetan-2" "muletibetan-0") ("iso10646-1"))))
@@ -155,7 +156,8 @@
  '(perl-indent-level 2)
  '(ps-font-size (quote (8 . 8.5)))
  '(ps-landscape-mode t)
- '(ps-printer-name "HP-5550")
+ '(ps-multibyte-buffer (quote bdf-font-except-latin))
+ '(ps-printer-name "HP_5550")
  '(ps-printer-name-option "-P")
  '(quack-pretty-lambda-p t)
  '(quack-smart-open-paren-p t)
