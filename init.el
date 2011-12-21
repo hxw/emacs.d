@@ -254,7 +254,8 @@
 (global-set-key (kbd "M-ESC") 'keyboard-quit) ; Esc-Esc
 (global-set-key (kbd "<pause>") 'eval-region) ; Pause
 
-(global-set-key (kbd "C-<menu>") 'compile) ; CTRL-Menu
+(global-set-key (kbd "C-<menu>") 'recompile)  ; CTRL-Menu
+(global-set-key (kbd "M-<menu>") 'next-error) ; ALT-Menu
 
 (global-set-key (kbd "C-<prior>") 'beginning-of-buffer) ; CTRL-Page Up
 (global-set-key (kbd "C-<next>") 'end-of-buffer) ; CTRL-Page Down
