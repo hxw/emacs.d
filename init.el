@@ -823,6 +823,7 @@
          ("\\.inc\\'" . asm-mode)
          ("\\.js\\'" . js2-mode)
          ("\\.4th\\'" . forth-mode)
+         ("\\.pde\\'" . c++-mode)
          ("\\.md\\'" . markdown-mode)
          )
        auto-mode-alist
