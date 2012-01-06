@@ -581,6 +581,14 @@
 
 (add-hook 'erlang-mode-hook 'erlang-unicode)
 
+;; FreeBSD EMACS mode is installed in a special place
+(if (eq system-type 'berkeley-unix)
+    (progn
+      (setq load-path (cons "/usr/local/lib/erlang/lib/tools-2.6.6.5/emacs" load-path))
+      (setq erlang-root-dir "/usr/local/lib/erlang")
+      (setq exec-path (cons " /usr/local/lib/erlang/bin" exec-path))
+      (require 'erlang-start)))
+
 
 ;; Fundamental mode
 ;; ----------------
