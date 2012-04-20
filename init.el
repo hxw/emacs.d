@@ -235,6 +235,16 @@
 (global-set-key (kbd "<f8>") 'call-last-kbd-macro)
 
 (global-set-key (kbd "<f9>") 'delete-trailing-whitespace)
+
+(load-library "mml")
+(global-set-key (kbd "C-<f9>") (lambda () "mime to mml"
+                                 (interactive)
+                                 (toggle-read-only 0)
+                                 (mime-to-mml)
+                                 (not-modified)
+                                 (toggle-read-only 1)))
+
+
 (global-set-key (kbd "<f10>") 'bury-buffer)
 (global-set-key (kbd "<f11>") 'my-server-edit)
 (global-set-key (kbd "<f12>") 'delete-other-windows)
@@ -1233,3 +1243,14 @@
     (message "init.el: Initialisation complete (X11)")
   (message "init.el: Initialisation complete (command)")
   )
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(default ((t (:stipple nil :background "MistyRose" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
+ '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
+ '(js2-warning-face ((((class color) (background light)) (:foreground "orange" :underline "orange"))))
+ '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray10" :height 0.8))))
+ '(tabbar-selected ((t (:inherit tabbar-default :foreground "blue" :box (:line-width 1 :color "white" :style pressed-button)))))
+ '(tabbar-unselected ((t (:inherit tabbar-default :foreground "gray20" :box (:line-width 1 :color "white" :style released-button))))))
