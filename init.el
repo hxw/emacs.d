@@ -296,6 +296,13 @@
 (global-set-key (kbd "<mouse-5>") 'my-mouse-wheel-up)
 
 
+;; compilation window
+;; ------------------
+
+(setq split-height-threshold nil)
+(setq split-width-threshold 0)
+
+
 ;; tabbar
 ;; ------
 
