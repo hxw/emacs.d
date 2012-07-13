@@ -30,12 +30,11 @@
 
 (defun my-lines ()
   "compute screen lines"
-  (/ (- (display-pixel-height) 150) (frame-char-height)))
+  (/ (- (display-pixel-height) 50) (frame-char-height)))
 
 (defun my-columns ()
   "compute screen columns"
   (/ (- (display-pixel-width) 50) (frame-char-width)))
-
 
 
 ;; fonts
@@ -201,6 +200,12 @@
 
 )
 
+;; menubar/toolbar
+;; ---------------
+
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+
 
 ;; adjust window size
 ;; ------------------
@@ -301,6 +306,9 @@
 
 (setq split-height-threshold nil)
 (setq split-width-threshold 0)
+
+;; on compile scroll the split window
+(setq compilation-scroll-output t)
 
 
 ;; tabbar
