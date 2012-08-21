@@ -152,6 +152,8 @@
  '(js2-cleanup-whitespace t)
  '(js2-enter-indents-newline t)
  '(js2-indent-on-enter-key t)
+ '(lua-indent-level 4)
+ '(menu-bar-mode nil)
  '(perl-indent-level 2)
  '(ps-font-size (quote (8 . 8.5)))
  '(ps-landscape-mode t)
@@ -170,8 +172,8 @@
  '(speedbar-show-unknown-files t)
  '(tcl-indent-level 2)
  '(time-stamp-format "%:y-%02m-%02dT%02H:%02M:%02S %:z")
+ '(tool-bar-mode nil)
  '(tooltip-mode nil nil (tooltip))
- '(transient-mark-mode t)
  '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
 
 (if (eq system-type 'darwin)
