@@ -262,7 +262,6 @@
 
 (message "init.el: Global keys")
 
-
 (global-set-key (kbd "M-z") 'save-buffer)
 (global-set-key (kbd "M-g") 'goto-line)
 (global-set-key (kbd "<kp_5>") 'goto-line)   ; 5
@@ -271,9 +270,6 @@
 (global-set-key (kbd "M-ESC") 'keyboard-quit) ; Esc-Esc
 (global-set-key (kbd "<pause>") 'eval-region) ; Pause
 
-(global-set-key (kbd "C-<menu>") 'recompile)  ; CTRL-Menu
-(global-set-key (kbd "M-<menu>") 'next-error) ; ALT-Menu
-
 (global-set-key (kbd "C-<prior>") 'beginning-of-buffer) ; CTRL-Page Up
 (global-set-key (kbd "C-<next>") 'end-of-buffer) ; CTRL-Page Down
 
@@ -281,6 +277,44 @@
   (global-unset-key (kbd "C-z")) ; iconify-or-deiconify-frame (C-x C-z)
   (global-unset-key (kbd "<insert>"))
   )
+
+
+;; compilation keys
+;; ----------------
+
+(message "init.el: compilation setup")
+
+;; Makefile detect in current or higher directory
+;; then recompile
+
+(defun my-recompile (arg)
+  "Search for Makefile and recompile"
+  (interactive "p")
+  (unless (or (file-exists-p "Makefile")
+              (local-variable-p 'compile-command))
+    (loop for the-dir = ".." then (concat the-dir "/..")
+          until (string-equal "/" (file-truename the-dir))
+          until (local-variable-p 'compile-command)
+          when (file-exists-p (concat the-dir "/Makefile"))
+          do (progn
+               (set (make-local-variable 'compile-command)
+                    (concat "make -k -C " (directory-file-name the-dir)))
+               (return))))
+  (recompile))
+
+
+(global-set-key (kbd "C-<menu>") 'my-recompile)  ; CTRL-Menu
+(global-set-key (kbd "M-<menu>") 'next-error) ; ALT-Menu
+
+;; compilation window
+
+(setq split-height-threshold nil)
+(setq split-width-threshold 0)
+
+;; on compile scroll the split window
+;;(setq compilation-scroll-output t)
+;; on compile scroll the split window and scroll to first error
+(setq compilation-scroll-output 'first-error)
 
 
 ;; mouse wheel
@@ -301,16 +335,6 @@
 
 (global-set-key (kbd "<mouse-4>") 'my-mouse-wheel-down)
 (global-set-key (kbd "<mouse-5>") 'my-mouse-wheel-up)
-
-
-;; compilation window
-;; ------------------
-
-(setq split-height-threshold nil)
-(setq split-width-threshold 0)
-
-;; on compile scroll the split window
-(setq compilation-scroll-output t)
 
 
 ;; tabbar
