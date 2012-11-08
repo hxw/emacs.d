@@ -194,12 +194,12 @@
                            :overline nil :underline nil :slant normal
                            :weight normal :width normal :height 120))))
    '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
+   '(js2-warning-face ((((class color) (background light)) (:foreground "orange" :underline "orange"))))
    '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray10" :height 0.8))))
    '(tabbar-selected ((t (:inherit tabbar-default :foreground "blue"
                                    :box (:line-width 1 :color "white" :style pressed-button)))))
    '(tabbar-unselected ((t (:inherit tabbar-default :foreground "gray20"
                                      :box (:line-width 1 :color "white" :style released-button))))))
-
 )
 
 ;; menubar/toolbar
@@ -881,9 +881,11 @@
        '(("\\.a77\\'" . asm-mode)
          ("\\.inc\\'" . asm-mode)
          ("\\.js\\'" . js2-mode)
+         ("\\.json\\'" . js2-mode)
          ("\\.4th\\'" . forth-mode)
          ("\\.pde\\'" . c++-mode)
          ("\\.md\\'" . markdown-mode)
+         ("\\.app.src\\'" . erlang-mode)
          )
        auto-mode-alist
        )
@@ -1284,14 +1286,3 @@
     (message "init.el: Initialisation complete (X11)")
   (message "init.el: Initialisation complete (command)")
   )
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(default ((t (:stipple nil :background "MistyRose" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal :height 120))))
- '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
- '(js2-warning-face ((((class color) (background light)) (:foreground "orange" :underline "orange"))))
- '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray10" :height 0.8))))
- '(tabbar-selected ((t (:inherit tabbar-default :foreground "blue" :box (:line-width 1 :color "white" :style pressed-button)))))
- '(tabbar-unselected ((t (:inherit tabbar-default :foreground "gray20" :box (:line-width 1 :color "white" :style released-button))))))
