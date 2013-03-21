@@ -195,6 +195,7 @@
                            :weight normal :width normal :height 120))))
    '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
    '(js2-warning-face ((((class color) (background light)) (:foreground "orange" :underline "orange"))))
+   '(sh-heredoc ((t (:foreground "firebrick"))))
    '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray10" :height 0.8))))
    '(tabbar-selected ((t (:inherit tabbar-default :foreground "blue"
                                    :box (:line-width 1 :color "white" :style pressed-button)))))
@@ -251,6 +252,10 @@
                                  (not-modified)
                                  (toggle-read-only 1)))
 
+(global-set-key (kbd "S-<f9>") (lambda (arg) "git blame via (vc-annotate)"
+                                 (interactive "p")
+                                 (vc-annotate (buffer-file-name) (vc-working-revision buffer-file-name))
+                                 (vc-annotate-toggle-annotation-visibility)))
 
 (global-set-key (kbd "<f10>") 'bury-buffer)
 (global-set-key (kbd "<f11>") 'my-server-edit)
@@ -1259,8 +1264,30 @@
 (ispell-change-dictionary "british")
 
 
+;; git blame override
+;; ------------------
+
+(eval-after-load "vc-annotate"
+  '(defun vc-annotate-get-time-set-line-props ()
+    (let ((bol (point))
+          (date (vc-call-backend vc-annotate-backend 'annotate-time))
+          (inhibit-read-only t))
+      (assert (>= (point) bol))
+      (put-text-property bol (point) 'invisible 'vc-annotate-annotation)
+      (when (string-equal "Git" vc-annotate-backend)
+      (save-excursion
+        (goto-char bol)
+        (search-forward "(")
+        (let ((p1 (point)))
+          (re-search-forward " [0-9]")
+          (remove-text-properties p1 (1- (point)) '(invisible nil))
+          )))
+    date)))
+
+
+
 ;; special options for X11
-;; ---------------------------
+;; -----------------------
 
 (when window-system
   (set-frame-position (selected-frame) 0 0)
