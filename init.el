@@ -639,10 +639,17 @@
 
 ;; FreeBSD EMACS mode is installed in a special place
 (if (eq system-type 'berkeley-unix)
-    (progn
-      (setq load-path (cons "/usr/local/lib/erlang/lib/tools-2.6.6.5/emacs" load-path))
-      (setq erlang-root-dir "/usr/local/lib/erlang")
-      (setq exec-path (cons " /usr/local/lib/erlang/bin" exec-path))
+    (let* ((lib-prefix "/usr/local/lib")
+           (erlang-libs (directory-files lib-prefix t "^erlang"))
+           (erlang-local-dir (car (nreverse erlang-libs)))
+           (erlang-lib-dir (concat erlang-local-dir "/lib"))
+           (erlang-bin-dir (concat erlang-local-dir "/bin"))
+           (erlang-tools-dir (car (nreverse
+                                   (directory-files erlang-lib-dir t "^tools-"))))
+           (erlang-emacs-dir (concat erlang-tools-dir "/emacs")))
+      (setq load-path (cons erlang-emacs-dir load-path))
+      (setq erlang-root-dir erlang-local-dir)
+      (setq exec-path (cons erlang-bin-dir exec-path))
       (require 'erlang-start)))
 
 
