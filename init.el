@@ -695,44 +695,44 @@
 ;; enable slime
 ;; ------------
 
-(message "init.el: SLIME")
-
 (add-to-list 'load-path "/usr/share/common-lisp/source/slime/")
-(require 'slime)
 
-(setq slime-startup-animation nil)
+(when (require 'slime "slime" t)
+  (message "init.el: SLIME")
 
-(add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-;(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+  (setq slime-startup-animation nil)
 
-(setq inferior-lisp-program "sbcl")
+  (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+                                        ;(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
 
-;; set up to use inferior lisp buffer to auto-load swank server on M-x slime
-;; uses a custom core file (see comments below)
-(setq slime-lisp-implementations
-;;      '((cmucl ("cmucl" "-quiet"))
-;;        (sbcl ("sbcl") :coding-system utf-8-unix)))
-;;        (sbcl ("sbcl" "--core" "~/sbcl.core-for-slime"))))
-      (list (list 'sbcl (list "sbcl" "--core" (expand-file-name "~/sbcl.core-with-swank"))
-                  :init #'(lambda (port-file _)
-                           (format "(swank:start-server %S)\n" port-file))
-                  :coding-system 'utf-8-unix)))
+  (setq inferior-lisp-program "sbcl")
 
-(slime-setup '(slime-fancy slime-asdf))
+  ;; set up to use inferior lisp buffer to auto-load swank server on M-x slime
+  ;; uses a custom core file (see comments below)
+  (setq slime-lisp-implementations
+        ;;      '((cmucl ("cmucl" "-quiet"))
+        ;;        (sbcl ("sbcl") :coding-system utf-8-unix)))
+        ;;        (sbcl ("sbcl" "--core" "~/sbcl.core-for-slime"))))
+        (list (list 'sbcl (list "sbcl" "--core" (expand-file-name "~/sbcl.core-with-swank"))
+                    :init #'(lambda (port-file _)
+                              (format "(swank:start-server %S)\n" port-file))
+                    :coding-system 'utf-8-unix)))
+
+  (slime-setup '(slime-fancy slime-asdf))
 
 
-;; creating the above custom core images
-;; $ sbcl
-;; * (mapc ’require ’(sb-bsd-sockets sb-posix sb-introspect sb-cltl2 asdf))
-;; * (save-lisp-and-die "sbcl.core-for-slime")
-;; $ sbcl
-;; * (mapc ’require ’(sb-bsd-sockets sb-posix sb-introspect sb-cltl2 asdf swank))
-;; * (swank-loader:dump-image "sbcl.core-with-swank")
-;; * CTRL-D
-;; Running an external sblc wath the swank server (for M-x slime-connect)
-;; $ sbcl --core /path/to/sbcl.core-with-swank
-;; * (swank:create-server :port 4005 :style :spawn :dont-close t)
-
+  ;; creating the above custom core images
+  ;; $ sbcl
+  ;; * (mapc ’require ’(sb-bsd-sockets sb-posix sb-introspect sb-cltl2 asdf))
+  ;; * (save-lisp-and-die "sbcl.core-for-slime")
+  ;; $ sbcl
+  ;; * (mapc ’require ’(sb-bsd-sockets sb-posix sb-introspect sb-cltl2 asdf swank))
+  ;; * (swank-loader:dump-image "sbcl.core-with-swank")
+  ;; * CTRL-D
+  ;; Running an external sblc wath the swank server (for M-x slime-connect)
+  ;; $ sbcl --core /path/to/sbcl.core-with-swank
+  ;; * (swank:create-server :port 4005 :style :spawn :dont-close t)
+)
 
 ;; Ruby mode
 ;; ---------
