@@ -470,48 +470,48 @@
 ;; Ocaml mode
 ;; ----------
 
-(message "init.el: ocaml")
+(when (require 'caml-font "caml-font" t)
+  (message "init.el: ocaml")
 
-(setq auto-mode-alist
-      (cons '("\\.ml[iylp]?$" . tuareg-mode) auto-mode-alist))
-(require 'caml-font)
+  (setq auto-mode-alist
+        (cons '("\\.ml[iylp]?$" . tuareg-mode) auto-mode-alist))
 
+  (defun ocaml-unicode ()
+    (interactive)
+    (substitute-patterns-with-unicode
+     (list (cons "\\(<-\\)" 'left-arrow)
+           (cons "\\(->\\)" 'right-arrow)
+           (cons "[^=]\\(=\\)[^=]" 'equal)
+           (cons "\\(==\\)" 'identical)
+           (cons "\\(\\!=\\)" 'not-identical)
+           (cons "\\(<>\\)" 'not-equal)
+           (cons "\\(()\\)" 'nil)
+           (cons "\\<\\(sqrt\\)\\>" 'square-root)
+           (cons "\\(&&\\)" 'logical-and)
+           (cons "\\(||\\)" 'logical-or)
+           (cons "\\<\\(not\\)\\>" 'logical-neg)
+           (cons "\\(>\\)[^=]" 'greater-than)
+           (cons "\\(<\\)[^=]" 'less-than)
+           (cons "\\(>=\\)" 'greater-than-or-equal-to)
+           (cons "\\(<=\\)" 'less-than-or-equal-to)
+           (cons "\\<\\(alpha\\)\\>" 'alpha)
+           (cons "\\<\\(beta\\)\\>" 'beta)
+           (cons "\\<\\(gamma\\)\\>" 'gamma)
+           (cons "\\<\\(delta\\)\\>" 'delta)
+           (cons "\\(''\\)" 'double-prime)
+           (cons "\\('\\)" 'prime)
+           (cons "\\<\\(List.for_all\\)\\>" 'for-all)
+           (cons "\\<\\(List.exists\\)\\>" 'there-exists)
+           (cons "\\<\\(List.mem\\)\\>" 'element-of)
+           (cons "^ +\\(|\\)" 'double-vertical-bar))))
 
-(defun ocaml-unicode ()
-  (interactive)
-  (substitute-patterns-with-unicode
-   (list (cons "\\(<-\\)" 'left-arrow)
-	 (cons "\\(->\\)" 'right-arrow)
-	 (cons "[^=]\\(=\\)[^=]" 'equal)
-	 (cons "\\(==\\)" 'identical)
-	 (cons "\\(\\!=\\)" 'not-identical)
-	 (cons "\\(<>\\)" 'not-equal)
-	 (cons "\\(()\\)" 'nil)
-	 (cons "\\<\\(sqrt\\)\\>" 'square-root)
-	 (cons "\\(&&\\)" 'logical-and)
-	 (cons "\\(||\\)" 'logical-or)
-	 (cons "\\<\\(not\\)\\>" 'logical-neg)
-	 (cons "\\(>\\)[^=]" 'greater-than)
-	 (cons "\\(<\\)[^=]" 'less-than)
-	 (cons "\\(>=\\)" 'greater-than-or-equal-to)
-	 (cons "\\(<=\\)" 'less-than-or-equal-to)
-	 (cons "\\<\\(alpha\\)\\>" 'alpha)
-	 (cons "\\<\\(beta\\)\\>" 'beta)
-	 (cons "\\<\\(gamma\\)\\>" 'gamma)
-	 (cons "\\<\\(delta\\)\\>" 'delta)
-	 (cons "\\(''\\)" 'double-prime)
-	 (cons "\\('\\)" 'prime)
-	 (cons "\\<\\(List.for_all\\)\\>" 'for-all)
-	 (cons "\\<\\(List.exists\\)\\>" 'there-exists)
-	 (cons "\\<\\(List.mem\\)\\>" 'element-of)
-	 (cons "^ +\\(|\\)" 'double-vertical-bar))))
+  (add-hook 'caml-mode-hook 'ocaml-unicode)
+  (add-hook 'tuareg-mode-hook 'ocaml-unicode)
 
-(add-hook 'caml-mode-hook 'ocaml-unicode)
-(add-hook 'tuareg-mode-hook 'ocaml-unicode)
-
-(autoload 'caml-mode "caml" "Major mode for editing Caml code." t)
-(autoload 'run-caml "inf-caml" "Run an inferior Caml process." t)
-;;(autoload 'caml-hilit "caml-hilight" "Hilit19 patterns used for Caml mode" t)
+  (autoload 'caml-mode "caml" "Major mode for editing Caml code." t)
+  (autoload 'run-caml "inf-caml" "Run an inferior Caml process." t)
+  ;;(autoload 'caml-hilit "caml-hilight" "Hilit19 patterns used for Caml mode" t)
+  )
 
 
 ;; Haskell mode
@@ -639,18 +639,21 @@
 
 ;; FreeBSD EMACS mode is installed in a special place
 (if (eq system-type 'berkeley-unix)
-    (let* ((lib-prefix "/usr/local/lib")
-           (erlang-libs (directory-files lib-prefix t "^erlang"))
-           (erlang-local-dir (car (nreverse erlang-libs)))
-           (erlang-lib-dir (concat erlang-local-dir "/lib"))
-           (erlang-bin-dir (concat erlang-local-dir "/bin"))
-           (erlang-tools-dir (car (nreverse
-                                   (directory-files erlang-lib-dir t "^tools-"))))
-           (erlang-emacs-dir (concat erlang-tools-dir "/emacs")))
-      (setq load-path (cons erlang-emacs-dir load-path))
-      (setq erlang-root-dir erlang-local-dir)
-      (setq exec-path (cons erlang-bin-dir exec-path))
-      (require 'erlang-start)))
+    (let*
+        ((lib-prefix "/usr/local/lib")
+         (erlang-libs (directory-files lib-prefix t "^erlang")))
+      (when erlang-libs
+        (let*
+            ((erlang-local-dir (car (nreverse erlang-libs)))
+             (erlang-lib-dir (concat erlang-local-dir "/lib"))
+             (erlang-bin-dir (concat erlang-local-dir "/bin"))
+             (erlang-tools-dir (car (nreverse
+                                     (directory-files erlang-lib-dir t "^tools-"))))
+             (erlang-emacs-dir (concat erlang-tools-dir "/emacs")))
+          (setq load-path (cons erlang-emacs-dir load-path))
+          (setq erlang-root-dir erlang-local-dir)
+          (setq exec-path (cons erlang-bin-dir exec-path))
+      (require 'erlang-start)))))
 
 
 ;; Fundamental mode
@@ -881,12 +884,17 @@
 (setq tramp-default-method "ssh")
 
 
+;; Markdown mode
+;; -------------
+
+(when (require 'markdown-mode "markdown-mode" t)
+  (message "init.el: markdown-mode available"))
+
+
 ;; Modes
 ;; -----
 
 (message "init.el: mode alist changes")
-
-(require 'markdown-mode)
 
 (setq auto-mode-alist
       (append
@@ -1290,7 +1298,6 @@
           (remove-text-properties p1 (1- (point)) '(invisible nil))
           )))
     date)))
-
 
 
 ;; special options for X11
