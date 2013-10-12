@@ -290,22 +290,45 @@
 (message "init.el: compilation setup")
 
 ;; Makefile detect in current or higher directory
-;; then recompile
+;; then recompile.
+;; no prefix -> make
+;; -         -> make test
+;; zero      -> make all
+;; positive  -> make emacs-N
+;; negative  -> make test-N
+
 
 (defun my-recompile (arg)
   "Search for Makefile and recompile"
-  (interactive "p")
-  (unless (or (file-exists-p "Makefile")
-              (local-variable-p 'compile-command))
-    (loop for the-dir = ".." then (concat the-dir "/..")
-          until (string-equal "/" (file-truename the-dir))
-          until (local-variable-p 'compile-command)
-          when (file-exists-p (concat the-dir "/Makefile"))
-          do (progn
-               (set (make-local-variable 'compile-command)
-                    (concat "make -k -C " (directory-file-name the-dir)))
-               (return))))
-  (recompile))
+  (interactive "P")
+  (let*
+      ((target
+         (cond
+          ((null arg)      "")
+          ((equal '- arg)  "test")
+          ((zerop arg)     "all")
+          ((> arg 0)       (format "emacs-%d" arg))
+          ((< arg 0)       (format "test-%d" (- arg)))
+          (t "qqq"))))
+
+    (message "recompile target = %s" target)
+
+    (if
+        (file-exists-p "Makefile")
+        (set (make-local-variable 'compile-command)
+             (concat "make -k " target))
+      (loop for the-dir = ".."
+            then (concat the-dir "/..")
+            until (string-equal "/" (file-truename the-dir))
+            ;until (local-variable-p 'compile-command)
+            when (file-exists-p (concat the-dir "/Makefile"))
+            do (progn
+                 (message "dir = %s" the-dir)
+                 (set (make-local-variable 'compile-command)
+                      (concat "make -k -C " (directory-file-name the-dir) " " target))
+                 (return))))
+    (message "recompile = %s" compile-command)
+    (recompile)))
 
 
 (global-set-key (kbd "C-<menu>") 'my-recompile)  ; CTRL-Menu
