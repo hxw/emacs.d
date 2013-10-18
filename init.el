@@ -314,14 +314,14 @@
     (message "recompile target = %s" target)
 
     (if
-        (file-exists-p "Makefile")
+        (or (file-exists-p "Makefile") (file-exists-p "BSDmakefile"))
         (set (make-local-variable 'compile-command)
              (concat "make -k " target))
       (loop for the-dir = ".."
             then (concat the-dir "/..")
             until (string-equal "/" (file-truename the-dir))
-            ;until (local-variable-p 'compile-command)
-            when (file-exists-p (concat the-dir "/Makefile"))
+            when (or (file-exists-p (concat the-dir "/Makefile"))
+                     (file-exists-p (concat the-dir "/BSDmakefile")))
             do (progn
                  (message "dir = %s" the-dir)
                  (set (make-local-variable 'compile-command)
