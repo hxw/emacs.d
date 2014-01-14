@@ -1,6 +1,10 @@
 ;; init.el
 ;; =======
 
+;; splash
+(setq fancy-splash-image (expand-file-name "~/Backgrounds/aphrodite-rhodes.jpg"))
+
+
 ;; load-path
 ;; ---------
 
@@ -684,13 +688,20 @@
 
 (setq flyspell-issue-welcome-flag nil) ;; workaround bug #619015 in ubuntu 10.10
 
+(defun do-commit-header ()
+  "move to line end and turn on spell check"
+  (move-end-of-line nil)
+  (flyspell-mode))
+
+
 (defun activate-flyspell ()
+  "activate commit mode"
   (let ((fn (file-name-nondirectory buffer-file-name)))
     (cond
      ((string-equal fn "COMMIT_EDITMSG")
-      (flyspell-mode))
+      (do-commit-header))
      ((string-equal fn "svn-commit.tmp")
-      (flyspell-mode)))))
+      (do-commit-header)))))
 
 (add-hook 'find-file-hook 'activate-flyspell)
 
@@ -912,6 +923,13 @@
 
 (when (require 'markdown-mode "markdown-mode" t)
   (message "init.el: markdown-mode available"))
+
+
+;; YAML mode
+;; ---------
+
+(when (require 'yaml-mode "yaml-mode" t)
+  (message "init.el: YAML-mode available"))
 
 
 ;; Modes
