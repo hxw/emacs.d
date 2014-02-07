@@ -140,6 +140,8 @@
  '(Buffer-menu-buffer+size-width 100)
  '(Buffer-menu-mode-width 120)
  '(buffers-menu-max-size 30)
+ '(mouse-buffer-menu-maxlen 30)
+ '(mouse-buffer-menu-mode-mult 30)
  '(c-file-offsets (quote ((brace-list-intro . +) (statement-block-intro . +) (knr-argdecl-intro . +) (substatement-open . 0) (label . 0) (statement-cont . +))) t)
  '(case-fold-search t)
  '(current-language-environment "UTF-8")
