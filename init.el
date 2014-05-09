@@ -40,6 +40,11 @@
   "compute screen columns"
   (/ (- (display-pixel-width) 50) (frame-char-width)))
 
+(defun my-font-height ()
+  "compute font height based on screeen height"
+  (if (> (display-pixel-height) 900) 120 140))
+
+
 
 ;; fonts
 ;; -----
@@ -196,10 +201,10 @@
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   '(default ((t (:stipple nil :background "MistyRose" :foreground "blue4"
+   `(default ((t (:stipple nil :background "MistyRose" :foreground "blue4"
                            :inverse-video nil :box nil :strike-through nil
                            :overline nil :underline nil :slant normal
-                           :weight normal :width normal :height 120))))
+                           :weight normal :width normal :height ,(my-font-height)))))
    '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
    '(js2-warning-face ((((class color) (background light)) (:foreground "orange" :underline "orange"))))
    '(sh-heredoc ((t (:foreground "firebrick"))))
