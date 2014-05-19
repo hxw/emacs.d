@@ -978,7 +978,19 @@
 
 (message "init.el: Remove spaces")
 
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(defun my-delete-trailing-whitespace ()
+  "remove trailing whilespace from certain file types"
+  (interactive)
+  (when (stringp mode-name)
+    (when (not (string= mode-name "Hexl"))
+      (message "removing trailing whitespace before save")
+      (delete-trailing-whitespace)
+      )
+    )
+  )
+
+(add-hook 'before-save-hook 'my-delete-trailing-whitespace)
 
 
 ;; matching parentheses
