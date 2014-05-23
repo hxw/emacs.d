@@ -26,8 +26,8 @@ EmacsIndentAndTabity()
   verbose="$1"; shift
   overwrite="$1"; shift
   indent="$1"; shift
-  source=$(readlink -m "$1"); shift
-  destination=$(readlink -m "$1"); shift
+  source=$(realpath "$1"); shift
+  destination=$(realpath "$1"); shift
 
   out='cat > /dev/null'
 
