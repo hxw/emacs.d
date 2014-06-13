@@ -883,8 +883,14 @@
 (when (load "~/nxhtml/autostart.el" t)
   (message "init.el: nXhtml")
   (setq mumamo-background-colors nil)
-  (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode)))
-
+  (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode))
+  ;; Workaround the annoying warnings:
+  ;; Warning (mumamo-per-buffer-local-vars):
+  ;; Already 'permanent-local t: buffer-file-name
+  (when (string< "24.1" (format "%d.%d" emacs-major-version emacs-minor-version))
+    (eval-after-load "mumamo"
+      '(setq mumamo-per-buffer-local-vars
+             (delq 'buffer-file-name mumamo-per-buffer-local-vars)))))
 
 ;; miscellaneous items
 ;; -------------------
