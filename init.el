@@ -695,6 +695,14 @@
       (require 'erlang-start)))))
 
 
+;; Go mode
+;; -------
+
+(message "init.el: go mode")
+(add-to-list 'load-path "/usr/local/go/misc/emacs" t)
+(require 'go-mode-load)
+
+
 ;; Fundamental mode
 ;; ----------------
 
