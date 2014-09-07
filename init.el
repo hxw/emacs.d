@@ -296,6 +296,9 @@
 (global-set-key (kbd "C-<prior>") 'beginning-of-buffer) ; CTRL-Page Up
 (global-set-key (kbd "C-<next>") 'end-of-buffer) ; CTRL-Page Down
 
+(global-set-key (kbd "<insert>") 'comment-region) ; Insert comment markers
+(global-set-key (kbd "C-<insert>") 'uncomment-region) ; Remove comment markers
+
 (when window-system
   (global-unset-key (kbd "C-z")) ; iconify-or-deiconify-frame (C-x C-z)
   (global-unset-key (kbd "<insert>"))
