@@ -701,10 +701,11 @@
 
 ;; Go mode
 ;; -------
-
-(message "init.el: go mode")
-(add-to-list 'load-path "/usr/local/go/misc/emacs" t)
-(require 'go-mode-load)
+(let ((go-directory "/usr/local/go/misc/emacs"))
+  (when (file-directory-p go-directory)
+    (message "init.el: go mode")
+    (add-to-list 'load-path "/usr/local/go/misc/emacs" t)
+    (require 'go-mode-load)))
 
 
 ;; Fundamental mode
