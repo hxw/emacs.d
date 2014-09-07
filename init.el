@@ -233,8 +233,9 @@
 
 (add-hook 'after-init-hook #'(lambda ()
                               (progn
-                                (add-to-list 'default-frame-alist (cons 'height (my-lines)))
-                                (add-to-list 'default-frame-alist (cons 'width (my-columns))))))
+                                (set-frame-parameter nil 'fullscreen 'maximized))))
+;;(add-to-list 'default-frame-alist (cons 'height (my-lines)))
+;;(add-to-list 'default-frame-alist (cons 'width (my-columns))))))
 
 
 ;; function keys
