@@ -26,19 +26,8 @@
 (load "local-config" t)
 
 
-;; my screen size - so it is easy to change
-;; ----------------------------------------
-
-;;(setq my-lines 38)
-;;(setq my-columns 123)
-
-(defun my-lines ()
-  "compute screen lines"
-  (/ (- (display-pixel-height) 50) (frame-char-height)))
-
-(defun my-columns ()
-  "compute screen columns"
-  (/ (- (display-pixel-width) 50) (frame-char-width)))
+;; my font size
+;; ------------
 
 (defun my-font-height ()
   "compute font height based on screeen height"
@@ -231,11 +220,19 @@
 ;; adjust window size
 ;; ------------------
 
+(defun w32-maximize-frame ()
+  "Maximize the current frame (windows only)"
+  (interactive)
+  (w32-send-sys-command 61488))
+
+(if (eq system-type 'windows-nt)
+    (progn
+      (add-hook 'window-setup-hook 'w32-maximize-frame t))
+  (set-frame-parameter nil 'fullscreen 'maximized))
+
 (add-hook 'after-init-hook #'(lambda ()
-                              (progn
-                                (set-frame-parameter nil 'fullscreen 'maximized))))
-;;(add-to-list 'default-frame-alist (cons 'height (my-lines)))
-;;(add-to-list 'default-frame-alist (cons 'width (my-columns))))))
+                               (progn
+                                 (set-frame-parameter nil 'fullscreen 'maximized))))
 
 
 ;; function keys
@@ -302,7 +299,6 @@
 
 (when window-system
   (global-unset-key (kbd "C-z")) ; iconify-or-deiconify-frame (C-x C-z)
-  (global-unset-key (kbd "<insert>"))
   )
 
 
