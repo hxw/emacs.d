@@ -55,9 +55,27 @@
     (progn
       (add-hook 'window-setup-hook 'w32-maximize-frame t)))
 
-(add-hook 'after-init-hook #'(lambda ()
-                               (progn
-                                 (set-frame-parameter nil 'fullscreen 'maximized))))
+
+;; special options for X11
+;; -----------------------
+
+(when window-system
+  (set-frame-position (selected-frame) 0 0)
+  (set-frame-parameter (selected-frame) 'fullscreen 'maximized))
+
+
+;; special options for non-X11
+;; ---------------------------
+
+(unless window-system
+  (setq inhibit-splash-screen t)
+  (menu-bar-mode -1)
+  (toggle-scroll-bar -1)
+  (setq backup-inhibited t)
+  (setq auto-save-default nil)
+  )
+
+
 
 
 ;; function keys
@@ -1197,25 +1215,6 @@
           )))
     date)))
 
-
-;; special options for X11
-;; -----------------------
-
-(when window-system
-  (set-frame-position (selected-frame) 0 0)
-  (set-frame-parameter (selected-frame) 'fullscreen 'fullwidth))
-
-
-;; special options for non-X11
-;; ---------------------------
-
-(unless window-system
-  (setq inhibit-splash-screen t)
-  (menu-bar-mode -1)
-  (toggle-scroll-bar -1)
-  (setq backup-inhibited t)
-  (setq auto-save-default nil)
-  )
 
 ;; custom set variable at end to override any internal package defaults
 ;; --------------------------------------------------------------------
