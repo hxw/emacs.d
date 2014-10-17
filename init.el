@@ -1,9 +1,6 @@
 ;; init.el
 ;; =======
 
-;; splash
-(setq fancy-splash-image (expand-file-name "~/Backgrounds/aphrodite-rhodes.jpg"))
-
 
 ;; load-path
 ;; ---------
@@ -22,98 +19,13 @@
 
 (setq *local-tabbar-enabled* nil)
 
-;; override certain of the above options on a machine-by-machine basis
-(load "local-config" t)
-
 
 ;; my font size
 ;; ------------
 
 (defun my-font-height ()
   "compute font height based on screeen height"
-  (if (> (display-pixel-height) 900) 120 140))
-
-
-
-;; fonts
-;; -----
-
-(unless (eq system-type 'darwin)
-
-  (message "init.el: Create fontset")
-
-  (setq fs "fontset-default")
-
-  ;; cannot change ascii
-  ;;(set-fontset-font fs 'ascii "--courier-medium-r-normal-*-18-*-*-*-*-*-iso8859-1")
-
-  (set-fontset-font fs 'vietnamese-viscii-upper "-*-fixed-medium-r-*--18-*-viscii1.1-1")
-  (set-fontset-font fs 'vietnamese-viscii-lower "-*-fixed-medium-r-*--18-*-viscii1.1-1")
-  ;;(set-fontset-font fs 'chinese-gb2312 "-*-*shanheisun*-medium-r-*--18-*-gb2312*-*")
-  ;;(set-fontset-font fs 'chinese-big5-1 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
-  ;;(set-fontset-font fs 'chinese-big5-2 "-*-*shanheisun*-medium-r-*--18-*-big5*-*")
-  (set-fontset-font fs 'chinese-gb2312 "-*-*-medium-r-*--18-*-gb2312*-*")
-  (set-fontset-font fs 'chinese-big5-1 "-*-*-medium-r-*--18-*-big5*-*")
-  (set-fontset-font fs 'chinese-big5-2 "-*-*-medium-r-*--18-*-big5*-*")
-  (set-fontset-font fs 'chinese-sisheng "-etl-fixed-medium-r-normal-*-18-*-*-*-*-*-sisheng_cwnn-0")
-  (set-fontset-font fs 'chinese-cns11643-1 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-1")
-  (set-fontset-font fs 'chinese-cns11643-2 "-hku-fixed-medium-r-normal-*-18-*-*-*-*-*-cns11643.1992-2")
-  (set-fontset-font fs 'latin-iso8859-1 "-*-fixed-medium-r-*--18-*-iso8859-1")
-  (set-fontset-font fs 'latin-iso8859-2 "-*-fixed-medium-r-*--18-*-iso8859-2")
-  (set-fontset-font fs 'latin-iso8859-3 "-*-fixed-medium-r-*--18-*-iso8859-3")
-  (set-fontset-font fs 'latin-iso8859-4 "-*-fixed-medium-r-*--18-*-iso8859-4")
-  (set-fontset-font fs 'cyrillic-iso8859-5 "-*-fixed-medium-r-*--18-*-iso8859-5")
-  (set-fontset-font fs 'arabic-iso8859-6 "-*-fixed-medium-r-*--18-*-iso8859-6")
-  (set-fontset-font fs 'greek-iso8859-7 "-*-fixed-medium-r-*--18-*-iso8859-7")
-  (set-fontset-font fs 'hebrew-iso8859-8 "-*-fixed-medium-r-*--18-*-iso8859-8")
-  (set-fontset-font fs 'latin-iso8859-9 "-*-fixed-medium-r-*--18-*-iso8859-9")
-  (set-fontset-font fs 'latin-iso8859-14 "-*-fixed-medium-r-*--18-*-iso8859-14")
-  (set-fontset-font fs 'latin-iso8859-15 "-*-fixed-medium-r-*--18-*-iso8859-15")
-  (set-fontset-font fs 'arabic-digit ":-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0")
-  (set-fontset-font fs 'arabic-digit "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-0")
-  (set-fontset-font fs 'arabic-1-column "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-1")
-  (set-fontset-font fs 'arabic-2-column "-*-fixed-medium-r-*-*-*-*-*-*-*-*-mulearabic-2")
-  (set-fontset-font fs 'ipa "-*-fixed-medium-r-*--18-*-muleipa-1")
-  (set-fontset-font fs 'ethiopic "-*-ethio*-medium-r-normal--18-*-*-*-*-*-admas-fontspecific")
-  (set-fontset-font fs 'ethiopic "-*-ethio*-medium-r-normal--18-*-*-*-*-*-ethiopic-unicode")
-  (set-fontset-font fs 'katakana-jisx0201 "-*-fixed-medium-r-*--18-*-jisx0201.1976-*")
-  (set-fontset-font fs 'latin-jisx0201 "-*-fixed-medium-r-*--18-*-jisx0201.1976-*")
-  (set-fontset-font fs 'japanese-jisx0208-1978 "-*-fixed-medium-r-*--18-*-jisx0208.1978-*")
-  ;;(set-fontset-font fs 'japanese-jisx0208 "-*-fixed-medium-r-*--18-*-jisx0208.1990-*")
-  (set-fontset-font fs 'japanese-jisx0208 "-Misc-Fixed-Medium-R-Normal--16-*-jisx0208.1990-0")
-  ;;(set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--18-*-jisx0212.1990-*")
-  (set-fontset-font fs 'japanese-jisx0212 "-*-fixed-medium-r-*--16-*-jisx0212.1990-*")
-  (set-fontset-font fs 'japanese-jisx0213-2 "-*-fixed-medium-r-*--18-*-jisx0213.2000-*")
-  (set-fontset-font fs 'korean-ksc5601 "-*-mincho-medium-r-*--16-*-ksc5601.1987-*")
-  ;;(set-fontset-font fs 'korean-ksc5601 "-*-gulim-medium-r-*--18-*-ksc5601.1987-*")
-  ;;(set-fontset-font fs 'korean-ksc5601 "-*-batang-medium-r-*--*-*-ksc5601.1987-*")
-  (set-fontset-font fs 'lao "-*-fixed-medium-r-normal-*-*-*-*-*-*-*-mulelao-1")
-  ;;(set-fontset-font fs 'thai-tis620 "-etl-fixed-medium-r-normal--18-*-tis620.2529-1")
-  (set-fontset-font fs 'thai-tis620 "-misc-fixed-medium-r-normal--16-*-tis620.2529-1")
-  (set-fontset-font fs 'tibetan "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-0")
-  (set-fontset-font fs 'tibetan-1-column "-tibmdxa-fixed-medium-r-normal-*-*-*-*-*-*-*-muletibetan-1")
-  (set-fontset-font fs 'indian-is13194 "-*-fixed-medium-r-normal-*-18-*-*-*-*-*-is13194-devanagari")
-  (set-fontset-font fs 'indian-2-column "-*-fixed-medium-r-normal-*-18-*-*-*-*-*-muleindian-2")
-  (set-fontset-font fs 'mule-unicode-0100-24ff "-misc-fixed-medium-r-normal-*-18-*-*-*-*-*-iso10646-1")
-  (set-fontset-font fs 'mule-unicode-2500-33ff "-misc-fixed-medium-r-normal-*-18-*-*-*-*-*-iso10646-1")
-  (set-fontset-font fs 'mule-unicode-e000-ffff "-misc-fixed-medium-r-normal-*-18-*-*-*-*-*-iso10646-1")
-  )
-
-;;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-0
-;;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-1
-;;-monotype-courier new-medium-r-monospaced--0-0-0-0-m-0-mulearabic-2
-
-;;        chinese-gb2312:-*-fangsong ti-medium-r-normal--*-*-*-*-*-*-gb2312.1980-*,
-;;        unicode-mono:-gnu-unifont-medium-r-normal--16-160-75-75-c-80-iso10646-1,
-;;        unicode-wide:-gnu-unifont-medium-r-normal--16-160-75-75-c-80-iso10646-1,
-;;        unicode-mono:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;;        unicode-wide:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1"
-;;        mule-unicode-0100-24ff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;;        mule-unicode-2500-33ff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;;        mule-unicode-e000-ffff:-redhat-*-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;;        mule-unicode-0100-24ff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;;        mule-unicode-2500-33ff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
-;;        mule-unicode-e000-ffff:-redhat-liberation mono-medium-r-normal-*-*-*-*-*-*-*-iso10646-1,
+  (if (> (display-pixel-height) 768) 140 120))
 
 
 ;; emacs customisation
@@ -122,92 +34,6 @@
 (message "init.el: Customisation")
 (require 'ps-mule)
 
-;; '(face-font-family-alternatives (quote (("liberation mono" "courier" "fixed") ("helv" "helvetica" "arial" "fixed") ("yhunifont" "ming for iso10646 " "ar pl mingti2l big5" "ar pl shanheisun uni" "ar pl new sung"))))
-;; '(face-font-registry-alternatives (quote (("iso10646-1") ("gb2312.1980" "gb2312.80&gb8565.88" "gbk*") ("jisx0208.1990" "jisx0208.1983" "jisx0208.1978") ("ksc5601.1989" "ksx1001.1992" "ksc5601.1987") ("big5-0" "big5.eten-0" "big5*") ("muletibetan-2" "muletibetan-0") ("iso10646-1"))))
-
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(Buffer-menu-buffer+size-width 100)
- '(Buffer-menu-mode-width 120)
- '(buffers-menu-max-size 30)
- '(c-file-offsets (quote ((brace-list-intro . +) (statement-block-intro . +) (knr-argdecl-intro . +) (substatement-open . 0) (label . 0) (statement-cont . +))) t)
- '(case-fold-search t)
- '(coffee-tab-width 2)
- '(css-indent-offset 2)
- '(current-language-environment "UTF-8")
- '(default-input-method "rfc1345")
- '(display-time-mode t nil (time))
- '(flyspell-default-dictionary "british")
- '(font-lock-use-colors t)
- '(global-font-lock-mode t nil (font-lock))
- '(indent-tabs-mode nil)
- '(ispell-local-dictionary "british")
- '(js-indent-level 2)
- '(js2-allow-keywords-as-property-names nil)
- '(js2-auto-indent-p t)
- '(js2-basic-offset 4)
- '(js2-bounce-indent-p nil)
- '(js2-cleanup-whitespace t)
- '(js2-enter-indents-newline t)
- '(js2-indent-on-enter-key t)
- '(lua-indent-level 4)
- '(markdown-command "pandoc --from=markdown --to=html")
- '(menu-bar-mode nil)
- '(mouse-buffer-menu-maxlen 30)
- '(mouse-buffer-menu-mode-mult 30)
- '(perl-indent-level 2)
- '(ps-font-size (quote (8 . 8.5)))
- '(ps-landscape-mode t)
- '(ps-lpr-command "/usr/local/bin/lpr")
- '(ps-multibyte-buffer (quote bdf-font-except-latin))
- '(ps-printer-name "HP-LaserJet-5200")
- '(ps-printer-name-option "-P")
- '(quack-pretty-lambda-p t)
- '(quack-smart-open-paren-p t)
- '(scroll-bar-mode (quote right))
- '(sh-basic-offset 2)
- '(sh-indent-after-do (quote +))
- '(sh-indent-for-do 0)
- '(sh-indent-for-then 0)
- '(sh-indentation 2)
- '(show-paren-mode t nil (paren))
- '(speedbar-show-unknown-files t)
- '(tcl-indent-level 2)
- '(time-stamp-format "%:y-%02m-%02dT%02H:%02M:%02S %:z")
- '(tool-bar-mode nil)
- '(tooltip-mode nil nil (tooltip))
- '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
-
-(if (eq system-type 'darwin)
-    (custom-set-faces
-     ;; custom-set-faces was added by Custom.
-     ;; If you edit it by hand, you could mess it up, so be careful.
-     ;; Your init file should contain only one such instance.
-     ;; If there is more than one, they won't work right.
-     -   '(default ((t (:foreground "blue4" :background "lavenderblush" :size "12pt" :family "apple-monaco")))))
-
-  (custom-set-faces
-   ;; custom-set-faces was added by Custom.
-   ;; If you edit it by hand, you could mess it up, so be careful.
-   ;; Your init file should contain only one such instance.
-   ;; If there is more than one, they won't work right.
-   `(default ((t (:stipple nil :background "MistyRose" :foreground "blue4"
-                           :inverse-video nil :box nil :strike-through nil
-                           :overline nil :underline nil :slant normal
-                           :weight normal :width normal :height ,(my-font-height)))))
-   '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
-   '(js2-warning-face ((((class color) (background light)) (:foreground "orange" :underline "orange"))))
-   '(sh-heredoc ((t (:foreground "firebrick"))))
-   '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray10" :height 0.8))))
-   '(tabbar-selected ((t (:inherit tabbar-default :foreground "blue"
-                                   :box (:line-width 1 :color "white" :style pressed-button)))))
-   '(tabbar-unselected ((t (:inherit tabbar-default :foreground "gray20"
-                                     :box (:line-width 1 :color "white" :style released-button))))))
-)
 
 
 ;; menubar/toolbar
@@ -225,10 +51,9 @@
   (interactive)
   (w32-send-sys-command 61488))
 
-(if (eq system-type 'windows-nt)
+(when (eq system-type 'windows-nt)
     (progn
-      (add-hook 'window-setup-hook 'w32-maximize-frame t))
-  (set-frame-parameter nil 'fullscreen 'maximized))
+      (add-hook 'window-setup-hook 'w32-maximize-frame t)))
 
 (add-hook 'after-init-hook #'(lambda ()
                                (progn
@@ -792,6 +617,13 @@
   ;; * (swank:create-server :port 4005 :style :spawn :dont-close t)
 )
 
+;; Lua mode
+;; --------
+
+(when (require 'lua-mode "lua-mode" t)
+  (message "init.el: lua-mode available"))
+
+
 ;; Ruby mode
 ;; ---------
 
@@ -1345,16 +1177,6 @@
       (server-start))))
 
 
-;; British dictionary
-;; ------------------
-
-(message "init.el: British dictionary")
-
-;; not sure why the custom-set-variables does not work for this
-;; perhaps the initial load of ispell forces "american"
-(ispell-change-dictionary "british")
-
-
 ;; git blame override
 ;; ------------------
 
@@ -1394,6 +1216,108 @@
   (setq backup-inhibited t)
   (setq auto-save-default nil)
   )
+
+;; custom set variable at end to override any internal package defaults
+;; --------------------------------------------------------------------
+
+(message "init.el: Customising variables")
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(Buffer-menu-buffer+size-width 100)
+ '(Buffer-menu-mode-width 120)
+ '(buffers-menu-max-size 30)
+ '(c-file-offsets (quote ((brace-list-intro . +) (statement-block-intro . +) (knr-argdecl-intro . +) (substatement-open . 0) (label . 0) (statement-cont . +))) t)
+ '(case-fold-search t)
+ '(coffee-tab-width 2)
+ '(css-indent-offset 2)
+ '(current-language-environment "UTF-8")
+ '(default-input-method "rfc1345")
+ '(display-time-mode t nil (time))
+ '(fancy-splash-image "~/Backgrounds/aphrodite-rhodes.jpg")
+ '(flyspell-default-dictionary "british")
+ '(font-lock-use-colors t)
+ '(global-font-lock-mode t nil (font-lock))
+ '(indent-tabs-mode nil)
+ '(ispell-local-dictionary "british")
+ '(js-indent-level 2)
+ '(js2-allow-keywords-as-property-names nil)
+ '(js2-auto-indent-p t)
+ '(js2-basic-offset 4)
+ '(js2-bounce-indent-p nil)
+ '(js2-cleanup-whitespace t)
+ '(js2-enter-indents-newline t)
+ '(js2-indent-on-enter-key t)
+ '(lua-indent-level 4)
+ '(markdown-command "pandoc --from=markdown --to=html")
+ '(menu-bar-mode nil)
+ '(mouse-buffer-menu-maxlen 30)
+ '(mouse-buffer-menu-mode-mult 30)
+ '(perl-indent-level 2)
+ '(ps-font-size (quote (8 . 8.5)))
+ '(ps-landscape-mode t)
+ '(ps-lpr-command "/usr/local/bin/lpr")
+ '(ps-multibyte-buffer (quote bdf-font-except-latin))
+ '(ps-printer-name "HP-LaserJet-5200")
+ '(ps-printer-name-option "-P")
+ '(quack-pretty-lambda-p t)
+ '(quack-smart-open-paren-p t)
+ '(scroll-bar-mode (quote right))
+ '(sh-basic-offset 2)
+ '(sh-indent-after-do (quote +))
+ '(sh-indent-for-do 0)
+ '(sh-indent-for-then 0)
+ '(sh-indentation 2)
+ '(show-paren-mode t nil (paren))
+ '(speedbar-show-unknown-files t)
+ '(tcl-indent-level 2)
+ '(time-stamp-format "%:y-%02m-%02dT%02H:%02M:%02S %:z")
+ '(tool-bar-mode nil)
+ '(tooltip-mode nil nil (tooltip))
+ '(uniquify-buffer-name-style (quote forward) nil (uniquify)))
+
+(if (eq system-type 'darwin)
+    (custom-set-faces
+     ;; custom-set-faces was added by Custom.
+     ;; If you edit it by hand, you could mess it up, so be careful.
+     ;; Your init file should contain only one such instance.
+     ;; If there is more than one, they won't work right.
+     -   '(default ((t (:foreground "blue4" :background "lavenderblush" :size "12pt" :family "apple-monaco")))))
+
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   `(default ((t (:stipple nil :background "MistyRose" :foreground "blue4"
+                           :inverse-video nil :box nil :strike-through nil
+                           :overline nil :underline nil :slant normal
+                           :weight normal :width normal :height ,(my-font-height)))))
+   '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
+   '(js2-warning-face ((((class color) (background light)) (:foreground "orange" :underline "orange"))))
+   '(sh-heredoc ((t (:foreground "firebrick"))))
+   '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray10" :height 0.8))))
+   '(tabbar-selected ((t (:inherit tabbar-default :foreground "blue"
+                                   :box (:line-width 1 :color "white" :style pressed-button)))))
+   '(tabbar-unselected ((t (:inherit tabbar-default :foreground "gray20"
+                                     :box (:line-width 1 :color "white" :style released-button))))))
+)
+
+
+;; fix printer command
+;; -------------------
+
+(if (eq system-type 'gnu/linux)
+  (setq ps-lpr-command "/usr/bin/lpr"))
+
+
+;; override certain of the above options on a machine-by-machine basis
+;; -------------------------------------------------------------------
+
+(load "local-config" t)
 
 
 ;; finished
