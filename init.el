@@ -6,10 +6,8 @@
 ;; ---------
 
 (setq init-dir (expand-file-name (concat "~" init-file-user "/.emacs.d")))
-;;(setq init-dir (concat "/home/" user-login-name "/.emacs.d"))
 
 (setq load-path (append
-                 (list (concat init-dir ""))
                  (list (concat init-dir "/lisp"))
                  load-path))
 
@@ -140,6 +138,8 @@
 (global-set-key (kbd "<insert>") 'comment-region) ; Insert comment markers
 (global-set-key (kbd "C-<insert>") 'uncomment-region) ; Remove comment markers
 
+(global-set-key (kbd "s-r") #'(lambda () (interactive) (revert-buffer t t nil))) ; Win-r
+
 (when window-system
   (global-unset-key (kbd "C-z")) ; iconify-or-deiconify-frame (C-x C-z)
   )
@@ -163,7 +163,8 @@
   "Search for Makefile and recompile"
   (interactive "P")
   (let*
-      ((target
+      ((base-directory-for-compile ".")
+       (target
          (cond
           ((null arg)      "")
           ((equal '- arg)  "test")
@@ -185,11 +186,14 @@
                      (file-exists-p (concat the-dir "/BSDmakefile")))
             do (progn
                  (message "dir = %s" the-dir)
+                 (set 'base-directory-for-compile (directory-file-name the-dir))
                  (set (make-local-variable 'compile-command)
-                      (concat "make -k -C " (directory-file-name the-dir) " " target))
+                      (concat "make -k -C " base-directory-for-compile " THIS_DIR=\'" default-directory "' " target))
                  (return))))
     (message "recompile = %s" compile-command)
-    (recompile)))
+    (recompile)
+    (with-current-buffer (get-buffer-create "*compilation*")
+      (cd base-directory-for-compile))))
 
 
 (global-set-key (kbd "C-<menu>") 'my-recompile)  ; CTRL-Menu
@@ -540,11 +544,13 @@
 
 ;; Go mode
 ;; -------
-(let ((go-directory "/usr/local/go/misc/emacs"))
-  (when (file-directory-p go-directory)
+
+;; see: https://code.google.com/p/go-wiki/wiki/IDEsAndTextEditorPlugins
+(let ((go-emacs-directory (expand-file-name (concat "~" init-file-user "/gocode/emacs/go-mode.el"))))
+  (when (file-directory-p go-emacs-directory)
     (message "init.el: go mode")
-    (add-to-list 'load-path "/usr/local/go/misc/emacs" t)
-    (require 'go-mode-load)))
+    (add-to-list 'load-path go-emacs-directory t)
+    (require 'go-mode)))
 
 
 ;; Fundamental mode
@@ -1256,7 +1262,7 @@
  '(mouse-buffer-menu-maxlen 30)
  '(mouse-buffer-menu-mode-mult 30)
  '(perl-indent-level 2)
- '(ps-font-size (quote (8 . 8.5)))
+ '(ps-font-size (quote (12 . 12)))
  '(ps-landscape-mode t)
  '(ps-lpr-command "/usr/local/bin/lpr")
  '(ps-multibyte-buffer (quote bdf-font-except-latin))
