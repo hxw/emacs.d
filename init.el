@@ -23,7 +23,13 @@
 
 (defun my-font-height ()
   "compute font height based on screeen height"
-  (if (> (display-pixel-height) 768) 140 120))
+  (let* ((h (display-pixel-height))
+         (selected (cond
+                    ((>= h 1000) 140)
+                    ((>= h  900) 160)
+                    (t           120))))
+    (message "dispplay height = %d => %d" h selected)
+    selected))
 
 
 ;; emacs customisation
