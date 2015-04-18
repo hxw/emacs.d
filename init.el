@@ -515,6 +515,20 @@
 (add-hook 'haskell-mode-hook 'haskell-unicode)
 
 
+;; CoffeScript mode
+;; ----------------
+
+(defun coffee-unicode ()
+  (interactive)
+  (substitute-patterns-with-unicode
+   (list (cons "[^<]\\(<-\\)" 'left-arrow)
+	 (cons "\\(->\\)[^>]" 'right-arrow)
+	 (cons "\\(=>\\)[^>]" 'rightwards-double-arrow)
+	 (cons "\\(\\.\\.\\.\\)" 'horizontal-ellipsis))))
+
+(add-hook 'coffee-mode-hook 'coffee-unicode)
+
+
 ;; Erlang mode
 ;; -----------
 
