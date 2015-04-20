@@ -40,7 +40,7 @@
   "compute font height based on screeen height"
   (let* ((h (display-pixel-height))
          (selected (cond
-                    ((>= h 1000) 140)
+                    ((>= h 1000) 160)
                     ((>= h  900) 160)
                     (t           120))))
     (message "dispplay height = %d => %d" h selected)
@@ -856,14 +856,16 @@
 (message "init.el: mode alist changes")
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.json\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.less\\'" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.a77\\'" . asm-mode))
 (add-to-list 'auto-mode-alist '("\\.inc\\'" . asm-mode))
 (add-to-list 'auto-mode-alist '("\\.4th\\'" . forth-mode))
 (add-to-list 'auto-mode-alist '("\\.pde\\'" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.app.src\\'" . erlang-mode))
+(add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-mode))
 
 
 (add-hook 'asm-mode-hook
