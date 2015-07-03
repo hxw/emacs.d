@@ -180,6 +180,12 @@
 ;; negative  -> make test-N
 
 
+(require 'ansi-color)
+(defun my-colour-compilation-buffer ()
+  (ansi-color-apply-on-region (point-min) (point-max))
+  (toggle-truncate-lines 1))
+(add-hook 'compilation-filter-hook 'my-colour-compilation-buffer)
+
 (defun my-recompile (arg)
   "Search for Makefile and recompile"
   (interactive "P")
@@ -1285,7 +1291,7 @@
  '(global-font-lock-mode t nil (font-lock))
  '(indent-tabs-mode nil)
  '(ispell-local-dictionary "british")
- '(js-indent-level 2)
+ '(js-indent-level 4)
  '(js2-allow-keywords-as-property-names nil)
  '(js2-auto-indent-p t)
  '(js2-basic-offset 4)
