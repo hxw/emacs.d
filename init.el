@@ -43,7 +43,7 @@
                     ((>= h 1000) 160)
                     ((>= h  900) 160)
                     (t           120))))
-    (message "dispplay height = %d => %d" h selected)
+    (message "display height = %d => %d" h selected)
     selected))
 
 
@@ -873,11 +873,18 @@
 (add-to-list 'auto-mode-alist '("\\.app.src\\'" . erlang-mode))
 (add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-mode))
 
+(when (require 'aggressive-indent-mode "aggressive-indent-mode" t)
+  (message "init.el: aggressive-indent-mode available")
+  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
+  (add-hook 'css-mode-hook #'aggressive-indent-mode)
+  (add-hook 'asm-mode-hook #'aggressive-indent-mode)
+  (add-hook 'c-mode-hook #'aggressive-indent-mode)
+  (add-hook 'c++-mode-hook #'aggressive-indent-mode))
 
 (add-hook 'asm-mode-hook
           #'(lambda ()
-             (setq comment-column '54)
-	     )
+              (setq comment-column '54)
+              )
 	  )
 
 ;;(add-hook 'asm-mode-set-comment-hook
@@ -1278,7 +1285,18 @@
  '(Buffer-menu-buffer+size-width 100)
  '(Buffer-menu-mode-width 120)
  '(buffers-menu-max-size 30)
- '(c-file-offsets (quote ((brace-list-intro . +) (statement-block-intro . +) (knr-argdecl-intro . +) (substatement-open . 0) (label . 0) (statement-cont . +))) t)
+ '(c-electric-pound-behavior (quote (alignleft)))
+ '(c-file-offsets
+   (quote
+    ((brace-list-intro . +)
+     (statement-block-intro . +)
+     (knr-argdecl-intro . +)
+     (substatement-open . 0)
+     (label . 0)
+     (statement-case-open . +)
+     (statement-case-intro . +)
+     (statement-cont . +))) t)
+ '(c-offsets-alist (quote ((statement-case-open . +))))
  '(case-fold-search t)
  '(coffee-tab-width 2)
  '(css-indent-offset 2)
@@ -1333,7 +1351,7 @@
      ;; If you edit it by hand, you could mess it up, so be careful.
      ;; Your init file should contain only one such instance.
      ;; If there is more than one, they won't work right.
-     -   '(default ((t (:foreground "blue4" :background "lavenderblush" :size "12pt" :family "apple-monaco")))))
+     '(default ((t (:foreground "blue4" :background "lavenderblush" :size "12pt" :family "apple-monaco")))))
 
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
