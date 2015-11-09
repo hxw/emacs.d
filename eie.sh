@@ -62,41 +62,38 @@ eval set -- "${args}"
 while :
 do
   case "$1" in
-    -v|--verbose)
+    (-v|--verbose)
       verbose=yes
-      shift
       ;;
 
-    -n|--no-frame)
+    (-n|--no-frame)
       frame=no
-      shift
       ;;
 
-    -b|--no-wait)
+    (-b|--no-wait)
       wait=no
-      shift
       ;;
 
-    -D|--desktop-number)
+    (-D|--desktop-number)
       DesktopNumber
       exit 0
       shift
       ;;
 
-    -d|--debug)
+    (-d|--debug)
       debug=yes
-      shift
       ;;
 
-    --)
+    (--)
       shift
       break
       ;;
 
-    *)
+    (*)
       USAGE invalid argument $1
       ;;
   esac
+  shift
 done
 
 [ $# -eq 0 ] && USAGE missing arguments
