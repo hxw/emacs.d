@@ -161,6 +161,8 @@
 
 (global-set-key (kbd "s-r") #'(lambda () (interactive) (revert-buffer t t nil))) ; Win-r
 
+(global-set-key (kbd "s-h") 'hoogle) ; Win-h
+
 (when window-system
   (global-unset-key (kbd "C-z")) ; iconify-or-deiconify-frame (C-x C-z)
   )
@@ -371,15 +373,15 @@
   (interactive)
   (font-lock-add-keywords
    nil `((,pattern (0 (progn (compose-region (match-beginning 1) (match-end 1)
-					     ,(unicode-symbol symbol))
-			     nil))))))
+                                             ,(unicode-symbol symbol))
+                             nil))))))
 
 (defun substitute-patterns-with-unicode (patterns)
   "Call SUBSTITUTE-PATTERN-WITH-UNICODE repeatedly."
   (mapcar #'(lambda (x)
-	      (substitute-pattern-with-unicode (car x)
-					       (cdr x)))
-	  patterns))
+              (substitute-pattern-with-unicode (car x)
+                                               (cdr x)))
+          patterns))
 
 
 ;; Ocaml mode
@@ -497,26 +499,26 @@
   (interactive)
   (substitute-patterns-with-unicode
    (list (cons "[^<]\\(<-\\)" 'left-arrow)
-	 (cons "\\(->\\)[^>]" 'right-arrow)
-	 (cons "\\(==\\)" 'identical)
-	 (cons "\\(/=\\)" 'not-identical)
-	 (cons "\\(()\\)" 'nil)
-	 (cons "\\<\\(sqrt\\)\\>" 'square-root)
-	 (cons "\\(&&\\)" 'logical-and)
-	 (cons "\\(||\\)" 'logical-or)
-	 (cons "\\<\\(not\\)\\>" 'logical-neg)
-	 (cons "\\(>\\)[^=]" 'greater-than)
-	 (cons "\\(<\\)[^=]" 'less-than)
-	 (cons "[^>]\\(>=\\)" 'greater-than-or-equal-to)
-	 (cons "[^<]\\(<=\\)" 'less-than-or-equal-to)
-	 (cons "\\<\\(alpha\\)\\>" 'alpha)
-	 (cons "\\<\\(beta\\)\\>" 'beta)
-	 (cons "\\<\\(gamma\\)\\>" 'gamma)
-	 (cons "\\<\\(delta\\)\\>" 'delta)
-	 (cons "\\(''\\)" 'double-prime)
-	 (cons "\\('\\)" 'prime)
-	 (cons "\\(!!\\)" 'double-exclamation)
-	 (cons "\\(\\.\\.\\)" 'horizontal-ellipsis))))
+         (cons "\\(->\\)[^>]" 'right-arrow)
+         (cons "\\(==\\)" 'identical)
+         (cons "\\(/=\\)" 'not-identical)
+         (cons "\\(()\\)" 'nil)
+         (cons "\\<\\(sqrt\\)\\>" 'square-root)
+         (cons "\\(&&\\)" 'logical-and)
+         (cons "\\(||\\)" 'logical-or)
+         (cons "\\<\\(not\\)\\>" 'logical-neg)
+         (cons "\\(>\\)[^=]" 'greater-than)
+         (cons "\\(<\\)[^=]" 'less-than)
+         (cons "[^>]\\(>=\\)" 'greater-than-or-equal-to)
+         (cons "[^<]\\(<=\\)" 'less-than-or-equal-to)
+         (cons "\\<\\(alpha\\)\\>" 'alpha)
+         (cons "\\<\\(beta\\)\\>" 'beta)
+         (cons "\\<\\(gamma\\)\\>" 'gamma)
+         (cons "\\<\\(delta\\)\\>" 'delta)
+         (cons "\\(''\\)" 'double-prime)
+         (cons "\\('\\)" 'prime)
+         (cons "\\(!!\\)" 'double-exclamation)
+         (cons "\\(\\.\\.\\)" 'horizontal-ellipsis))))
 
 (add-hook 'haskell-mode-hook 'haskell-unicode)
 
@@ -528,9 +530,9 @@
   (interactive)
   (substitute-patterns-with-unicode
    (list (cons "[^<]\\(<-\\)" 'left-arrow)
-	 (cons "\\(->\\)[^>]" 'right-arrow)
-	 (cons "\\(=>\\)[^>]" 'rightwards-double-arrow)
-	 (cons "\\(\\.\\.\\.\\)" 'horizontal-ellipsis))))
+         (cons "\\(->\\)[^>]" 'right-arrow)
+         (cons "\\(=>\\)[^>]" 'rightwards-double-arrow)
+         (cons "\\(\\.\\.\\.\\)" 'horizontal-ellipsis))))
 
 (add-hook 'coffee-mode-hook 'coffee-unicode)
 
@@ -542,24 +544,24 @@
   (interactive)
   (substitute-patterns-with-unicode
    (list (cons "[^<]\\(<-\\)" 'left-arrow)
-	 (cons "\\(->\\)[^>]" 'right-arrow)
+         (cons "\\(->\\)[^>]" 'right-arrow)
          (cons "[^<]\\(<=\\)" 'leftwards-double-arrow)
-	 (cons "\\(=>\\)[^>]" 'rightwards-double-arrow)
-	 (cons "\\(=:=\\)" 'identical)
-	 (cons "\\(=/=\\)" 'not-identical)
-	 (cons "[^=]\\(==\\)[^=]" 'equal)
-	 (cons "[^=]\\(/=\\)" 'not-equal)
-	 (cons "[^=/<>]\\(=\\)[^=/<>]" 'equivalent-to)
-	 ;;(cons "\\(\\[\\]\\)" 'nil)
-	 (cons "\\<\\(sqrt\\)\\>" 'square-root)
-	 ;;(cons "\\(&&\\)" 'logical-and)
-	 ;;(cons "\\(||\\)" 'logical-or)
-	 ;;(cons "\\<\\(not\\)\\>" 'logical-neg)
-	 (cons "\\(>\\)[^=]" 'greater-than)
-	 (cons "[^=]\\(<\\)" 'less-than)
-	 (cons "\\(>=\\)" 'greater-than-or-equal-to)
-	 (cons "\\(=<\\)" 'less-than-or-equal-to)
-	 (cons "\\(!!\\)" 'double-exclamation)
+         (cons "\\(=>\\)[^>]" 'rightwards-double-arrow)
+         (cons "\\(=:=\\)" 'identical)
+         (cons "\\(=/=\\)" 'not-identical)
+         (cons "[^=]\\(==\\)[^=]" 'equal)
+         (cons "[^=]\\(/=\\)" 'not-equal)
+         (cons "[^=/<>]\\(=\\)[^=/<>]" 'equivalent-to)
+         ;;(cons "\\(\\[\\]\\)" 'nil)
+         (cons "\\<\\(sqrt\\)\\>" 'square-root)
+         ;;(cons "\\(&&\\)" 'logical-and)
+         ;;(cons "\\(||\\)" 'logical-or)
+         ;;(cons "\\<\\(not\\)\\>" 'logical-neg)
+         (cons "\\(>\\)[^=]" 'greater-than)
+         (cons "[^=]\\(<\\)" 'less-than)
+         (cons "\\(>=\\)" 'greater-than-or-equal-to)
+         (cons "\\(=<\\)" 'less-than-or-equal-to)
+         (cons "\\(!!\\)" 'double-exclamation)
          )))
 
 (add-hook 'erlang-mode-hook 'erlang-unicode)
@@ -591,7 +593,8 @@
   (when (file-directory-p go-emacs-directory)
     (message "init.el: go mode")
     (add-to-list 'load-path go-emacs-directory t)
-    (require 'go-mode)))
+    (require 'go-mode)
+    (add-hook 'before-save-hook #'gofmt-before-save)))
 
 
 ;; Fundamental mode
@@ -725,14 +728,21 @@
   "tabify the buffer for certain file types"
   (interactive)
   (when (stringp mode-name)
-    (when (or (string= (substring mode-name 0 (min 2 (length mode-name))) "C/")
-              (string= (substring mode-name 0 (min 4 (length mode-name))) "C++/"))
+    (cond
+     ((or (string= (substring mode-name 0 (min 2 (length mode-name))) "C/")
+          (string= (substring mode-name 0 (min 4 (length mode-name))) "C++/"))
       (message "tabifying buffer before save")
       (save-excursion
         (tabify (point-min) (point-max)))
       )
-    )
-  )
+     ((or (string= (substring mode-name 0 (min 7 (length mode-name))) "Haskell")
+          (string= (substring mode-name 0 (min 10 (length mode-name))) "Emacs-Lisp"))
+      (message "untabifying buffer before save")
+      (save-excursion
+        (untabify (point-min) (point-max)))
+      )
+     )
+    ))
 
 (setq tabify-regexp "^\t* [ \t]+")
 
@@ -885,13 +895,13 @@
           #'(lambda ()
               (setq comment-column '54)
               )
-	  )
+          )
 
 ;;(add-hook 'asm-mode-set-comment-hook
 ;;          #'(lambda ()
 ;;             (setq asm-comment-char ?@)
-;;	     )
-;;	  )
+;;           )
+;;        )
 
 
 ;; removing spaces at end-of-line
@@ -938,34 +948,34 @@
   "multiply quantity by unit price"
   (interactive "p")
   (let (
-	(qty 0)
-	(unit-price 0)
-	(total-price 0)
-	)
+        (qty 0)
+        (unit-price 0)
+        (total-price 0)
+        )
     (if (search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" nil t)
-	(let (
-	      (start-pos (point))
-	      (end-pos (progn (end-of-line) (point)))
-	      )
-	  (goto-char start-pos)
-	  (backward-char 1)
-	  (setq qty (string-to-number (match-string 1)))
-	  (message "qty = %s" qty)
-	  (if (search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" end-pos t)
-	      (progn
-		(setq unit-price (string-to-number (match-string 1)))
-		(message "unit price = %s" unit-price)
-		(setq total-price (* unit-price qty))
-		(backward-char 1)
-		(message "total price = %s" total-price)
-		(if (search-forward-regexp "|[^|]+|" end-pos t)
-		    (progn
-		      (replace-match (format "| %7.2f |" total-price))
-		      )
-		  )
-		)
-	    )
-	  )
+        (let (
+              (start-pos (point))
+              (end-pos (progn (end-of-line) (point)))
+              )
+          (goto-char start-pos)
+          (backward-char 1)
+          (setq qty (string-to-number (match-string 1)))
+          (message "qty = %s" qty)
+          (if (search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" end-pos t)
+              (progn
+                (setq unit-price (string-to-number (match-string 1)))
+                (message "unit price = %s" unit-price)
+                (setq total-price (* unit-price qty))
+                (backward-char 1)
+                (message "total price = %s" total-price)
+                (if (search-forward-regexp "|[^|]+|" end-pos t)
+                    (progn
+                      (replace-match (format "| %7.2f |" total-price))
+                      )
+                  )
+                )
+            )
+          )
       )
     )
   )
@@ -989,41 +999,41 @@
   "sum a column of numbers"
   (interactive "p")
   (let (
-	(current-value 0)
-	(total-value 0)
-	)
+        (current-value 0)
+        (total-value 0)
+        )
     (while
-	(let (
-	      (start-pos (point))
-	      (end-pos (progn (end-of-line) (point)))
-	      )
-	  (goto-char start-pos)
-	  (cond
-	   ((looking-at "\\+") (next-line 1) t)
-	   ((looking-at "|[[:space:]]+|") (next-line 1) t)
+        (let (
+              (start-pos (point))
+              (end-pos (progn (end-of-line) (point)))
+              )
+          (goto-char start-pos)
+          (cond
+           ((looking-at "\\+") (next-line 1) t)
+           ((looking-at "|[[:space:]]+|") (next-line 1) t)
 
-	   ((search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" end-pos t)
-	    (setq current-value (string-to-number (match-string 1)))
-	    (message "value = %s" current-value)
-	    (setq total-value (+ total-value current-value))
-	    (backward-char (string-width (match-string 0)))
-	    (next-line 1)
-	    t
-	    )
+           ((search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" end-pos t)
+            (setq current-value (string-to-number (match-string 1)))
+            (message "value = %s" current-value)
+            (setq total-value (+ total-value current-value))
+            (backward-char (string-width (match-string 0)))
+            (next-line 1)
+            t
+            )
 
-	   ((looking-at "|=[^|]+|")
-	    (sc-replace-total "=%7.2f" total-value)
-	    nil
-	    )
+           ((looking-at "|=[^|]+|")
+            (sc-replace-total "=%7.2f" total-value)
+            nil
+            )
 
-	   ((looking-at "|#[^|]+|")
-	    (sc-replace-total "#%5d" total-value)
-	    nil
-	    )
+           ((looking-at "|#[^|]+|")
+            (sc-replace-total "#%5d" total-value)
+            nil
+            )
 
-	   (t (message "total value = %s" total-value) nil)
-	   )
-	  )
+           (t (message "total value = %s" total-value) nil)
+           )
+          )
       )
     )
   )
@@ -1079,11 +1089,11 @@
     (concat
      (reverse
       (mapcar #'(lambda (x)
-		 (cond
-		  ((and (= carry 1) (= x ?1)) ?0)
-		  ((and (= carry 1) (= x ?0)) (setq carry 0) ?1)
-		  (t x)))
-	      (reverse (string-to-list bin-str))))))
+                 (cond
+                  ((and (= carry 1) (= x ?1)) ?0)
+                  ((and (= carry 1) (= x ?0)) (setq carry 0) ?1)
+                  (t x)))
+              (reverse (string-to-list bin-str))))))
   )
 
 
@@ -1147,9 +1157,9 @@
 (defun my-html-insert-timestamp ()
   "Customised timestamp insertion function."
   (insert "Last modified: "
-	  (format-time-string "%Y-%m-%dT%R%z")
-	  "\n"
-	  )
+          (format-time-string "%Y-%m-%dT%R%z")
+          "\n"
+          )
   )
 
 (defun my-html-replace-timestamp ()
@@ -1159,24 +1169,24 @@
     (beginning-of-line)
     (goto-char (point-max))
     (if (search-backward "\n<!-- hhmts start -->\n" nil t)
-	(progn
-	  (beginning-of-line)
-	  (next-line 2)
-	  (beginning-of-line)
-	  (let ((begin (point)))
-	    (if (search-forward "<!-- hhmts end -->\n" nil t)
-		(progn
-		  (previous-line 1)
-		  (beginning-of-line)
-		  (let ((end (point)))
-		    (delete-region begin end)
-		    (beginning-of-line)
-		    (my-html-insert-timestamp)
-		    )
-		  )
-	      )
-	    )
-	  )
+        (progn
+          (beginning-of-line)
+          (next-line 2)
+          (beginning-of-line)
+          (let ((begin (point)))
+            (if (search-forward "<!-- hhmts end -->\n" nil t)
+                (progn
+                  (previous-line 1)
+                  (beginning-of-line)
+                  (let ((end (point)))
+                    (delete-region begin end)
+                    (beginning-of-line)
+                    (my-html-insert-timestamp)
+                    )
+                  )
+              )
+            )
+          )
       )
     (goto-char cur)
     )
