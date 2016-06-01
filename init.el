@@ -109,6 +109,13 @@
 
 (global-set-key (kbd "<f5>") 'toggle-case-char-at-point)
 
+(global-set-key (kbd "S-<f5>") (lambda (arg)
+                                 "add a fix this note"
+                                 (interactive "p")
+                                 (let ((tag "***** FIX THIS: "))
+                                   (comment-indent)
+                                   (unless (looking-at tag) (insert tag)))))
+
 (global-set-key (kbd "<f6>") (lambda (arg)
                        "set up flyspell"
                        (interactive "p")
