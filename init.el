@@ -699,6 +699,16 @@
   (message "init.el: lua-mode available"))
 
 
+;; SQL mode
+;; --------
+
+(when (require 'sqlup-mode "sqlup-mode" t)
+  (message "init.el: sqlup-mode available")
+  (add-hook 'sql-mode-hook 'sqlup-mode)
+  (add-hook 'sql-interactive-mode-hook 'sqlup-mode))
+
+
+
 ;; Ruby mode
 ;; ---------
 
@@ -749,6 +759,13 @@
       (message "untabifying buffer before save")
       (save-excursion
         (untabify (point-min) (point-max)))
+      )
+     ((or (string= (substring mode-name 0 (min 3 (length mode-name))) "SQL")
+          (string= (substring mode-name 0 (min 3 (length mode-name))) "sql"))
+      (message "untabifying buffer before save")
+      (save-excursion
+        (untabify (point-min) (point-max))
+        (sqlup-capitalize-keywords-in-region (point-min) (point-max)))
       )
      )
     ))
