@@ -728,7 +728,9 @@
 ;;   “java”        The default style for java-mode (see below)
 ;;   “user”        When you want to define your own style
 
-(setq c-default-style "bsd")
+(setq c-default-style '((java-mode . "java")
+                        (awk-mode . "awk")
+                        (other . "bsd")))
 
 
 (defun my-tabify ()
@@ -761,9 +763,10 @@
 
 (message "init.el: Java styles")
 
-
 (add-hook 'java-mode-hook #'(lambda ()
-                              (setq c-basic-offset 4)))
+                              (c-set-style "java")
+                              (setq indent-tabs-mode t)
+                              (setq c-basic-offset 8)))
 
 
 ;; awk mode
