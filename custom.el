@@ -41,7 +41,8 @@
  '(js2-enter-indents-newline t)
  '(js2-indent-on-enter-key t)
  '(lua-indent-level 4)
- '(markdown-command "pandoc --from=markdown --to=html")
+ '(markdown-command
+   "pandoc --from=markdown --to=html5 --standalone --self-contained --css=/home/hsw/.emacs.d/pandoc.css")
  '(menu-bar-mode nil)
  '(mouse-buffer-menu-maxlen 30)
  '(mouse-buffer-menu-mode-mult 30)
@@ -77,6 +78,7 @@
  '(cursor ((t (:background "red"))))
  '(highlight ((t (:background "LightSteelBlue1"))))
  '(js2-warning-face ((((class color) (background light)) (:foreground "orange" :underline "orange"))))
+ '(markdown-italic-face ((t (:inherit font-lock-variable-name-face :foreground "deep sky blue" :slant italic))))
  '(sh-heredoc ((t (:foreground "firebrick"))))
  '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray10" :height 0.8))))
  '(tabbar-selected ((t (:inherit tabbar-default :foreground "blue" :box (:line-width 1 :color "white" :style pressed-button)))))
