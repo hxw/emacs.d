@@ -55,7 +55,12 @@
  '(ps-printer-name-option "-P")
  '(quack-pretty-lambda-p t)
  '(quack-smart-open-paren-p t)
+ '(safe-local-variable-values
+   (quote
+    ((buffer-file-coding-system . utf-8-unix)
+     (org-html-head-include-scripts))))
  '(scroll-bar-mode (quote right))
+ '(sgml-basic-offset 4)
  '(sh-basic-offset 2)
  '(sh-indent-after-do (quote +))
  '(sh-indent-for-do 0)
