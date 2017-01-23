@@ -9,13 +9,20 @@ FrameEditors="emacsclient gnuclient"
 
 ERROR()
 {
-  echo error: $*
+  printf 'error: '
+  printf "$@"
+  printf '\n'
   exit 1
 }
 
 USAGE()
 {
-  [ -z "$1" ] || echo error: $*
+  if [ -n "$1" ]
+  then
+    printf 'error: '
+    printf "$@"
+    printf '\n'
+  fi
   echo usage: $(basename "$0") '<options> <files>'
   echo '       --help           -h         this message'
   echo '       --verbose        -v         more messages'
@@ -89,14 +96,18 @@ do
       break
       ;;
 
+    (-h|--help)
+      USAGE
+      ;;
+
     (*)
-      USAGE invalid argument $1
+      USAGE 'invalid argument: "%s"' "$1"
       ;;
   esac
   shift
 done
 
-[ $# -eq 0 ] && USAGE missing arguments
+[ $# -eq 0 ] && USAGE 'missing arguments'
 
 [ X"${debug}" = X"yes" ] && set -x
 
@@ -139,5 +150,4 @@ fi
 # default to command line editing
 [ -n "${cl_editor}" ] && exec "${cl_editor}" ${cl_options} "$@"
 
-echo "error: could not find a good editor"
-exit 1
+ERROR 'could not find a good editor'

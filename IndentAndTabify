@@ -3,13 +3,20 @@
 
 ERROR()
 {
-  echo error: $*
+  printf 'error: '
+  printf "$@"
+  printf '\n'
   exit 1
 }
 
 USAGE()
 {
-  [ -z "$1" ] || echo error: $*
+  if [ -n "$1" ]
+  then
+    printf 'error: '
+    printf "$@"
+    printf '\n'
+  fi
   echo usage: $(basename "$0") '<options...>'
   echo ' --help                                -h            This message'
   echo ' --verbose                             -v            More messages'
@@ -31,11 +38,11 @@ EmacsIndentAndTabity()
 
   out='cat > /dev/null'
 
-  [ -f "${source}" ] || USAGE source file: ${source} does not exist
+  [ -f "${source}" ] || USAGE 'source file: "%s" does not exist' "${source}"
 
-  [ -d "${destination}" ] && USAGE destination: ${destination} cannot be a directory
+  [ -d "${destination}" ] && USAGE 'destination: "%s" cannot be a directory' "${destination}"
 
-  [ -f "${destination}" -a X"${overwrite}" != X"yes" ] && USAGE file: ${destination} already exists
+  [ -f "${destination}" -a X"${overwrite}" != X"yes" ] && USAGE 'file: "%s" already exists' "${destination}"
 
   if [ X"${verbose}" = X"yes" ]
     then
@@ -136,19 +143,19 @@ do
       ;;
 
     *)
-      USAGE invalid option: $1
+      USAGE 'invalid option: %s' "$1"
       ;;
   esac
 done
 
 [ X"${debug}" = X"yes" ] && set -x
 
-[ X"${InPlace}" = X"${copy}" ] && USAGE must have only one option set
+[ X"${InPlace}" = X"${copy}" ] && USAGE 'must have only one option set'
 
 if [ X"${copy}" = X"yes" ]
 then
-  [ -z "$1" ] && USAGE missing source file
-  [ -z "$2" ] && USAGE missing destination file
+  [ -z "$1" ] && USAGE 'missing source file'
+  [ -z "$2" ] && USAGE 'missing destination file'
 
   EmacsIndentAndTabity "${verbose}" "${overwrite}" "${indent}" "$1" "$2"
 
