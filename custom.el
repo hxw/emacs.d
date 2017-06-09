@@ -32,7 +32,7 @@
  '(global-hl-line-mode t)
  '(indent-tabs-mode nil)
  '(ispell-local-dictionary "british")
- '(js-indent-level 4)
+ '(js-indent-level 2)
  '(js2-allow-keywords-as-property-names nil)
  '(js2-auto-indent-p t)
  '(js2-basic-offset 4)
@@ -46,6 +46,9 @@
  '(menu-bar-mode nil)
  '(mouse-buffer-menu-maxlen 30)
  '(mouse-buffer-menu-mode-mult 30)
+ '(package-selected-packages
+   (quote
+    (go-eldoc go-mode yaml-mode sqlup-mode markdown-mode lua-mode json-mode js2-mode htmlize haskell-mode flylisp coffee-mode aggressive-indent)))
  '(perl-indent-level 2)
  '(ps-font-size (quote (12 . 12)))
  '(ps-landscape-mode t)

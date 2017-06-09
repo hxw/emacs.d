@@ -595,13 +595,18 @@
 ;; Go mode
 ;; -------
 
-;; see: https://code.google.com/p/go-wiki/wiki/IDEsAndTextEditorPlugins
-(let ((go-emacs-directory (expand-file-name (concat "~" init-file-user "/gocode/emacs/go-mode.el"))))
-  (when (file-directory-p go-emacs-directory)
-    (message "init.el: go mode")
-    (add-to-list 'load-path go-emacs-directory t)
-    (require 'go-mode)
-    (add-hook 'before-save-hook #'gofmt-before-save)))
+;; ;; see: https://code.google.com/p/go-wiki/wiki/IDEsAndTextEditorPlugins
+;; (let ((go-emacs-directory (expand-file-name (concat "~" init-file-user "/gocode/emacs/go-mode.el"))))
+;;   (when (file-directory-p go-emacs-directory)
+;;     (message "init.el: go mode")
+;;     (add-to-list 'load-path go-emacs-directory t)
+;;     (require 'go-mode)
+;;     (add-hook 'before-save-hook #'gofmt-before-save)))
+
+(when (require 'go-mode "go-mode" t)
+  (message "init.el: go mode")
+  (add-hook 'before-save-hook #'gofmt-before-save)
+  (add-hook 'go-mode-hook 'go-eldoc-setup))
 
 
 ;; Fundamental mode
@@ -900,6 +905,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\.sample\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.less\\'" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.a77\\'" . asm-mode))
 (add-to-list 'auto-mode-alist '("\\.inc\\'" . asm-mode))
