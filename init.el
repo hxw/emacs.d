@@ -595,18 +595,45 @@
 ;; Go mode
 ;; -------
 
-;; ;; see: https://code.google.com/p/go-wiki/wiki/IDEsAndTextEditorPlugins
-;; (let ((go-emacs-directory (expand-file-name (concat "~" init-file-user "/gocode/emacs/go-mode.el"))))
-;;   (when (file-directory-p go-emacs-directory)
-;;     (message "init.el: go mode")
-;;     (add-to-list 'load-path go-emacs-directory t)
-;;     (require 'go-mode)
-;;     (add-hook 'before-save-hook #'gofmt-before-save)))
+(defun compact-go-imports ()
+  "remove extraneous blank lines from go imports"
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^[[:space:]]*import[[:space:]]*[(]" nil t)
+      (end-of-line)
+      (let ((p1 (point)))
+        (when (re-search-forward "^[[:space:]]*[)][[:space:]]*$")
+          (let ((bound (point)))
+            (goto-char p1)
+            (while (re-search-forward "\n\\([[:space:]]*\n\\)\\{1,\\}" bound t)
+              (replace-match "\n" nil nil))))))))
+
+(defun fix-go-break-continue ()
+  "ensure all break and continue have labels - to prevent break in case/select causing memory leaks"
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (while (re-search-forward "^[[:space:]]*\\(break\\|continue\\)[[:space:]]*\\(//.*\\)?$" nil t)
+      (beginning-of-line)
+      (forward-word)
+      (insert " \"***")
+      (insert (upcase (match-string 1)))
+      (insert " MISSING LABEL***\"")
+      (end-of-line))))
+
+(defun go-tidy-up ()
+  "run all go tidying processes"
+  (when (string= mode-name "Go")
+    (compact-go-imports)
+    (fix-go-break-continue)
+    (gofmt-before-save)))
+
 
 (when (require 'go-mode "go-mode" t)
   (message "init.el: go mode")
-  (add-hook 'before-save-hook #'gofmt-before-save)
-  (add-hook 'go-mode-hook 'go-eldoc-setup))
+  (add-hook 'before-save-hook #'go-tidy-up t)
+  (add-hook 'go-mode-hook #'go-eldoc-setup))
 
 
 ;; Fundamental mode
