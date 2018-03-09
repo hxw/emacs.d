@@ -95,8 +95,6 @@
   )
 
 
-
-
 ;; function keys
 ;; -------------
 
@@ -158,7 +156,8 @@
 (global-set-key (kbd "<home>") 'goto-line)   ; 5
 (global-set-key (kbd "C-\\") 'undo)
 (global-set-key (kbd "M-ESC") 'keyboard-quit) ; Esc-Esc
-(global-set-key (kbd "<pause>") 'eval-region) ; Pause
+(global-set-key (kbd "S-<pause>") 'eval-region) ; Shift Pause
+(global-set-key (kbd "C-<pause>") 'eval-defun) ; Ctrl Pause
 
 (global-set-key (kbd "C-<prior>") 'beginning-of-buffer) ; CTRL-Page Up
 (global-set-key (kbd "C-<next>") 'end-of-buffer) ; CTRL-Page Down
@@ -169,6 +168,9 @@
 (global-set-key (kbd "s-r") #'(lambda () (interactive) (revert-buffer t t nil))) ; Win-r
 
 (global-set-key (kbd "s-h") 'hoogle) ; Win-h
+
+(global-set-key (kbd "C-<print>") 'my-markdown-to-pdf)
+
 
 (when window-system
   (global-unset-key (kbd "C-z")) ; iconify-or-deiconify-frame (C-x C-z)
@@ -654,6 +656,11 @@
      ((string-equal fn "COMMIT_EDITMSG")
       (do-commit-header))
      ((string-equal fn "svn-commit.tmp")
+      (do-commit-header))
+     ((string-equal fn "changelog")
+      (setq indent-tabs-mode nil
+            tab-width 2
+            left-margin 2)
       (do-commit-header)))))
 
 (add-hook 'find-file-hook 'activate-flyspell)
@@ -916,6 +923,45 @@
 
 (when (require 'markdown-mode "markdown-mode" t)
   (message "init.el: markdown-mode available"))
+
+(defun my-markdown-to-pdf (arg)
+  "convert the current markdown buffer to a pdf file"
+  (interactive "p")
+  (let ((pdf-viewer "evince --presentation")
+        (markdown-command (concat
+                           "pandoc --from=markdown "
+                           "--to=latex --latex-engine=xelatex "
+                           "--number-sections "
+                           "--standalone --self-contained"))
+        (output-file-name (concat (file-name-base) ".pdf"))
+        (pandoc-errors (get-buffer-create "*Pandoc Errors*")))
+    (with-current-buffer pandoc-errors (erase-buffer))
+    (save-window-excursion
+      (let ((begin-region)
+            (end-region))
+        (if (markdown-use-region-p)
+            (setq begin-region (region-beginning)
+                  end-region (region-end))
+          (setq begin-region (point-min)
+                end-region (point-max)))
+        ;; Pass region to `markdown-command' via stdin
+        (call-process-region begin-region end-region
+                             shell-file-name nil (list pandoc-errors t) nil
+                             shell-command-switch
+                             (concat markdown-command " -o "
+                                     (shell-quote-argument output-file-name)))))
+    (if (> (buffer-size pandoc-errors) 0)
+        (progn
+          (message "pandoc failed")
+          (display-buffer pandoc-errors
+                          '((display-buffer-reuse-window
+                             display-buffer-pop-up-window
+                             display-buffer-pop-up-frame)
+                            (reusable-frames . 0)
+                            (window-height . nil)
+                            (window-width . 40))))
+      (when (> arg 0)
+        (shell-command (concat pdf-viewer " " (shell-quote-argument output-file-name)))))))
 
 
 ;; YAML mode
