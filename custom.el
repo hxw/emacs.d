@@ -19,6 +19,7 @@
      (statement-cont . +))) t)
  '(c-offsets-alist (quote ((statement-case-open . +))))
  '(case-fold-search t)
+ '(clang-format-executable "clang-format50")
  '(coffee-tab-width 2)
  '(css-indent-offset 2)
  '(current-language-environment "UTF-8")

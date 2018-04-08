@@ -791,7 +791,7 @@
           (string= (substring mode-name 0 (min 4 (length mode-name))) "C++/"))
       (message "tabifying buffer before save")
       (save-excursion
-        (tabify (point-min) (point-max)))
+        (clang-indent-region (point-min) (point-max)))
       )
      ((or (string= (substring mode-name 0 (min 7 (length mode-name))) "Haskell")
           (string= (substring mode-name 0 (min 10 (length mode-name))) "Emacs-Lisp"))
@@ -812,6 +812,26 @@
 (setq tabify-regexp "^\t* [ \t]+")
 
 (add-hook 'before-save-hook 'my-tabify)
+
+
+;; for clang-format
+;; ----------------
+
+(setq load-path (append
+                 '("/usr/local/llvm50/share/clang")
+                 load-path))
+(require 'clang-format)
+;;(fset 'c-indent-region 'clang-format-region)
+
+
+(defun my-clang-setup ()
+  "change tab to use clang-format"
+  (define-key c++-mode-map (kbd "<tab>") #'clang-format)
+  (define-key c-mode-map (kbd "<tab>") #'clang-format))
+
+(add-hook 'c-mode-hook #'my-clang-setup)
+(add-hook 'c++-mode-hook #'my-clang-setup)
+
 
 ;; for QT pro files
 ;; ----------------
