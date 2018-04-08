@@ -813,6 +813,12 @@
 
 (add-hook 'before-save-hook 'my-tabify)
 
+;; for QT pro files
+;; ----------------
+
+(require 'qt-pro-mode)
+(add-to-list 'auto-mode-alist '("\\.pr[io]$" . qt-pro-mode))
+
 
 ;; Java mode
 ;; ---------

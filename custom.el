@@ -48,7 +48,7 @@
  '(mouse-buffer-menu-mode-mult 30)
  '(package-selected-packages
    (quote
-    (w3 go-eldoc go-mode yaml-mode sqlup-mode markdown-mode lua-mode json-mode js2-mode htmlize haskell-mode flylisp coffee-mode aggressive-indent)))
+    (qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode lua-mode json-mode js2-mode htmlize haskell-mode flylisp coffee-mode aggressive-indent)))
  '(perl-indent-level 2)
  '(ps-font-size (quote (12 . 12)))
  '(ps-landscape-mode t)
