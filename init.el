@@ -169,7 +169,20 @@
 
 (global-set-key (kbd "s-h") 'hoogle) ; Win-h
 
-(global-set-key (kbd "C-<print>") 'my-markdown-to-pdf)
+(global-set-key (kbd "C-<print>") 'my-control-print-screen)
+
+
+;; PrtScn key handler
+(defun my-control-print-screen (arg)
+  "Do domething useful with the Ctrl-PrtScn"
+  (interactive "P")
+  (when (stringp mode-name)
+    (cond ((string= mode-name "Markdown")
+           (my-markdown-to-pdf arg))
+          ((string= mode-name "Org")
+           (my-org-to-html arg))
+          (t
+           (message "init.el: my-control-print-screen: unsupported mode: ~p", mode-name)))))
 
 
 (when window-system
@@ -942,6 +955,17 @@
 (setq tramp-debug-buffer t)
 (setq tramp-verbose 10)
 (setq tramp-default-method "ssh")
+
+
+;; Org mode
+;; --------
+
+(message "init.el: org-mode available"))
+
+(defun my-org-to-html (arg)
+  "convert the current markdown buffer to a pdf file"
+  (interactive "P")
+  (org-export-dispatch (universal-argument)))
 
 
 ;; Markdown mode
