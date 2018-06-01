@@ -960,7 +960,7 @@
 ;; Org mode
 ;; --------
 
-(message "init.el: org-mode available"))
+(message "init.el: org-mode available")
 
 (defun my-org-to-html (arg)
   "convert the current markdown buffer to a pdf file"
