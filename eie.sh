@@ -59,8 +59,12 @@ verbose=no
 frame=yes
 wait=yes
 
-getopt=/usr/local/bin/getopt
-[ -x "${getopt}" ] || getopt=getopt
+getopt=
+for g in /usr/local/bin/getopt /usr/local/opt/gnu-getopt/bin/getopt /usr/bin/getopt
+do
+  [ -x "${g}" ] && getopt="${g}" && break
+done
+[ -x "${getopt}" ] || ERROR 'no suitable getopt was found'
 args=$(${getopt} -o hvnbDd --long=help,verbose,no-frame,no-wait,desktop-number,debug -- "$@") ||exit 1
 
 # replace the arguments with the parsed values
