@@ -1,0 +1,17 @@
+;;; local additions / overrides for init.el
+;;; =======================================
+
+;; configuration for my golang hook
+;; --------------------------------
+
+(setq goimports-local "github.com/my-account/")
+
+
+;; edit .ino file in C++ mode for Arduino
+;; --------------------------------------
+
+(setq auto-mode-alist
+      (append
+       '(
+         ("\\.ino\\'" . c++-mode))
+       auto-mode-alist))

@@ -1,4 +1,4 @@
 abbrev_defs
-local-config.el
+local.el
 tramp
 elpa

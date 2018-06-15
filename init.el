@@ -642,6 +642,14 @@
   (when (string= mode-name "Go")
     (compact-go-imports)
     (fix-go-break-continue)
+    (setq gofmt-command "gofmt")
+    (setq gofmt-args (list "-s" "-r=(a) -> a"))
+    (gofmt-before-save)
+    (setq gofmt-command "goimports")
+    (setq gofmt-args (list "-local"
+                           (if (boundp 'goimports-local)
+                               goimports-local
+                             "github.com/")))
     (gofmt-before-save)))
 
 
@@ -1443,8 +1451,13 @@
 
 (message "init.el: Customising variables")
 
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file)
+(mapcar (lambda (file-name)
+       (when (file-exists-p file-name)
+         (message "init.el: Loading: %s" file-name)
+         (load file-name)))
+     (list
+      "~/.emacs.d/custom.el"
+      "~/.emacs.d/local.el"))
 
 
 ;; fix printer command
