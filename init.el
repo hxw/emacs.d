@@ -190,6 +190,15 @@
   )
 
 
+;; ido mode
+;; --------
+
+(require 'ido)
+(ido-mode t)
+(global-set-key "\C-x\C-b" 'ibuffer)
+(ido-toggle-prefix) ; ensure start in substing match
+
+
 ;; compilation keys
 ;; ----------------
 
@@ -249,6 +258,7 @@
 
 (global-set-key (kbd "C-<menu>") 'my-recompile)  ; CTRL-Menu
 (global-set-key (kbd "M-<menu>") 'next-error) ; ALT-Menu
+(global-set-key (kbd "S-<menu>") 'previous-error) ; Shift-Menu
 
 ;; compilation window
 
@@ -839,7 +849,7 @@
 ;; ----------------
 
 (setq load-path (append
-                 '("/usr/local/llvm50/share/clang")
+                 '("/usr/local/llvm60/share/clang")
                  load-path))
 (require 'clang-format)
 ;;(fset 'c-indent-region 'clang-format-region)
@@ -988,7 +998,7 @@
   (let ((pdf-viewer "evince --presentation")
         (markdown-command (concat
                            "pandoc --from=markdown "
-                           "--to=latex --latex-engine=xelatex "
+                           "--to=latex --pdf-engine=xelatex "
                            "--number-sections "
                            "--standalone --self-contained"))
         (output-file-name (concat (file-name-base) ".pdf"))
