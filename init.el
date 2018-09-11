@@ -182,7 +182,9 @@
           ((string= mode-name "Org")
            (my-org-to-html arg))
           (t
-           (message "init.el: my-control-print-screen: unsupported mode: ~p", mode-name)))))
+           (my-recompile arg) ; on t580 <print> is in the <menu> position
+           ))))
+           ;;(message "init.el: my-control-print-screen: unsupported mode: ~p", mode-name)))))
 
 
 (when window-system
@@ -259,6 +261,11 @@
 (global-set-key (kbd "C-<menu>") 'my-recompile)  ; CTRL-Menu
 (global-set-key (kbd "M-<menu>") 'next-error) ; ALT-Menu
 (global-set-key (kbd "S-<menu>") 'previous-error) ; Shift-Menu
+
+;;*(global-set-key (kbd "C-<print>") 'my-recompile)  ; CTRL-Print
+;;* ^ see above
+(global-set-key (kbd "M-<print>") 'next-error) ; ALT-Print
+(global-set-key (kbd "S-<print>") 'previous-error) ; Shift-Print
 
 ;; compilation window
 
