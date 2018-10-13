@@ -669,6 +669,13 @@
                              "github.com/")))
     (gofmt-before-save)))
 
+(global-set-key (kbd "S-<f7>") (lambda (arg)
+                                 "insert if err → return"
+                                 (interactive "p")
+                                 (mapc (lambda (s) (newline 1 t) (insert s))
+                                       '("if nil != err {" "return err" "}"))
+                                 (newline 1 t)))
+
 
 (when (require 'go-mode "go-mode" t)
   (message "init.el: go mode")
