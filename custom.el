@@ -85,6 +85,7 @@
  '(default ((t (:stipple nil :background "MistyRose" :foreground "blue4" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :width normal :height 160))))
  '(buffers-tab ((t (:foreground "black" :background "Gray80" :size "10" :slant normal))))
  '(cursor ((t (:background "red"))))
+ '(flyspell-incorrect ((t (:background "light pink" :foreground "orange red" :box (:line-width 2 :color "red2" :style released-button) :underline (:color "magenta" :style wave) :slant oblique))))
  '(font-lock-builtin-face ((t (:foreground "deep pink"))))
  '(highlight ((t (:background "LightSteelBlue1"))))
  '(js2-warning-face ((((class color) (background light)) (:foreground "orange" :underline "orange"))))
