@@ -221,6 +221,34 @@
   (toggle-truncate-lines 1))
 (add-hook 'compilation-filter-hook 'my-colour-compilation-buffer)
 
+(defvar my-last-compilation-exit-status 0 "records the exit status of the last compile")
+
+;; add a hook to remove compilation window if success
+(defun my-compilation-finish (buffer status)
+  (if (and (= compilation-num-errors-found 0)
+             (= compilation-num-warnings-found 0)
+             (= compilation-num-infos-found 0)
+             (= my-last-compilation-exit-status 0))
+    (let ((w (get-buffer-window)))
+      (when w
+        (sleep-for 2) ; allow time to view success
+        (delete-window w)))
+    (with-current-buffer buffer
+      (save-excursion
+        (goto-char (point-min)) ; find compilation-dir: DIR-NAME in make output and override THIS_DIR as base
+        (when (search-forward-regexp "compilation-dir:[[:space:]]\\(.*\\)[[:space:]]" (point-max) t 1)
+          (cd (match-string 1)))))))
+
+
+(add-hook 'compilation-finish-functions 'my-compilation-finish)
+
+(defun my-capture-exit-status (process-status exit-status msg)
+  "save exit status to global variable"
+  (setq my-last-compilation-exit-status exit-status)
+  (cons msg exit-status))
+
+(setq compilation-exit-message-function 'my-capture-exit-status)
+
 (defun my-recompile (arg)
   "Search for Makefile and recompile"
   (interactive "P")
@@ -240,7 +268,7 @@
     (if
         (or (file-exists-p "Makefile") (file-exists-p "BSDmakefile"))
         (set (make-local-variable 'compile-command)
-             (concat "make -k " target))
+             (concat "make  " target))
       (loop for the-dir = ".."
             then (concat the-dir "/..")
             until (string-equal "/" (file-truename the-dir))
@@ -250,12 +278,13 @@
                  (message "dir = %s" the-dir)
                  (set 'base-directory-for-compile (directory-file-name the-dir))
                  (set (make-local-variable 'compile-command)
-                      (concat "make -k -C " base-directory-for-compile " THIS_DIR=\'" default-directory "' " target))
+                      (concat "make -C " base-directory-for-compile " THIS_DIR=\'" default-directory "' " target))
                  (return))))
     (message "recompile = %s" compile-command)
+    (delete-other-windows)
     (recompile)
-    (with-current-buffer (get-buffer-create "*compilation*")
-      (cd base-directory-for-compile))))
+    (with-current-buffer (get-buffer-create "*compilation*") ; so find error can work
+      (cd default-directory))))
 
 
 (global-set-key (kbd "C-<menu>") 'my-recompile)  ; CTRL-Menu
@@ -393,6 +422,7 @@
                       ('for-all #X2200)
                       ('there-exists #X2203)
                       ('element-of #X2208)
+                      ('double-plus #X29FA)
 
                       ;; mathematical operators
                       ('square-root #X221A)
@@ -554,6 +584,7 @@
          (cons "\\<\\(beta\\)\\>" 'beta)
          (cons "\\<\\(gamma\\)\\>" 'gamma)
          (cons "\\<\\(delta\\)\\>" 'delta)
+         (cons "\\(++\\)" 'double-plus)
          (cons "\\(''\\)" 'double-prime)
          (cons "\\('\\)" 'prime)
          (cons "\\(!!\\)" 'double-exclamation)
@@ -706,7 +737,9 @@
       (setq indent-tabs-mode nil
             tab-width 2
             left-margin 2)
-      (do-commit-header)))))
+      (do-commit-header))
+     ((string-match "[.]\\(go\\|cpp\\|h\\|c\\|hs\\)$" fn)
+      (flyspell-prog-mode)))))
 
 (add-hook 'find-file-hook 'activate-flyspell)
 
@@ -1092,22 +1125,27 @@
 ;;        )
 
 
-;; removing spaces at end-of-line
-;; ------------------------------
+;; highlighting and removing spaces at end-of-line
+;; -----------------------------------------------
 
 (message "init.el: Remove spaces")
 
+
+(defun my-trailing-whitespace ()
+  "highlight trailing whilespace"
+    (setq show-trailing-whitespace t))
+
+(add-hook 'find-file-hook 'my-trailing-whitespace)
 
 (defun my-delete-trailing-whitespace ()
   "remove trailing whilespace from certain file types"
   (interactive)
   (when (stringp mode-name)
-    (when (not (string= mode-name "Hexl"))
-      (message "removing trailing whitespace before save")
-      (delete-trailing-whitespace)
-      )
-    )
-  )
+    (cond ((string= mode-name "Hexl") t)
+          ((string= mode-name "Diff") t)
+          (t
+           (message "removing trailing whitespace before save")
+           (delete-trailing-whitespace)))))
 
 (add-hook 'before-save-hook 'my-delete-trailing-whitespace)
 
