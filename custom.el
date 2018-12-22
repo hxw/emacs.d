@@ -5,6 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(Buffer-menu-buffer+size-width 100)
  '(Buffer-menu-mode-width 120)
+ '(ac-exuberant-ctags-tag-file-name "TAGS")
  '(buffers-menu-max-size 30)
  '(c-electric-pound-behavior (quote (alignleft)))
  '(c-file-offsets
@@ -49,7 +50,7 @@
  '(mouse-buffer-menu-mode-mult 30)
  '(package-selected-packages
    (quote
-    (tuareg qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode lua-mode json-mode js2-mode htmlize haskell-mode flylisp coffee-mode aggressive-indent)))
+    (ctags-update tuareg qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode lua-mode json-mode js2-mode htmlize haskell-mode flylisp coffee-mode aggressive-indent)))
  '(perl-indent-level 2)
  '(ps-font-size (quote (12 . 12)))
  '(ps-landscape-mode t)

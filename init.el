@@ -923,6 +923,27 @@
 (add-hook 'c-mode-hook #'my-clang-setup)
 (add-hook 'c++-mode-hook #'my-clang-setup)
 
+;; exuberant ctags
+;; ---------------
+
+(message "init.el: ctags")
+
+(require 'auto-complete-exuberant-ctags)
+(ac-exuberant-ctags-setup)
+
+(autoload 'turn-on-ctags-auto-update-mode "ctags-update" "turn on `ctags-auto-update-mode'." t)
+(add-hook 'c-mode-common-hook  'turn-on-ctags-auto-update-mode)
+(add-hook 'emacs-lisp-mode-hook  'turn-on-ctags-auto-update-mode)
+(add-hook 'go-mode-hook  'turn-on-ctags-auto-update-mode)
+
+;; (autoload 'ctags-update "ctags-update" "update TAGS using ctags" t)
+;; (global-set-key "\C-cE" 'ctags-update)
+
+(when (equal system-type 'windows-nt)
+  (setq ctags-update-command (expand-file-name  "~/.emacs.d/bin/ctags.exe")))
+(when (equal system-type 'berkeley-unix)
+  (setq ctags-update-command (expand-file-name  "/usr/local/bin/uctags")))
+
 
 ;; for QT pro files
 ;; ----------------
