@@ -49,7 +49,7 @@
  '(mouse-buffer-menu-mode-mult 30)
  '(package-selected-packages
    (quote
-    (qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode lua-mode json-mode js2-mode htmlize haskell-mode flylisp coffee-mode aggressive-indent)))
+    (tuareg qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode lua-mode json-mode js2-mode htmlize haskell-mode flylisp coffee-mode aggressive-indent)))
  '(perl-indent-level 2)
  '(ps-font-size (quote (12 . 12)))
  '(ps-landscape-mode t)
@@ -59,6 +59,7 @@
  '(ps-printer-name-option "-P")
  '(quack-pretty-lambda-p t)
  '(quack-smart-open-paren-p t)
+ '(rust-indent-offset 2)
  '(safe-local-variable-values
    (quote
     ((buffer-file-coding-system . utf-8-unix)
