@@ -939,12 +939,6 @@
 ;; (autoload 'ctags-update "ctags-update" "update TAGS using ctags" t)
 ;; (global-set-key "\C-cE" 'ctags-update)
 
-(when (equal system-type 'windows-nt)
-  (setq ctags-update-command (expand-file-name  "~/.emacs.d/bin/ctags.exe")))
-(when (equal system-type 'berkeley-unix)
-  (setq ctags-update-command (expand-file-name  "/usr/local/bin/uctags")))
-
-
 ;; for QT pro files
 ;; ----------------
 

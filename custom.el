@@ -23,6 +23,10 @@
  '(clang-format-executable "clang-format60")
  '(coffee-tab-width 2)
  '(css-indent-offset 2)
+ '(ctags-update-command "/usr/local/bin/uctags")
+ '(ctags-update-other-options
+   (quote
+    ("--fields=+iaSt" "--extras=+q" "--exclude='.#*'" "--exclude='*.elc'" "--exclude='*.class'" "--exclude='.git'" "--exclude='.svn'" "--exclude='SCCS'" "--exclude='RCS'" "--exclude='CVS'" "--exclude='EIFGEN'")))
  '(current-language-environment "UTF-8")
  '(custom-file "~/.emacs.d/custom.el")
  '(default-input-method "rfc1345")

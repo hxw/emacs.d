@@ -3,3 +3,5 @@ local.el
 tramp
 elpa
 ido.last
+tags
+TAGS
