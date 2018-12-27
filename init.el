@@ -928,8 +928,8 @@
 
 (message "init.el: ctags")
 
-(require 'auto-complete-exuberant-ctags)
-(ac-exuberant-ctags-setup)
+;;(require 'auto-complete-exuberant-ctags)
+;;(ac-exuberant-ctags-setup)
 
 (autoload 'turn-on-ctags-auto-update-mode "ctags-update" "turn on `ctags-auto-update-mode'." t)
 (add-hook 'c-mode-common-hook  'turn-on-ctags-auto-update-mode)
