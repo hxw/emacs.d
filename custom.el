@@ -60,7 +60,6 @@
  '(ps-landscape-mode t)
  '(ps-lpr-command "/usr/local/bin/lpr-cups")
  '(ps-multibyte-buffer (quote bdf-font-except-latin))
- '(ps-printer-name "HP5200")
  '(ps-printer-name-option "-P")
  '(quack-pretty-lambda-p t)
  '(quack-smart-open-paren-p t)

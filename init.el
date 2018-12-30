@@ -1550,11 +1550,23 @@
       "~/.emacs.d/local.el"))
 
 
-;; fix printer command
-;; -------------------
+;; printer command
+;; ---------------
 
 (if (eq system-type 'gnu/linux)
   (setq ps-lpr-command "/usr/bin/lpr"))
+
+;; detech default printer name
+(when (file-exists-p "/usr/local/bin/lpstat")
+  (let ((work-buffer "*CurrentPrinter*"))
+    (save-excursion
+      (if (bufferp work-buffer) (kill-buffer work-buffer))
+      (call-process "/usr/local/bin/lpstat" nil work-buffer nil "-d")
+      (set-buffer work-buffer)
+      (when (string-match "^system[[:space:]]+default[[:space:]]+destination:[[:space:]]+\\(.+\\)$" (buffer-string))
+        (setq ps-printer-name (match-string 1 (buffer-string)))
+        (kill-buffer work-buffer)
+        (message "init.el: printer is: '%s'" ps-printer-name)))))
 
 
 ;; override certain of the above options on a machine-by-machine basis
