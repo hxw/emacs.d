@@ -63,7 +63,7 @@
  '(ps-printer-name-option "-P")
  '(quack-pretty-lambda-p t)
  '(quack-smart-open-paren-p t)
- '(rust-indent-offset 2)
+ '(rust-indent-offset 4)
  '(safe-local-variable-values
    (quote
     ((buffer-file-coding-system . utf-8-unix)
