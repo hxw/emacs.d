@@ -897,6 +897,12 @@
         (untabify (point-min) (point-max))
         (sqlup-capitalize-keywords-in-region (point-min) (point-max)))
       )
+     ((or (string= (substring mode-name 0 (min 4 (length mode-name))) "Rust")
+          (string= (substring mode-name 0 (min 4 (length mode-name))) "rust"))
+      (message "Rust Format buffer before save")
+      (save-excursion
+        (rust-format-buffer))
+      )
      )
     ))
 
