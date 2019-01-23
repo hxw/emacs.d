@@ -101,13 +101,13 @@
 (message "init.el: Function keys")
 
 ;;(global-set-key (kbd "<f1>") 'save-buffers-kill-emacs)
-(global-set-key (kbd "<f2>") 'save-buffer)
+(global-set-key (kbd "<f2>") #'(lambda () "save buffer" (interactive) (delete-other-windows) (save-buffer)))
 (global-set-key (kbd "<f3>") 'match-paren)
-(global-set-key (kbd "<f4>") (lambda () "toggle between buffers" (interactive) (switch-to-buffer nil)))
+(global-set-key (kbd "<f4>") #'(lambda () "toggle between buffers" (interactive) (switch-to-buffer nil)))
 
 (global-set-key (kbd "<f5>") 'toggle-case-char-at-point)
 
-(global-set-key (kbd "S-<f5>") (lambda (arg)
+(global-set-key (kbd "S-<f5>") #'(lambda (arg)
                                  "add a fix this note"
                                  (interactive "p")
                                  (let ((tag "***** FIX THIS: "))
@@ -236,7 +236,8 @@
     (with-current-buffer buffer
       (save-excursion
         (goto-char (point-min)) ; find compilation-dir: DIR-NAME in make output and override THIS_DIR as base
-        (when (search-forward-regexp "compilation-dir:[[:space:]]\\(.*\\)[[:space:]]" (point-max) t 1)
+        (when (search-forward-regexp "compilation-dir:[[:space:]]*\\(.*\\)[[:space:]]" (point-max) t 1)
+          (message "compilation-dir: '%s'" (match-string 1))
           (cd (match-string 1)))))))
 
 
@@ -248,6 +249,11 @@
   (cons msg exit-status))
 
 (setq compilation-exit-message-function 'my-capture-exit-status)
+
+(defun my-testcompile (arg)
+  "run the test-1 target"
+  (interactive "P")
+  (my-recompile -1))
 
 (defun my-recompile (arg)
   "Search for Makefile and recompile"
@@ -288,6 +294,7 @@
 
 
 (global-set-key (kbd "C-<menu>") 'my-recompile)  ; CTRL-Menu
+(global-set-key (kbd "ESC <menu>") 'my-testcompile)  ; Esc Menu
 (global-set-key (kbd "M-<menu>") 'next-error) ; ALT-Menu
 (global-set-key (kbd "S-<menu>") 'previous-error) ; Shift-Menu
 
@@ -897,12 +904,6 @@
         (untabify (point-min) (point-max))
         (sqlup-capitalize-keywords-in-region (point-min) (point-max)))
       )
-     ((or (string= (substring mode-name 0 (min 4 (length mode-name))) "Rust")
-          (string= (substring mode-name 0 (min 4 (length mode-name))) "rust"))
-      (message "Rust Format buffer before save")
-      (save-excursion
-        (rust-format-buffer))
-      )
      )
     ))
 
@@ -971,6 +972,20 @@
 (add-hook 'awk-mode-hook
           #'(lambda ()
              (setq c-basic-offset 4)))
+
+;; rust mode
+;; ---------
+
+(message "init.el: rust setup")
+
+(add-hook 'after-save-hook 'my-show-rustfmt)
+
+(defun my-show-rustfmt ()
+  "if rust format failed split window to show errors"
+  (when (string= mode-name "Rust")
+    (delete-other-windows)
+    (when (get-buffer "*rustfmt*")
+      (set-window-buffer (split-window-sensibly) "*rustfmt*"))))
 
 
 ;; Python and Django
