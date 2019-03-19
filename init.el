@@ -284,7 +284,7 @@
                  (message "dir = %s" the-dir)
                  (set 'base-directory-for-compile (directory-file-name the-dir))
                  (set (make-local-variable 'compile-command)
-                      (concat "make -C " base-directory-for-compile " THIS_DIR=\'" default-directory "' " target))
+                      (concat "make -C '" base-directory-for-compile "' THIS_DIR='" default-directory "' " target))
                  (return))))
     (message "recompile = %s" compile-command)
     (delete-other-windows)
