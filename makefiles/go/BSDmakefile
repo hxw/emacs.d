@@ -1,0 +1,243 @@
+# BSDmakefile
+
+# build and version tag the bitmarkd applications
+
+
+# Makefile
+
+# go does not use Makefiles, this is just for EMACS
+# it interfaces with github.com/hxw/emacs.d.git
+# which provides a compile command that:
+#
+# 1. finds the first Makefile or BSDmakefile
+#    by searching upwards from the current file's location
+# 2. and uses target based on repetition count
+#    a. no count       => "all"
+#    b. '-' or '-0'    => "test"
+#    b. positive count => "emacs-<count>"
+#    c. negative count => "test-<count>"
+#
+# Notes:
+# 1. THIS_DIR => the directory the command is run in (e.g. Projects/Prog/Mod)
+# 2. PWD      => program directory (e.g. Projects/BSDmakefile=> PWD = Projects/Prog)
+# 3. @printf '\n===> compilation-dir: %s\n\n' '${SOME_OTHER_DIR}'
+#             => overrides the compilation buffer dir to make next/prev error work
+#                (default is ${THIS_DIR})
+
+PROJECTS = ${PWD}
+
+
+VET_ARGS = -all -printfuncs 'Critical,Criticalf,Warn,Warnf,Info,Infof'
+
+# 0 => compile/install program and set version
+.PHONY: all
+all:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n' 'compile/install program and set version'
+	@version='no-changelog' ; \
+	 cd '${THIS_DIR}' ; \
+	 program_root='' ; \
+	 while : ; \
+	 do \
+	   [ X"$${PWD}" = X"${PROJECTS}" ] && break ; \
+	   [ -d "command" ] && program_root="$${PWD}" ; \
+	   [ -f "main.go" ] && main_root="$${PWD}" ; \
+	   printf '\n===> check dir: %s\n' "$${PWD}" ; \
+	   changelog="debian/changelog" ; \
+	   [ -f "$${changelog}" ] && version=$$(head -n 1 "$${changelog}" | sed 's/^[^(]*[(]//; s/-[^)]*[)].*$$//') && break ; \
+	   cd .. ; \
+	 done ; \
+	 [ -z "$${program_root}" ] && program_root="$${main_root}" ; \
+	 if [ -n "$${program_root}" ] ; \
+	 then \
+	   cd "$${program_root}" ; \
+	   printf '\n===> compilation-dir: %s\n' "$${PWD}" ; \
+	   printf '\n===> compiling version: \033[1;34;47m%s\033[0m\n\n' "$${version}" ; \
+	   go install -v -ldflags="-X main.version=$${version}" -gcflags='-e' './...' ; \
+	 else \
+	   printf '\n===> program not found\n' ; \
+	   exit 1 ; \
+	 fi
+
+# -0  => test program and all subdirs (quiet)
+.PHONY: test
+test:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n' 'test program and all subdirs (quiet)'
+	@version='no-changelog' ; \
+	 cd '${THIS_DIR}' ; \
+	 program_root='' ; \
+	 for d in . .. ../.. ; \
+	 do \
+	   [ -d "$${d}/command" ] && program_root="$${d}" ; \
+	   [ -f "$${d}/main.go" ] && program_root="$${d}" ; \
+	   changelog="$${d}/debian/changelog" ; \
+	   [ -f "$${changelog}" ] && version=$$(head -n 1 "$${changelog}" | sed 's/^[^(]*[(]//; s/-[^)]*[)].*$$//') && break ; \
+	 done ; \
+	 if [ -n "$${program_root}" ] ; \
+	 then \
+	   cd "$${program_root}" ; \
+	   printf '\n===> compilation-dir: %s\n' "$${PWD}" ; \
+	   printf '\n===> compiling version: \033[1;34;47m%s\033[0m\n\n' "$${version}" ; \
+	   go vet ${VET_ARGS} '.' ; \
+	   go test './...' ; \
+	 else \
+	   printf '\n===> program not found\n' ; \
+	 fi
+
+# -1  => test program and all subdirs (verbose)
+.PHONY: test-1
+test-1:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n' 'test program and all subdirs (verbose)'
+	@version='no-changelog' ; \
+	 cd '${THIS_DIR}' ; \
+	 program_root='' ; \
+	 for d in . .. ../.. ; \
+	 do \
+	   [ -d "$${d}/command" ] && program_root="$${d}" ; \
+	   [ -f "$${d}/main.go" ] && program_root="$${d}" ; \
+	   changelog="$${d}/debian/changelog" ; \
+	   [ -f "$${changelog}" ] && version=$$(head -n 1 "$${changelog}" | sed 's/^[^(]*[(]//; s/-[^)]*[)].*$$//') && break ; \
+	 done ; \
+	 if [ -n "$${program_root}" ] ; \
+	 then \
+	   cd "$${program_root}" ; \
+	   printf '\n===> compilation-dir: %s\n' "$${PWD}" ; \
+	   printf '\n===> compiling version: \033[1;34;47m%s\033[0m\n\n' "$${version}" ; \
+	   go vet -v ${VET_ARGS} '.' ; \
+	   go test -v './...' ; \
+	 else \
+	   printf '===> program not found\n' ; \
+	 fi
+
+# -2  => test current directory (quiet)
+.PHONY: test-2
+test-2:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n\n' 'test module (quiet)'
+	cd '${THIS_DIR}' && go vet ${VET_ARGS} '.'
+	cd '${THIS_DIR}' && go test '.'
+
+# -3  => test current directory (verbose)
+.PHONY: test-3
+test-3:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n\n' 'test module (verbose)'
+	cd '${THIS_DIR}' && go vet -v ${VET_ARGS} '.'
+	cd '${THIS_DIR}' && go test -v '.'
+
+# ...
+
+# 1  => compile/install all projectes
+.PHONY: emacs-1
+emacs-1:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n\n' 'compile/install all projects'
+	@cd '${PROJECTS}' ; \
+	 for d in * ; \
+	 do \
+	   if [ -d "$${d}" ] ; \
+	   then \
+	     if [ -d "$${d}/command" -o -f "$${d}/main.go" ] ; \
+	     then \
+	       ${MAKE} -f '${PWD}/${MAKEFILE}' THIS_DIR="${PWD}/$${d}" all ; \
+	       printf '%s\n' '----------------------------------------------------------------------' ; \
+	     fi ; \
+	   fi ; \
+	 done
+
+
+# ...
+
+# 7  => git pull --rebase
+.PHONY: emacs-7 title-emacs-7
+emacs-7: title-emacs-7 git-pull
+title-emacs-7:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n\n' 'git pull --rebase'
+
+# 8  => git logs
+.PHONY: emacs-8 title-emacs-8
+emacs-8: title-emacs-8 git-logs
+title-emacs-8:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n\n' 'git logs'
+
+# 9  => git status
+.PHONY: emacs-9 title-emacs-9
+emacs-9: title-emacs-9 git-status
+title-emacs-9:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n\n' 'git status'
+
+
+# 10 => remove current libraries
+.PHONY: emacs-10
+emacs-10:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n\n' 'remove current libraries'
+	go clean -v -cache -testcache -modcache
+
+
+
+# 999 => help
+.PHONY: emacs-999
+emacs-999: help
+.PHONY: help
+help:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n\n' 'Help list'
+	@awk ' \
+BEGIN { \
+  delete messages; \
+} \
+/^#[[:space:]]*-?[[:digit:]]+[[:space:]]*=>/ { \
+   n = $$0; \
+   h = $$0; \
+   sub("^#[[:space:]]*", "", n); \
+   sub("[[:space:]]*=>.*$$", "", n); \
+   sub("^#[[:space:]]*-?[[:digit:]]+[[:space:]]*=>[[:space:]]*", "", h); \
+  if ("-0" == n) { \
+     printf("\t\033[1;35m -0\033[0m\t%s\n", h); \
+  } else { \
+     printf("\t\033[1;35m%3d\033[0m\t%s\n", n, h); \
+  } \
+}' '${MAKEFILE}'
+	false
+
+
+# git functions
+# =============
+
+.PHONY: git-status
+git-status:
+	@find . -type d -depth 1 -print | \
+	  while read dir ; \
+	  do \
+	    if [ -d "$${dir}/.git" ] ; \
+	    then \
+	      printf '=====> \033[1;34mCheck: \033[1;31;47m%s\033[0m\n' "$${dir}" ; \
+	      (cd "$${dir}" && git status --short | grep -v '^[?][?]') || true ; \
+	    else \
+	      printf '=====> \033[1;34mSkip: \033[1;36;47m%s\033[0m\n' "$${dir}" ; \
+	    fi ; \
+	  done
+
+.PHONY: git-pull
+git-pull:
+	@find . -type d -depth 1 -print | \
+	  while read dir ; \
+	  do \
+	    if [ -d "$${dir}/.git" ] ; \
+	    then \
+	      printf '=====> \033[1;34mCheck: \033[1;31;47m%s\033[0m\n' "$${dir}" ; \
+	      (cd "$${dir}" && git pull --rebase) || true ; \
+	    else \
+	      printf '=====> \033[1;34mSkip: \033[1;36;47m%s\033[0m\n' "$${dir}" ; \
+	    fi ; \
+	  done
+
+.PHONY: git-logs
+git-logs:
+	@find . -type d -depth 1 -print | \
+	  while read dir ; \
+	  do \
+	    if [ -d "$${dir}/.git" ] ; \
+	    then \
+	      printf '=====> \033[1;34mCheck: \033[1;31;47m%s\033[0m\n' "$${dir}" ; \
+	      (cd "$${dir}" && git ll) || true ; \
+	      echo ; \
+	    else \
+	      printf '=====> \033[1;34mSkip: \033[1;36;47m%s\033[0m\n' "$${dir}" ; \
+	    fi ; \
+	  done
