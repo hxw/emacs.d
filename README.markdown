@@ -9,5 +9,5 @@ Directory should be set up as follows:
                   |
                   +---- testclient
                   |
-                  +---- BSDmakefile -> ~/.emacs.d/makefiles/go
+                  +---- BSDmakefile -> ~/.emacs.d/makefiles/go/BSDmakefile
 ~~~
