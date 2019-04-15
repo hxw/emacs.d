@@ -1099,6 +1099,7 @@
                            "--standalone --self-contained"))
         (output-file-name (concat (file-name-base) ".pdf"))
         (pandoc-errors (get-buffer-create "*Pandoc Errors*")))
+    (message "creating PDF in: %s" output-file-name)
     (with-current-buffer pandoc-errors (erase-buffer))
     (save-window-excursion
       (let ((begin-region)
@@ -1124,7 +1125,7 @@
                             (reusable-frames . 0)
                             (window-height . nil)
                             (window-width . 40))))
-      (when (> arg 0)
+      (when (and (not (null arg)) (> arg 0))
         (shell-command (concat pdf-viewer " " (shell-quote-argument output-file-name)))))))
 
 
