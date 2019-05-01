@@ -889,7 +889,7 @@
           (string= (substring mode-name 0 (min 4 (length mode-name))) "C++/"))
       (message "tabifying buffer before save")
       (save-excursion
-        (clang-indent-region (point-min) (point-max)))
+        (clang-format-region (point-min) (point-max)))
       )
      ((or (string= (substring mode-name 0 (min 7 (length mode-name))) "Haskell")
           (string= (substring mode-name 0 (min 10 (length mode-name))) "Emacs-Lisp"))
