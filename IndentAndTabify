@@ -24,17 +24,17 @@ USAGE()
   echo ' --in-place source-files...            -i files...   In place tabify and indent of each file'
   echo ' --overwrite                           -o            For --copy to overwrite destination'
   echo ' --no-indent                           -n            Only remove extraneous whitespace, no re-indentation'
+  echo ' --debug                               -D            Debug the shell script'
   exit 1
 }
 
 EmacsIndentAndTabity()
 {
-  local verbose overwrite indent source destination out
-  verbose="$1"; shift
-  overwrite="$1"; shift
-  indent="$1"; shift
-  source=$(realpath "$1"); shift
-  destination=$(realpath "$1"); shift
+  local verbose overwrite source destination out
+  verbose="${1}"; shift
+  overwrite="${1}"; shift
+  source=$(realpath "${1}"); shift
+  destination=$(realpath "${1}"); shift
 
   out='cat > /dev/null'
 
@@ -54,32 +54,14 @@ EmacsIndentAndTabity()
   # and change DOS style EOL (CRLF) to Unix style (LF)
   emacs --batch --execute='
     (progn
-      (setq c-default-style "bsd")
-      (setq backup-inhibited t)
-      (setq auto-save-default nil)
-      (setq indent-tabs-mode nil)
-
-      (setq tabify-regexp "^\t* [ \t]+")
-
-      (find-file "'"${source}"'")
-
+      (setq the-source-file "'"${source}"'")
+      (setq the-output-file "'"${destination}"'")
+      (setq init-dir (expand-file-name (concat "~" init-file-user "/.emacs.d")))
+      (load (concat init-dir "/init.el"))
+      (find-file the-source-file)
       (set-buffer-file-coding-system '"'"'unix)
-
-      (goto-line 1)
-      (while (search-forward "\r" nil t)
-        (replace-match "" nil t))
-
-      (goto-line 1)
-      (delete-trailing-whitespace)
-
-      (untabify (point-min) (point-max))
-
-      (when (string-equal "yes" "'"${indent}"'")
-        (indent-region (point-min) (point-max)))
-
-      (write-file "'"${destination}"'" nil)
-      (kill-emacs 0))
-  ' 2>&1 | eval ${out}
+      (write-file the-output-file nil)
+    )' 2>&1 | eval ${out}
 }
 
 
@@ -90,47 +72,36 @@ verbose=no
 overwrite=no
 InPlace=no
 copy=no
-indent=yes
 debug=no
 
 getopt=/usr/local/bin/getopt
 [ -x "${getopt}" ] || getopt=getopt
-args=$(${getopt} -o hvoicnd --long=help,verbose,overwrite,in-place,copy,no-indent,debug -- "$@") || exit 1
+args=$(${getopt} -o hvoicD --long=help,verbose,overwrite,in-place,copy,debug -- "$@") || exit 1
 # replace the arguments with the parsed values
 eval set -- "${args}"
 
 while :
 do
-  case "$1" in
+  case "${1}" in
     -v|--verbose)
       verbose=yes
-      shift
       ;;
 
     -o|--overwrite)
       overwrite=yes
-      shift
       ;;
 
     -i|--in-place)
       InPlace=yes
       overwrite=yes
-      shift
       ;;
 
     -c|--copy)
       copy=yes
-      shift
       ;;
 
-    -n|--no-indent)
-      indent=no
-      shift
-      ;;
-
-    -d|--debug)
+    -D|--debug)
       debug=yes
-      shift
       ;;
 
     --)
@@ -143,27 +114,28 @@ do
       ;;
 
     *)
-      USAGE 'invalid option: %s' "$1"
+      USAGE 'invalid option: %s' "${1}"
       ;;
   esac
+  shift
 done
 
 [ X"${debug}" = X"yes" ] && set -x
 
 [ X"${InPlace}" = X"${copy}" ] && USAGE 'must have only one option set'
 
+# execute indent
 if [ X"${copy}" = X"yes" ]
 then
-  [ -z "$1" ] && USAGE 'missing source file'
-  [ -z "$2" ] && USAGE 'missing destination file'
+  [ -z "${1}" ] && USAGE 'missing source file'
+  [ -z "${2}" ] && USAGE 'missing destination file'
 
-  EmacsIndentAndTabity "${verbose}" "${overwrite}" "${indent}" "$1" "$2"
+  EmacsIndentAndTabity "${verbose}" "${overwrite}" "${1}" "${2}"
 
 elif [ X"${InPlace}" = X"yes" ]
 then
-
   for source in "$@"
   do
-    EmacsIndentAndTabity "${verbose}" "${overwrite}" "${indent}" "${source}" "${source}"
+    EmacsIndentAndTabity "${verbose}" "${overwrite}" "${source}" "${source}"
   done
 fi

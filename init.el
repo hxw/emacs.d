@@ -1,7 +1,6 @@
 ;; init.el
 ;; =======
 
-
 ;; load-path
 ;; ---------
 
@@ -127,13 +126,13 @@
 
 (global-set-key (kbd "<f9>") 'delete-trailing-whitespace)
 
-(load-library "mml")
-(global-set-key (kbd "C-<f9>") (lambda () "mime to mml"
-                                 (interactive)
-                                 (toggle-read-only 0)
-                                 (mime-to-mml)
-                                 (not-modified)
-                                 (toggle-read-only 1)))
+(when (require 'mml "mml" t)
+  (global-set-key (kbd "C-<f9>") (lambda () "mime to mml"
+                                   (interactive)
+                                   (toggle-read-only 0)
+                                   (mime-to-mml)
+                                   (not-modified)
+                                   (toggle-read-only 1))))
 
 (global-set-key (kbd "S-<f9>") (lambda (arg) "git blame via (vc-annotate)"
                                  (interactive "p")
@@ -998,7 +997,7 @@
 (defun my-set-flymake-mode ()
   (flymake-mode 1))
 
-(when (load "flymake" t)
+(when (require 'flymake "flymake" t)
   (defun flymake-pyflakes-init ()
     (let* ((temp-file (flymake-init-create-temp-buffer-copy
                        'flymake-create-temp-inplace))
@@ -1315,42 +1314,6 @@
   )
 
 
-;; taskjuggler
-;; -----------
-
-;;* (message "init.el: taskjuggler")
-;;*
-;;* (load "taskjuggler-mode")
-;;*
-;;*
-;;* ;; task name<digits> "desc"
-;;* ;; replace the digits with tj-number and increment tj-number
-;;*
-;;* (global-set-key (kbd "C-<kp-multiply>") 'tj-increment)
-;;* (global-set-key (kbd "C-<kp-subtract>") 'tj-reset)
-;;*
-;;* (setq tj-number 1)
-;;*
-;;* (defun tj-reset (arg)
-;;*   "renumber tasks"
-;;*   (interactive "p")
-;;*   (setq tj-number 1)
-;;* )
-;;*
-;;*
-;;* (defun tj-increment (arg)
-;;*   "renumber tasks"
-;;*   (interactive "p")
-;;*   (if (search-forward-regexp "[[:space:]]*task[[:space:]][[:alpha:]_-]*\\([[:digit:]]+\\)")
-;;*       (progn
-;;*         (backward-delete-char (string-width (match-string 1)))
-;;*         (insert-string tj-number)
-;;*         (setq tj-number (+ tj-number 1))
-;;*         ))
-;;*
-;;* )
-
-
 ;; binary numbering
 ;; ----------------
 
@@ -1512,9 +1475,9 @@
 ;; The socket path looks like: /tmp/emacs<uid>-<desktop>
 
 (if (eq system-type 'darwin)
-    (message "OS: darwin")
+    (message "init.el: OS: darwin")
   (progn
-    (message "OS: other")
+    (message "init.el: OS: other")
 
     (message "init.el: Starting server")
 
@@ -1564,12 +1527,13 @@
 (message "init.el: Customising variables")
 
 (mapcar (lambda (file-name)
-       (when (file-exists-p file-name)
-         (message "init.el: Loading: %s" file-name)
-         (load file-name)))
+          (let ((file-name (concat init-dir "/" file-name)))
+            (when (file-exists-p file-name)
+              (message "init.el: Loading: %s" file-name)
+              (load file-name nil 't))))
      (list
-      "~/.emacs.d/custom.el"
-      "~/.emacs.d/local.el"))
+      "custom.el"
+      "local.el"))
 
 
 ;; printer command
