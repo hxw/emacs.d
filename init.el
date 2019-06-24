@@ -729,6 +729,8 @@
 
 (when (require 'go-mode "go-mode" t)
   (message "init.el: go mode")
+  (require 'auto-complete)
+  (require 'go-autocomplete)
   (add-hook 'before-save-hook #'go-tidy-up t)
   (add-hook 'go-mode-hook #'go-eldoc-setup))
 
