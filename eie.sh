@@ -60,11 +60,28 @@ frame=yes
 wait=yes
 
 getopt=
-for g in /usr/local/bin/getopt /usr/local/opt/gnu-getopt/bin/getopt /usr/bin/getopt
-do
-  [ -x "${g}" ] && getopt="${g}" && break
-done
-[ -x "${getopt}" ] || ERROR 'no suitable getopt was found'
+case "$(uname)" in
+  (FreeBSD|DragonFly)
+    getopt=/usr/local/bin/getopt
+    ;;
+  (NetBSD)
+    getopt=/usr/pkg/bin/getopt
+    ;;
+  (OpenBSD)
+    getopt=/usr/local/bin/gnugetopt
+    ;;
+  (Darwin)
+    getopt=/usr/local/opt/gnu-getopt/bin/getopt
+    ;;
+  (Linux)
+    getopt=/usr/bin/getopt
+    ;;
+  (*)
+    ERROR 'OS: %s is not supported' "$(uname)"
+    ;;
+esac
+[ -x "${getopt}" ] || ERROR 'getopt: "%s" is not executable or not installed' "${getopt}"
+
 args=$(${getopt} -o hvnbDd --long=help,verbose,no-frame,no-wait,desktop-number,debug -- "$@") ||exit 1
 
 # replace the arguments with the parsed values
