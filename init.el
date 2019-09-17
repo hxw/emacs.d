@@ -917,7 +917,7 @@
 ;; ----------------
 
 (setq load-path (append
-                 '("/usr/local/llvm60/share/clang")
+                 '("/usr/local/llvm80/share/clang")
                  load-path))
 (require 'clang-format)
 ;;(fset 'c-indent-region 'clang-format-region)
