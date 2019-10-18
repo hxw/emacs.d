@@ -32,6 +32,9 @@ TOOLS += golang.org/x/tools/cmd/goimports
 TOOLS += golang.org/x/lint/golint
 TOOLS += github.com/stamblerre/gocode
 
+TOOLS += github.com/golang/mock/mockgen
+
+
 # 0 => compile/install program and set version
 .PHONY: all
 all:
@@ -61,7 +64,7 @@ all:
 	   printf '\n===> compilation-dir: %s\n' "$${PWD}" ; \
 	   [ X"$${git_head}" != X"$${git_tag}" ] && version="$${version}+$${git_n}-$${git_hash_prefix}" ; \
 	   printf '\n===> compiling version: \033[1;34;47m%s\033[0m\n\n' "$${version}" ; \
-	   go install -v -ldflags="-X main.version=$${version}" -gcflags='-e' './...' ; \
+	   go install -v -ldflags="-w -s -X main.version=$${version}" -gcflags='-e' './...' ; \
 	 else \
 	   printf '\n===> program not found\n' ; \
 	   exit 1 ; \
