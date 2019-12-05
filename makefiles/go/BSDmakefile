@@ -49,7 +49,7 @@ all:
 	   [ -f "main.go" ] && main_root="$${PWD}" ; \
 	   printf '\n===> check dir: %s\n' "$${PWD}" ; \
 	   changelog="debian/changelog" ; \
-	   [ -f "$${changelog}" ] && version=$$(head -n 1 "$${changelog}" | sed -E 's/^[^(]*[(]([^)]+)-[[:digit:]]+[)].*$$/\1/') && break ; \
+	   [ -f "$${changelog}" ] && version=$$(head -n 1 "$${changelog}" | sed -E 's/^[^(]*[(]([^)]+)-[[:digit:][:alpha:]]+[)].*$$/\1/') && break ; \
 	   cd .. ; \
 	 done ; \
 	 [ -z "$${program_root}" ] && program_root="$${main_root}" ; \
