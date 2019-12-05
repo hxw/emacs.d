@@ -23,7 +23,7 @@ USAGE()
     printf "$@"
     printf '\n'
   fi
-  echo usage: $(basename "$0") '<options> <files>'
+  echo usage: "$(basename "$0")" '<options> <files>'
   echo '       --help           -h         this message'
   echo '       --verbose        -v         more messages'
   echo '       --no-frame       -n         use console editor'
@@ -133,28 +133,29 @@ done
 [ X"${debug}" = X"yes" ] && set -x
 
 # command line edit
-editor=
 for value in $CommandLineEditors
 do
   cl_editor="${value%%:*}"
   cl_options="${value#*:}"
-  cl_editor=$(which "${cl_editor}" 2> /dev/null)
+  cl_editor=$(command -v "${cl_editor}" 2> /dev/null)
   [ -x "${cl_editor}" ] && break
 done
 [ -z "${cl_editor}" ] && echo "warning: no backup editor"
+
+[ X"${verbose}" = X"yes" ] && echo "selected: ${cl_editor}"
 
 # in frame edit
 frame_editor=
 for value in $FrameEditors
 do
-  frame_editor=$(which "${value}" 2> /dev/null)
+  frame_editor=$(command -v "${value}" 2> /dev/null)
   [ -x "${frame_editor}" ] && break
 done
-[ -z "${frame_editor}" ] && echo "warning: no in frame editor"
+[ -z "${frame_editor}" ] && echo "warning: no in-frame editor"
 
-CurrentDesktop=$(DesktopNumber)
+[ X"${verbose}" = X"yes" ] && echo "selected: ${frame_editor}"
 
-if [ "$?" -eq 0 -a X"${frame}" = X"yes" -a -n "${frame_editor}" ]
+if CurrentDesktop=$(DesktopNumber) && [ X"${frame}" = X"yes" ] && [ -n "${frame_editor}" ]
 then
   # echo CurrentDesktop = ${CurrentDesktop}
   server_socket="/tmp/emacs$(id -u)-${CurrentDesktop}/server"
@@ -162,8 +163,7 @@ then
   [ X"${wait}" = X"no" ] && extra_flags="-n"
   if [ -S "${server_socket}" ]
   then
-    "${frame_editor}" ${extra_flags} -s "${server_socket}" "$@"
-    [ $? -eq 0 ] && exit 0
+    "${frame_editor}" ${extra_flags} -s "${server_socket}" "$@" && exit 0
     echo
   fi
 fi

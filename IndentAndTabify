@@ -17,7 +17,7 @@ USAGE()
     printf "$@"
     printf '\n'
   fi
-  echo usage: $(basename "$0") '<options...>'
+  echo usage: "$(basename "$0")" '<options...>'
   echo ' --help                                -h            This message'
   echo ' --verbose                             -v            More messages'
   echo ' --copy source-file destination-file   -c src dst    Copy indented and tabified source to destination'
@@ -42,7 +42,7 @@ EmacsIndentAndTabity()
 
   [ -d "${destination}" ] && USAGE 'destination: "%s" cannot be a directory' "${destination}"
 
-  [ -f "${destination}" -a X"${overwrite}" != X"yes" ] && USAGE 'file: "%s" already exists' "${destination}"
+  [ -f "${destination}" ] && [ X"${overwrite}" != X"yes" ] && USAGE 'file: "%s" already exists' "${destination}"
 
   if [ X"${verbose}" = X"yes" ]
     then
