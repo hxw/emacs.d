@@ -266,24 +266,23 @@
           ((zerop arg)     "all")
           ((> arg 0)       (format "emacs-%d" arg))
           ((< arg 0)       (format "test-%d" (- arg)))
-          (t "qqq"))))
+          (t "qqq")))
+       (the-makefile "Emakefile"))
 
     (message "recompile target = %s" target)
 
-    (if
-        (or (file-exists-p "Makefile") (file-exists-p "BSDmakefile"))
+    (if (file-exists-p the-makefile)
         (set (make-local-variable 'compile-command)
-             (concat "make  " target))
+             (concat "make -f " the-makefile " " target))
       (loop for the-dir = ".."
             then (concat the-dir "/..")
             until (string-equal "/" (file-truename the-dir))
-            when (or (file-exists-p (concat the-dir "/Makefile"))
-                     (file-exists-p (concat the-dir "/BSDmakefile")))
+            when (file-exists-p (concat the-dir "/" the-makefile))
             do (progn
-                 (message "dir = %s" the-dir)
+                 (message "dir = %s  makefile = %s" the-dir this-makefile)
                  (set 'base-directory-for-compile (directory-file-name the-dir))
                  (set (make-local-variable 'compile-command)
-                      (concat "make -C '" base-directory-for-compile "' THIS_DIR='" default-directory "' " target))
+                      (concat "make -f '" the-makefile "' -C '" base-directory-for-compile "' THIS_DIR='" default-directory "' " target))
                  (return))))
     (message "recompile = %s" compile-command)
     (delete-other-windows)

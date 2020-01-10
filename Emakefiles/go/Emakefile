@@ -57,8 +57,8 @@ all:
 	 then \
 	   cd "$${program_root}" ; \
 	   git_head="$$(git rev-list --max-count=1 HEAD)" ; \
-	   git_tag="$$(git rev-list --max-count=1 "v$${version}")" ; \
-	   git_n="$$(git rev-list --count "v$${version}..HEAD")" ; \
+	   git_tag="$$(git rev-list --max-count=1 "v$${version}" || true)" ; \
+	   git_n="$$(git rev-list --count "v$${version}..HEAD" || echo 0)" ; \
 	   git_hash_prefix="$${git_head#????????}" ; \
 	   git_hash_prefix="$${git_head%$${git_hash_prefix}}" ; \
 	   printf '\n===> compilation-dir: %s\n' "$${PWD}" ; \
