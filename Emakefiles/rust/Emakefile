@@ -1,15 +1,14 @@
-# BSDmakefile
+# Emakefile
 
-# build and version tag the bitmarkd applications
-
+# Build for Rust
 
 # Makefile
 
-# go does not use Makefiles, this is just for EMACS
+# Rust does not use Makefiles, this is just for EMACS
 # it interfaces with github.com/hxw/emacs.d.git
 # which provides a compile command that:
 #
-# 1. finds the first Makefile or BSDmakefile
+# 1. finds the first Emakefile
 #    by searching upwards from the current file's location
 # 2. and uses target based on repetition count
 #    a. no count       => "all"

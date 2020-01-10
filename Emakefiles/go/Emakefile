@@ -1,7 +1,6 @@
-# BSDmakefile
+# Emakefile
 
-# build and version tag the bitmarkd applications
-
+# build and version tag the go applications
 
 # Makefile
 
