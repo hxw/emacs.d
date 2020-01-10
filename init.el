@@ -279,7 +279,7 @@
             until (string-equal "/" (file-truename the-dir))
             when (file-exists-p (concat the-dir "/" the-makefile))
             do (progn
-                 (message "dir = %s  makefile = %s" the-dir this-makefile)
+                 (message "dir = %s  makefile = %s" the-dir the-makefile)
                  (set 'base-directory-for-compile (directory-file-name the-dir))
                  (set (make-local-variable 'compile-command)
                       (concat "make -f '" the-makefile "' -C '" base-directory-for-compile "' THIS_DIR='" default-directory "' " target))
