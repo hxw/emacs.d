@@ -228,17 +228,18 @@
              (= compilation-num-warnings-found 0)
              (= compilation-num-infos-found 0)
              (= my-last-compilation-exit-status 0))
-    (let ((w (get-buffer-window)))
-      (when w
-        (sleep-for 2) ; allow time to view success
-        (delete-window w)))
-    (with-current-buffer buffer
-      (save-excursion
-        (goto-char (point-min)) ; find compilation-dir: DIR-NAME in make output and override THIS_DIR as base
-        (when (search-forward-regexp "compilation-dir:[[:space:]]*\\(.*\\)[[:space:]]" (point-max) t 1)
-          (message "compilation-dir: '%s'" (match-string 1))
-          (cd (match-string 1)))))))
-
+      (let ((w (get-buffer-window)))
+        (with-current-buffer buffer
+          (save-excursion
+            (when w
+              (goto-char (point-min)) ; find compilation-dir: DIR-NAME in make output and override THIS_DIR as base
+              (when (not (search-forward-regexp "close-compilation-window:[[:space:]]*no[[:space:]]" (point-max) t 1))
+                (sleep-for 2) ; allow time to view success
+                (delete-window w)))
+            (goto-char (point-min)) ; find compilation-dir: DIR-NAME in make output and override THIS_DIR as base
+            (when (search-forward-regexp "compilation-dir:[[:space:]]*\\(.*\\)[[:space:]]" (point-max) t 1)
+              (message "compilation-dir: '%s'" (match-string 1))
+              (cd (match-string 1))))))))
 
 (add-hook 'compilation-finish-functions 'my-compilation-finish)
 
