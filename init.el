@@ -224,22 +224,26 @@
 
 ;; add a hook to remove compilation window if success
 (defun my-compilation-finish (buffer status)
-  (if (and (= compilation-num-errors-found 0)
-             (= compilation-num-warnings-found 0)
-             (= compilation-num-infos-found 0)
-             (= my-last-compilation-exit-status 0))
-      (let ((w (get-buffer-window)))
-        (with-current-buffer buffer
-          (save-excursion
+  (with-current-buffer buffer
+    (save-excursion
+      (message "compilation finish: '%s'  '%s'" buffer status)
+      (goto-char (point-min)) ; find compilation-dir: DIR-NAME in make output and override THIS_DIR as base
+      (when (search-forward-regexp "compilation-dir:[[:space:]]+\\(.*\\)[[:space:]]" (point-max) t 1)
+        (message "compilation-dir: '%s'" (match-string 1))
+        (cd (match-string 1)))
+
+      (if (and (= compilation-num-errors-found 0)
+               (= compilation-num-warnings-found 0)
+               (= compilation-num-infos-found 0)
+               (= my-last-compilation-exit-status 0))
+          (let ((w (get-buffer-window)))
+            (message "compilation success: '%s'  '%s'" buffer status)
             (when w
-              (goto-char (point-min)) ; find compilation-dir: DIR-NAME in make output and override THIS_DIR as base
-              (when (not (search-forward-regexp "close-compilation-window:[[:space:]]*no[[:space:]]" (point-max) t 1))
+              (goto-char (point-min)) ; find close-compilation-window
+              (when (not (search-forward-regexp "close-compilation-window:[[:space:]]+no[[:space:]]" (point-max) t 1))
                 (sleep-for 2) ; allow time to view success
-                (delete-window w)))
-            (goto-char (point-min)) ; find compilation-dir: DIR-NAME in make output and override THIS_DIR as base
-            (when (search-forward-regexp "compilation-dir:[[:space:]]*\\(.*\\)[[:space:]]" (point-max) t 1)
-              (message "compilation-dir: '%s'" (match-string 1))
-              (cd (match-string 1))))))))
+                (delete-window w))))))))
+
 
 (add-hook 'compilation-finish-functions 'my-compilation-finish)
 
