@@ -986,6 +986,14 @@
           #'(lambda ()
              (setq c-basic-offset 4)))
 
+
+;; nim mode
+;; --------
+
+;; (add-hook 'nim-mode-hook 'nimsuggest-mode)
+;;  (setq nimsuggest-path "path/to/nimsuggest")
+
+
 ;; rust mode
 ;; ---------
 
