@@ -296,10 +296,18 @@
       (cd default-directory))))
 
 
+; standard Menu key
 (global-set-key (kbd "C-<menu>") 'my-recompile)  ; CTRL-Menu
 (global-set-key (kbd "ESC <menu>") 'my-testcompile)  ; Esc Menu
 (global-set-key (kbd "M-<menu>") 'next-error) ; ALT-Menu
 (global-set-key (kbd "S-<menu>") 'previous-error) ; Shift-Menu
+
+; alternative Menu key
+(global-set-key (kbd "C-<XF86MenuKB>") 'my-recompile)  ; CTRL-Menu
+(global-set-key (kbd "ESC <XF86MenuKB>") 'my-testcompile)  ; Esc Menu
+(global-set-key (kbd "M-<XF86MenuKB>") 'next-error) ; ALT-Menu
+(global-set-key (kbd "S-<XF86MenuKB>") 'previous-error) ; Shift-Menu
+
 
 ;;*(global-set-key (kbd "C-<print>") 'my-recompile)  ; CTRL-Print
 ;;* ^ see above
