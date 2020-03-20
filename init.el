@@ -263,7 +263,7 @@
   "Search for Makefile and recompile"
   (interactive "P")
   (let*
-      ((base-directory-for-compile ".")
+      ((base-directory-for-compile default-directory)
        (target
          (cond
           ((null arg)      "")
@@ -279,21 +279,25 @@
     (if (file-exists-p the-makefile)
         (set (make-local-variable 'compile-command)
              (concat "make -f " the-makefile " " target))
-      (loop for the-dir = ".."
-            then (concat the-dir "/..")
-            until (string-equal "/" (file-truename the-dir))
-            when (file-exists-p (concat the-dir "/" the-makefile))
+      (loop for the-dir = default-directory
+            then (file-truename (concat the-dir "/.."))
+            until (string-equal "/" the-dir)
+            when (file-exists-p (concat the-dir "/../" the-makefile))
             do (progn
                  (message "dir = %s  makefile = %s" the-dir the-makefile)
                  (set 'base-directory-for-compile (directory-file-name the-dir))
                  (set (make-local-variable 'compile-command)
-                      (concat "make -f '" the-makefile "' -C '" base-directory-for-compile "' THIS_DIR='" default-directory "' " target))
+                      (concat "make -f '../" the-makefile
+                              "' -C '" base-directory-for-compile
+                              "' THIS_DIR='" default-directory
+                              "' PROJECT_DIR='" (file-truename (concat base-directory-for-compile "/.."))
+                              "' " target))
                  (return))))
     (message "recompile = %s" compile-command)
     (delete-other-windows)
     (recompile)
     (with-current-buffer (get-buffer-create "*compilation*") ; so find error can work
-      (cd default-directory))))
+      (cd base-directory-for-compile))))
 
 
 ; standard Menu key

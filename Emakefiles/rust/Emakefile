@@ -2,9 +2,7 @@
 
 # Build for Rust
 
-# Makefile
-
-# Rust does not use Makefiles, this is just for EMACS
+# This is just for EMACS:
 # it interfaces with github.com/hxw/emacs.d.git
 # which provides a compile command that:
 #
@@ -17,15 +15,14 @@
 #    c. negative count => "test-<count>"
 #
 # Notes:
-# 1. THIS_DIR => the directory the command is run in (e.g. Projects/Prog/Mod)
-# 2. PWD      => program directory (e.g. Projects/BSDmakefile=> PWD = Projects/Prog)
-# 3. @printf '\n===> compilation-dir: %s\n\n' '${SOME_OTHER_DIR}'
-#             => overrides the compilation buffer dir to make next/prev error work
-#                (default is ${THIS_DIR})
+# 1. PROJECTS_DIR => directory containing this Emakefile (Projects)
+# 2. PWD          => program root directory              (Projects/Prog)
+# 3. THIS_DIR     => directory the command is run in     (Projects/Prog/Mod/Sub)
+# 4. @printf '\n===> compilation-dir: %s\n\n' '${SOME_OTHER_DIR}'
+#                 => overrides the compilation buffer dir to make next/prev error work
+#                    (default is ${THIS_DIR})
 
 RM = rm -f
-
-PROJECTS != realpath '${PWD}'
 
 # 0 => compile/run Rust program
 .PHONY: all
@@ -35,7 +32,7 @@ all:
 	 program_root='' ; \
 	 while : ; \
 	 do \
-	   [ X"$$(realpath '.')" = X"${PROJECTS}" ] && break ; \
+	   [ X"$$(realpath '.')" = X"${PROJECTS_DIR}" ] && break ; \
 	   [ -f "Cargo.toml" ] && program_root="$${PWD}" && break ; \
 	   cd .. ; \
 	 done ; \
@@ -57,7 +54,7 @@ emacs-1:
 	 program_root='' ; \
 	 while : ; \
 	 do \
-	   [ X"$$(realpath '.')" = X"${PROJECTS}" ] && break ; \
+	   [ X"$$(realpath '.')" = X"${PROJECTS_DIR}" ] && break ; \
 	   [ -f "Cargo.toml" ] && program_root="$${PWD}" && break ; \
 	   cd .. ; \
 	 done ; \
@@ -80,7 +77,7 @@ emacs-2:
 	 program_root='' ; \
 	 while : ; \
 	 do \
-	   [ X"$$(realpath '.')" = X"${PROJECTS}" ] && break ; \
+	   [ X"$$(realpath '.')" = X"${PROJECTS_DIR}" ] && break ; \
 	   [ -f "Cargo.toml" ] && program_root="$${PWD}" && break ; \
 	   cd .. ; \
 	 done ; \
@@ -102,7 +99,7 @@ emacs-9:
 	 program_root='' ; \
 	 while : ; \
 	 do \
-	   [ X"$$(realpath '.')" = X"${PROJECTS}" ] && break ; \
+	   [ X"$$(realpath '.')" = X"${PROJECTS_DIR}" ] && break ; \
 	   [ -f "Cargo.toml" ] && program_root="$${PWD}" && break ; \
 	   cd .. ; \
 	 done ; \
@@ -124,7 +121,7 @@ test-1:
 	 program_root='' ; \
 	 while : ; \
 	 do \
-	   [ X"$$(realpath '.')" = X"${PROJECTS}" ] && break ; \
+	   [ X"$$(realpath '.')" = X"${PROJECTS_DIR}" ] && break ; \
 	   [ -f "Cargo.toml" ] && program_root="$${PWD}" && break ; \
 	   cd .. ; \
 	 done ; \

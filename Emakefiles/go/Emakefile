@@ -1,14 +1,12 @@
 # Emakefile
 
-# build and version tag the go applications
+# build and version tag
 
-# Makefile
-
-# go does not use Makefiles, this is just for EMACS
+# This is just for EMACS:
 # it interfaces with github.com/hxw/emacs.d.git
 # which provides a compile command that:
 #
-# 1. finds the first Makefile or BSDmakefile
+# 1. finds the first Emakefile
 #    by searching upwards from the current file's location
 # 2. and uses target based on repetition count
 #    a. no count       => "all"
@@ -17,13 +15,12 @@
 #    c. negative count => "test-<count>"
 #
 # Notes:
-# 1. THIS_DIR => the directory the command is run in (e.g. Projects/Prog/Mod)
-# 2. PWD      => program directory (e.g. Projects/BSDmakefile=> PWD = Projects/Prog)
-# 3. @printf '\n===> compilation-dir: %s\n\n' '${SOME_OTHER_DIR}'
-#             => overrides the compilation buffer dir to make next/prev error work
-#                (default is ${THIS_DIR})
-
-PROJECTS = ${PWD}
+# 1. PROJECTS_DIR => directory containing this Emakefile (Projects)
+# 2. PWD          => program root directory              (Projects/Prog)
+# 3. THIS_DIR     => directory the command is run in     (Projects/Prog/Mod/Sub)
+# 4. @printf '\n===> compilation-dir: %s\n\n' '${SOME_OTHER_DIR}'
+#                 => overrides the compilation buffer dir to make next/prev error work
+#                    (default is ${THIS_DIR})
 
 TOOLS += golang.org/x/tools/cmd/godoc
 TOOLS += golang.org/x/tools/cmd/goimports
@@ -42,7 +39,7 @@ all:
 	 program_root='' ; \
 	 while : ; \
 	 do \
-	   [ X"$${PWD}" = X"${PROJECTS}" ] && break ; \
+	   [ X"$${PWD}" = X"${PROJECTS_DIR}" ] && break ; \
 	   [ -d "command" ] && program_root="$${PWD}" ; \
 	   [ -f "main.go" ] && main_root="$${PWD}" ; \
 	   printf '\n===> check dir: %s\n' "$${PWD}" ; \
@@ -161,7 +158,7 @@ test-3:
 .PHONY: emacs-1
 emacs-1:
 	@printf '\n===> \033[1;34;47m%s\033[0m\n\n' 'compile/install all projects'
-	@cd '${PROJECTS}' ; \
+	@cd '${PROJECTS_DIR}' ; \
 	 for d in * ; \
 	 do \
 	   if [ -d "$${d}" ] ; \
