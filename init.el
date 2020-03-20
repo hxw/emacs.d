@@ -609,7 +609,7 @@
          (cons "\\(()\\)" 'nil)
          (cons "\\<\\(sqrt\\)\\>" 'square-root)
          (cons "\\(&&\\)" 'logical-and)
-         (cons "\\(||\\)" 'logical-or)
+         (cons "[^|]\\(||\\)[^|]" 'logical-or)
          (cons "\\<\\(not\\)\\>" 'logical-neg)
          (cons "\\(>\\)[^=]" 'greater-than)
          (cons "\\(<\\)[^=]" 'less-than)
