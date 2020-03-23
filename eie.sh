@@ -146,12 +146,15 @@ done
 
 # in frame edit
 frame_editor=
-for value in $FrameEditors
-do
-  frame_editor=$(command -v "${value}" 2> /dev/null)
-  [ -x "${frame_editor}" ] && break
-done
-[ -z "${frame_editor}" ] && echo "warning: no in-frame editor"
+if [ -n "${DISPLAY}" ]
+then
+  for value in $FrameEditors
+  do
+    frame_editor=$(command -v "${value}" 2> /dev/null)
+    [ -x "${frame_editor}" ] && break
+  done
+  [ -z "${frame_editor}" ] && echo "warning: no in-frame editor"
+fi
 
 [ X"${verbose}" = X"yes" ] && echo "selected: ${frame_editor}"
 
