@@ -45,7 +45,7 @@ EmacsIndentAndTabity()
   [ -f "${destination}" ] && [ X"${overwrite}" != X"yes" ] && USAGE 'file: "%s" already exists' "${destination}"
 
   if [ X"${verbose}" = X"yes" ]
-    then
+  then
     echo "indent/tabify ${source} -> ${destination}"
     out='cat'
   fi
@@ -61,7 +61,7 @@ EmacsIndentAndTabity()
       (find-file the-source-file)
       (set-buffer-file-coding-system '"'"'unix)
       (write-file the-output-file nil)
-    )' 2>&1 | eval ${out}
+    )' 2>&1 < /dev/null | eval ${out}
 }
 
 
