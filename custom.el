@@ -54,7 +54,7 @@
  '(mouse-buffer-menu-mode-mult 30)
  '(package-selected-packages
    (quote
-    (nim-mode go-autocomplete ctags-update tuareg qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode lua-mode json-mode js2-mode htmlize haskell-mode flylisp coffee-mode aggressive-indent)))
+    (nim-mode go-autocomplete ctags-update tuareg qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode lua-mode json-mode js2-mode htmlize haskell-mode flylisp aggressive-indent)))
  '(perl-indent-level 2)
  '(ps-font-size (quote (12 . 12)))
  '(ps-landscape-mode t)
