@@ -712,13 +712,15 @@
   (interactive)
   (save-excursion
     (goto-char (point-min))
-    (while (re-search-forward "^[[:space:]]*\\(break\\|continue\\)[[:space:]]*\\(//.*\\)?$" nil t)
-      (beginning-of-line)
-      (forward-word)
-      (insert " \"***")
-      (insert (upcase (match-string 1)))
-      (insert " MISSING LABEL***\"")
-      (end-of-line))))
+    (when (re-search-forward "^//[[:space:]]*Copyright[[:space:]]+(c)[[:space:]]+.*Bitmark[[:space:]]+Inc\\.[[:space:]]*$" nil t)
+      (goto-char (point-min))
+      (while (re-search-forward "^[[:space:]]*\\(break\\|continue\\)[[:space:]]*\\(//.*\\)?$" nil t)
+        (beginning-of-line)
+        (forward-word)
+        (insert " \"***")
+        (insert (upcase (match-string 1)))
+        (insert " MISSING LABEL***\"")
+        (end-of-line)))))
 
 (defun go-tidy-up ()
   "run all go tidying processes"
