@@ -24,7 +24,7 @@
 
 RM = rm -f
 
-# 0 => compile/run Rust program
+# 0 => compile Rust program
 .PHONY: all
 all:
 	@printf '\n===> \033[1;34;47m%s\033[0m\n' 'compile/run Rust program'
@@ -40,7 +40,7 @@ all:
 	 then \
 	   cd "$${program_root}" ; \
 	   printf '\n===> compilation-dir: %s\n\n' "$${PWD}" ; \
-	   cargo run ; \
+	   cargo build ; \
 	 else \
 	   printf '\n===> program not found\n' ; \
 	   exit 1 ; \
