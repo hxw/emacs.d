@@ -451,12 +451,7 @@
                       ('squared #X00B2)
                       ('cubed #X00B3)
 
-                      ;; letters
-                      ('lambda #X03BB)
-                      ('alpha #X03B1)
-                      ('beta #X03B2)
-                      ('gamma #X03B3)
-                      ('delta #X03B4))))
+                      )))
 
 (defun substitute-pattern-with-unicode (pattern symbol)
   "Add a font lock hook to replace the matched part of PATTERN with the
@@ -473,6 +468,72 @@
               (substitute-pattern-with-unicode (car x)
                                                (cdr x)))
           patterns))
+
+
+;; Lisp mode
+;; ---------
+
+(message "init.el: lisp greek text")
+
+(defun pretty-greek ()
+  (let ((greek '("alpha" "beta" "gamma" "delta" "epsilon" "zeta" "eta" "theta" "iota" "kappa" "lambda" "mu" "nu" "xi" "omicron" "pi" "rho" "sigma_final" "sigma" "tau" "upsilon" "phi" "chi" "psi" "omega")))
+    (loop for word in greek
+          for code = 97 then (+ 1 code)
+          do  (let ((greek-char (make-char 'greek-iso8859-7 code)))
+                (font-lock-add-keywords nil
+                                        `((,(concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[a-zA-Z]")
+                                           (0 (progn (decompose-region (match-beginning 2) (match-end 2))
+                                                     nil)))))
+                (font-lock-add-keywords nil
+                                        `((,(concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[^a-zA-Z]")
+                                           (0 (progn (compose-region (match-beginning 2) (match-end 2)
+                                                                     ,greek-char)
+                                                     nil)))))))))
+(add-hook 'lisp-mode-hook 'pretty-greek)
+(add-hook 'emacs-lisp-mode-hook 'pretty-greek)
+
+
+;; enable slime
+;; ------------
+
+(add-to-list 'load-path "/usr/share/common-lisp/source/slime/")
+
+(when (require 'slime "slime" t)
+  (message "init.el: SLIME")
+
+  (setq slime-startup-animation nil)
+
+  (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
+                                        ;(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
+
+  (setq inferior-lisp-program "sbcl")
+
+  ;; set up to use inferior lisp buffer to auto-load swank server on M-x slime
+  ;; uses a custom core file (see comments below)
+  (setq slime-lisp-implementations
+        ;;      '((cmucl ("cmucl" "-quiet"))
+        ;;        (sbcl ("sbcl") :coding-system utf-8-unix)))
+        ;;        (sbcl ("sbcl" "--core" "~/sbcl.core-for-slime"))))
+        (list (list 'sbcl (list "sbcl" "--core" (expand-file-name "~/sbcl.core-with-swank"))
+                    :init #'(lambda (port-file _)
+                              (format "(swank:start-server %S)\n" port-file))
+                    :coding-system 'utf-8-unix)))
+
+  (slime-setup '(slime-fancy slime-asdf))
+
+
+  ;; creating the above custom core images
+  ;; $ sbcl
+  ;; * (mapc ’require ’(sb-bsd-sockets sb-posix sb-introspect sb-cltl2 asdf))
+  ;; * (save-lisp-and-die "sbcl.core-for-slime")
+  ;; $ sbcl
+  ;; * (mapc ’require ’(sb-bsd-sockets sb-posix sb-introspect sb-cltl2 asdf swank))
+  ;; * (swank-loader:dump-image "sbcl.core-with-swank")
+  ;; * CTRL-D
+  ;; Running an external sblc wath the swank server (for M-x slime-connect)
+  ;; $ sbcl --core /path/to/sbcl.core-with-swank
+  ;; * (swank:create-server :port 4005 :style :spawn :dont-close t)
+)
 
 
 ;; Ocaml mode
@@ -501,10 +562,6 @@
            (cons "\\(<\\)[^=]" 'less-than)
            (cons "\\(>=\\)" 'greater-than-or-equal-to)
            (cons "\\(<=\\)" 'less-than-or-equal-to)
-           (cons "\\<\\(alpha\\)\\>" 'alpha)
-           (cons "\\<\\(beta\\)\\>" 'beta)
-           (cons "\\<\\(gamma\\)\\>" 'gamma)
-           (cons "\\<\\(delta\\)\\>" 'delta)
            (cons "\\(''\\)" 'double-prime)
            (cons "\\('\\)" 'prime)
            (cons "\\<\\(List.for_all\\)\\>" 'for-all)
@@ -513,7 +570,9 @@
            (cons "^ +\\(|\\)" 'double-vertical-bar))))
 
   (add-hook 'caml-mode-hook 'ocaml-unicode)
+  (add-hook 'caml-mode-hook 'pretty-greek)
   (add-hook 'tuareg-mode-hook 'ocaml-unicode)
+  (add-hook 'tuareg-mode-hook 'pretty-greek)
 
   (autoload 'caml-mode "caml" "Major mode for editing Caml code." t)
   (autoload 'run-caml "inf-caml" "Run an inferior Caml process." t)
@@ -615,17 +674,14 @@
          (cons "\\(<\\)[^=]" 'less-than)
          (cons "[^>]\\(>=\\)" 'greater-than-or-equal-to)
          (cons "[^<]\\(<=\\)" 'less-than-or-equal-to)
-         (cons "\\<\\(alpha\\)\\>" 'alpha)
-         (cons "\\<\\(beta\\)\\>" 'beta)
-         (cons "\\<\\(gamma\\)\\>" 'gamma)
-         (cons "\\<\\(delta\\)\\>" 'delta)
-         (cons "\\(++\\)" 'double-plus)
+         (cons "\\(\\+\\+\\)" 'double-plus)
          (cons "\\(''\\)" 'double-prime)
          (cons "\\('\\)" 'prime)
          (cons "\\(!!\\)" 'double-exclamation)
          (cons "\\(\\.\\.\\)" 'horizontal-ellipsis))))
 
 (add-hook 'haskell-mode-hook 'haskell-unicode)
+(add-hook 'haskell-mode-hook 'pretty-greek)
 
 
 ;; CoffeScript mode
@@ -782,71 +838,6 @@
 
 (add-hook 'find-file-hook 'activate-flyspell)
 
-
-;; Lisp mode
-;; ---------
-
-(message "init.el: lisp greek text")
-
-(defun pretty-greek ()
-  (let ((greek '("alpha" "beta" "gamma" "delta" "epsilon" "zeta" "eta" "theta" "iota" "kappa" "lambda" "mu" "nu" "xi" "omicron" "pi" "rho" "sigma_final" "sigma" "tau" "upsilon" "phi" "chi" "psi" "omega")))
-    (loop for word in greek
-          for code = 97 then (+ 1 code)
-          do  (let ((greek-char (make-char 'greek-iso8859-7 code)))
-                (font-lock-add-keywords nil
-                                        `((,(concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[a-zA-Z]")
-                                           (0 (progn (decompose-region (match-beginning 2) (match-end 2))
-                                                     nil)))))
-                (font-lock-add-keywords nil
-                                        `((,(concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[^a-zA-Z]")
-                                           (0 (progn (compose-region (match-beginning 2) (match-end 2)
-                                                                     ,greek-char)
-                                                     nil)))))))))
-(add-hook 'lisp-mode-hook 'pretty-greek)
-(add-hook 'emacs-lisp-mode-hook 'pretty-greek)
-
-
-;; enable slime
-;; ------------
-
-(add-to-list 'load-path "/usr/share/common-lisp/source/slime/")
-
-(when (require 'slime "slime" t)
-  (message "init.el: SLIME")
-
-  (setq slime-startup-animation nil)
-
-  (add-hook 'lisp-mode-hook (lambda () (slime-mode t)))
-                                        ;(add-hook 'inferior-lisp-mode-hook (lambda () (inferior-slime-mode t)))
-
-  (setq inferior-lisp-program "sbcl")
-
-  ;; set up to use inferior lisp buffer to auto-load swank server on M-x slime
-  ;; uses a custom core file (see comments below)
-  (setq slime-lisp-implementations
-        ;;      '((cmucl ("cmucl" "-quiet"))
-        ;;        (sbcl ("sbcl") :coding-system utf-8-unix)))
-        ;;        (sbcl ("sbcl" "--core" "~/sbcl.core-for-slime"))))
-        (list (list 'sbcl (list "sbcl" "--core" (expand-file-name "~/sbcl.core-with-swank"))
-                    :init #'(lambda (port-file _)
-                              (format "(swank:start-server %S)\n" port-file))
-                    :coding-system 'utf-8-unix)))
-
-  (slime-setup '(slime-fancy slime-asdf))
-
-
-  ;; creating the above custom core images
-  ;; $ sbcl
-  ;; * (mapc ’require ’(sb-bsd-sockets sb-posix sb-introspect sb-cltl2 asdf))
-  ;; * (save-lisp-and-die "sbcl.core-for-slime")
-  ;; $ sbcl
-  ;; * (mapc ’require ’(sb-bsd-sockets sb-posix sb-introspect sb-cltl2 asdf swank))
-  ;; * (swank-loader:dump-image "sbcl.core-with-swank")
-  ;; * CTRL-D
-  ;; Running an external sblc wath the swank server (for M-x slime-connect)
-  ;; $ sbcl --core /path/to/sbcl.core-with-swank
-  ;; * (swank:create-server :port 4005 :style :spawn :dont-close t)
-)
 
 ;; Lua mode
 ;; --------
@@ -1013,6 +1004,33 @@
     (delete-other-windows)
     (when (get-buffer "*rustfmt*")
       (set-window-buffer (split-window-sensibly) "*rustfmt*"))))
+
+(defun rust-unicode ()
+  (interactive)
+  (substitute-patterns-with-unicode
+   (list (cons "[^<]\\(<-\\)" 'left-arrow)
+         (cons "\\(->\\)[^>]" 'right-arrow)
+         (cons "\\(=>\\)[^>]" 'rightwards-double-arrow)
+         (cons "\\(==\\)" 'identical)
+         (cons "\\(/=\\)" 'not-identical)
+         (cons "[^a-zA-Z0-9_>:]\\(()\\)" 'nil)
+         (cons "\\<\\(sqrt\\)\\>" 'square-root)
+         (cons "\\(&&\\)" 'logical-and)
+         (cons "[^|]\\(||\\)[^|]" 'logical-or)
+         (cons "\\<\\(not\\)\\>" 'logical-neg)
+         (cons "\\(>\\)[^=]" 'greater-than)
+         (cons "\\(<\\)[^=]" 'less-than)
+         (cons "[^>]\\(>=\\)" 'greater-than-or-equal-to)
+         (cons "[^<]\\(<=\\)" 'less-than-or-equal-to)
+         (cons "\\(\\+\\+\\)" 'double-plus)
+         (cons "\\(''\\)" 'double-prime)
+         (cons "\\('\\)" 'prime)
+         (cons "\\(!!\\)" 'double-exclamation)
+         (cons "\\(\\.\\.\\)" 'horizontal-ellipsis))))
+
+(add-hook 'rust-mode-hook 'rust-unicode)
+(add-hook 'rust-mode-hook 'pretty-greek)
+
 
 
 ;; Python and Django
