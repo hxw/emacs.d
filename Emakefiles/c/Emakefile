@@ -26,7 +26,7 @@
 .PHONY: all
 all:
 	@printf '\n===> \033[1;34;47m%s\033[0m\n' 'compile program'
-	@printf '\n===> compilation-dir: %s\n' "${PWD}"
+	@printf '\n===> compilation-dir: %s\n' "${THIS_DIR}"
 	@printf '\n===> close-compilation-window: yes\n\n'
 	make depend
 	make all
