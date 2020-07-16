@@ -173,7 +173,7 @@
 
 ;; PrtScn key handler
 (defun my-control-print-screen (arg)
-  "Do domething useful with the Ctrl-PrtScn"
+  "Do something useful with the Ctrl-PrtScn"
   (interactive "P")
   (when (stringp mode-name)
     (cond ((string= mode-name "Markdown")
@@ -197,7 +197,7 @@
 (require 'ido)
 (ido-mode t)
 (global-set-key "\C-x\C-b" 'ibuffer)
-(ido-toggle-prefix) ; ensure start in substing match
+(ido-toggle-prefix) ; ensure start in sub-string match
 
 
 ;; compilation keys
@@ -492,6 +492,12 @@
 (add-hook 'lisp-mode-hook 'pretty-greek)
 (add-hook 'emacs-lisp-mode-hook 'pretty-greek)
 
+;; rainbow mode
+
+(when (require 'rainbow-delimiters "rainbow-delimiters" t)
+  (message "init.el: rainbow-delimiters")
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
 
 ;; enable slime
 ;; ------------
@@ -682,20 +688,6 @@
 
 (add-hook 'haskell-mode-hook 'haskell-unicode)
 (add-hook 'haskell-mode-hook 'pretty-greek)
-
-
-;; CoffeScript mode
-;; ----------------
-
-(defun coffee-unicode ()
-  (interactive)
-  (substitute-patterns-with-unicode
-   (list (cons "[^<]\\(<-\\)" 'left-arrow)
-         (cons "\\(->\\)[^>]" 'right-arrow)
-         (cons "\\(=>\\)[^>]" 'rightwards-double-arrow)
-         (cons "\\(\\.\\.\\.\\)" 'horizontal-ellipsis))))
-
-(add-hook 'coffee-mode-hook 'coffee-unicode)
 
 
 ;; Erlang mode
@@ -1087,7 +1079,7 @@
 
 (mouse-avoidance-mode 'animate)
 
-(put 'overwrite-mode 'disabled t)  ; disble nasty overstrike mode
+(put 'overwrite-mode 'disabled t)  ; disable nasty overstrike mode
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
