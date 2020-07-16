@@ -493,10 +493,15 @@
 (add-hook 'emacs-lisp-mode-hook 'pretty-greek)
 
 ;; rainbow mode
+;; ------------
 
 (when (require 'rainbow-delimiters "rainbow-delimiters" t)
   (message "init.el: rainbow-delimiters")
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+(when (require 'rainbow-identifiers "rainbow-identifiers" t)
+  (message "init.el: rainbow-identifiers")
+  (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
 
 
 ;; enable slime
