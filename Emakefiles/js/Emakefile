@@ -1,0 +1,72 @@
+# Emakefile
+
+# build JS applications
+
+# This is just for EMACS:
+# it interfaces with github.com/hxw/emacs.d.git
+# which provides a compile command that:
+#
+# 1. finds the first Emakefile
+#    by searching upwards from the current file's location
+# 2. and uses target based on repetition count
+#    a. no count       => "all"
+#    b. '-' or '-0'    => "test"
+#    b. positive count => "emacs-<count>"
+#    c. negative count => "test-<count>"
+#
+# Notes:
+# 1. PROJECTS_DIR => directory containing this Emakefile (Projects)
+# 2. PWD          => program root directory              (Projects/Prog)
+# 3. THIS_DIR     => directory the command is run in     (Projects/Prog/Mod/Sub)
+# 4. @printf '\n===> compilation-dir: %s\n\n' '${SOME_OTHER_DIR}'
+#                 => overrides the compilation buffer dir to make next/prev error work
+#                    (default is ${THIS_DIR})
+
+# 0 => compile program
+.PHONY: all
+all:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n' 'compile program'
+	@printf '\n===> compilation-dir: %s\n' "${THIS_DIR}"
+	@printf '\n===> close-compilation-window: yes\n\n'
+	make all
+
+
+# 9 => clean program/objects
+.PHONY: emacs-9
+emacs-9:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n' 'clean program'
+	@printf '\n===> compilation-dir: %s\n\n' "${PWD}"
+	make clean
+
+# -0 => test program
+.PHONY: test
+test:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n' 'test program'
+	@printf '\n===> compilation-dir: %s\n' "${PWD}"
+	@printf '\n===> close-compilation-window: no\n\n'
+	make test
+
+
+# 999 => help
+.PHONY: emacs-999
+emacs-999: help
+.PHONY: help
+help:
+	@printf '\n===> \033[1;34;47m%s\033[0m\n\n' 'Help list'
+	@awk ' \
+BEGIN { \
+  delete messages; \
+} \
+/^#[[:space:]]*-?[[:digit:]]+[[:space:]]*=>/ { \
+   n = $$0; \
+   h = $$0; \
+   sub("^#[[:space:]]*", "", n); \
+   sub("[[:space:]]*=>.*$$", "", n); \
+   sub("^#[[:space:]]*-?[[:digit:]]+[[:space:]]*=>[[:space:]]*", "", h); \
+  if ("-0" == n) { \
+     printf("\t\033[1;35m -0\033[0m\t%s\n", h); \
+  } else { \
+     printf("\t\033[1;35m%3d\033[0m\t%s\n", n, h); \
+  } \
+}' '${MAKEFILE}'
+	false
