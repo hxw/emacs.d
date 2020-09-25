@@ -7,35 +7,32 @@ CommandLineEditors="mg: jove: emacs:-nw vim: vi: nano:"
 FrameEditors="emacsclient gnuclient"
 
 
-ERROR()
-{
+ERROR() {
   printf 'error: '
-  printf "$@"
+  printf "${@}"
   printf '\n'
   exit 1
 }
 
-USAGE()
-{
-  if [ -n "$1" ]
+USAGE() {
+  if [ -n "${1}" ]
   then
     printf 'error: '
-    printf "$@"
+    printf "${@}"
     printf '\n'
   fi
-  echo usage: "$(basename "$0")" '<options> <files>'
-  echo '       --help           -h         this message'
-  echo '       --verbose        -v         more messages'
-  echo '       --no-frame       -n         use console editor'
-  echo '       --no-wait        -b         background the frame editor'
-  echo '       --desktop-number -D         show the desktop number (1..n or 0 if not supported)'
-  echo '       --debug          -d         show debug information'
+  echo usage: "$(basename "${0}")" '<options> <files>'
+  echo '       --help                 -h            this message'
+  echo '       --verbose              -v            more messages'
+  echo '       --no-frame             -n            use console editor'
+  echo '       --no-wait              -b            background the frame editor'
+  echo '       --desktop-number       -D            show the desktop number (1..n or 0 if not supported)'
+  echo '       --debug                -d            show debug information'
   exit 1
 }
 
 
-DesktopNumber()
-{
+DesktopNumber() {
   local CurrentDesktop kwin
   CurrentDesktop=$(qdbus org.kde.kwin /KWin currentDesktop 2> /dev/null)
 
@@ -82,14 +79,14 @@ case "$(uname)" in
 esac
 [ -x "${getopt}" ] || ERROR 'getopt: "%s" is not executable or not installed' "${getopt}"
 
-args=$(${getopt} -o hvnbDd --long=help,verbose,no-frame,no-wait,desktop-number,debug -- "$@") ||exit 1
+args=$(${getopt} -o hvnbDd --long=help,verbose,no-frame,no-wait,desktop-number,debug -- "${@}") ||exit 1
 
 # replace the arguments with the parsed values
 eval set -- "${args}"
 
 while :
 do
-  case "$1" in
+  case "${1}" in
     (-v|--verbose)
       verbose=yes
       ;;
@@ -122,13 +119,13 @@ do
       ;;
 
     (*)
-      USAGE 'invalid argument: "%s"' "$1"
+      USAGE 'invalid argument: "%s"' "${1}"
       ;;
   esac
   shift
 done
 
-[ $# -eq 0 ] && USAGE 'missing arguments'
+[ ${#} -eq 0 ] && USAGE 'missing arguments'
 
 [ X"${debug}" = X"yes" ] && set -x
 
@@ -148,9 +145,9 @@ done
 frame_editor=
 if [ -n "${DISPLAY}" ]
 then
-  for value in $FrameEditors
+  for value in ${FrameEditors}
   do
-    frame_editor=$(command -v "${value}" 2> /dev/null)
+    frame_editor="$(command -v "${value}" 2> /dev/null)"
     [ -x "${frame_editor}" ] && break
   done
   [ -z "${frame_editor}" ] && echo "warning: no in-frame editor"
@@ -166,12 +163,12 @@ then
   [ X"${wait}" = X"no" ] && extra_flags="-n"
   if [ -S "${server_socket}" ]
   then
-    "${frame_editor}" ${extra_flags} -s "${server_socket}" "$@" && exit 0
+    "${frame_editor}" ${extra_flags} -s "${server_socket}" "${@}" && exit 0
     echo
   fi
 fi
 
 # default to command line editing
-[ -n "${cl_editor}" ] && exec "${cl_editor}" ${cl_options} "$@"
+[ -n "${cl_editor}" ] && exec "${cl_editor}" ${cl_options} "${@}"
 
 ERROR 'could not find a good editor'

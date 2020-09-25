@@ -1,35 +1,32 @@
 #!/bin/sh
 # copy source-file and Indent using Emacs
 
-ERROR()
-{
+ERROR() {
   printf 'error: '
-  printf "$@"
+  printf "${@}"
   printf '\n'
   exit 1
 }
 
-USAGE()
-{
-  if [ -n "$1" ]
+USAGE() {
+  if [ -n "${1}" ]
   then
     printf 'error: '
-    printf "$@"
+    printf "${@}"
     printf '\n'
   fi
-  echo usage: "$(basename "$0")" '<options...>'
-  echo ' --help                                -h            This message'
-  echo ' --verbose                             -v            More messages'
-  echo ' --copy source-file destination-file   -c src dst    Copy indented and tabified source to destination'
-  echo ' --in-place source-files...            -i files...   In place tabify and indent of each file'
-  echo ' --overwrite                           -o            For --copy to overwrite destination'
-  echo ' --no-indent                           -n            Only remove extraneous whitespace, no re-indentation'
-  echo ' --debug                               -D            Debug the shell script'
+  echo usage: "$(basename "${0}")" '<options...> <arguments....>'
+  echo '       --help                 -h            this message'
+  echo '       --verbose              -v            more messages'
+  echo '       --copy src dst         -c src dst    copy indented and tabified source to destination'
+  echo '       --in-place files...    -i files...   in place tabify and indent of each file'
+  echo '       --overwrite            -o            for --copy to overwrite destination'
+  echo '       --no-indent            -n            only remove extraneous whitespace, no re-indentation'
+  echo '       --debug                -D            debugging messages'
   exit 1
 }
 
-EmacsIndentAndTabity()
-{
+EmacsIndentAndTabity() {
   local verbose overwrite source destination out
   verbose="${1}"; shift
   overwrite="${1}"; shift
@@ -74,46 +71,68 @@ InPlace=no
 copy=no
 debug=no
 
-getopt=/usr/local/bin/getopt
-[ -x "${getopt}" ] || getopt=getopt
-args=$(${getopt} -o hvoicD --long=help,verbose,overwrite,in-place,copy,debug -- "$@") || exit 1
+getopt=
+case "$(uname)" in
+  (FreeBSD|DragonFly)
+    getopt=/usr/local/bin/getopt
+    ;;
+  (NetBSD)
+    getopt=/usr/pkg/bin/getopt
+    ;;
+  (OpenBSD)
+    getopt=/usr/local/bin/gnugetopt
+    ;;
+  (Darwin)
+    getopt=/usr/local/opt/gnu-getopt/bin/getopt
+    ;;
+  (Linux)
+    getopt=/usr/bin/getopt
+    ;;
+  (*)
+    ERROR 'OS: %s is not supported' "$(uname)"
+    ;;
+esac
+[ -x "${getopt}" ] || ERROR 'getopt: "%s" is not executable or not installed' "${getopt}"
+
+args=$(${getopt} -o hvoicD --long=help,verbose,overwrite,in-place,copy,debug -- "${@}") || exit 1
+
 # replace the arguments with the parsed values
 eval set -- "${args}"
 
 while :
 do
   case "${1}" in
-    -v|--verbose)
+    (-v|--verbose)
       verbose=yes
       ;;
 
-    -o|--overwrite)
+    (-o|--overwrite)
       overwrite=yes
       ;;
 
-    -i|--in-place)
+    (-i|--in-place)
       InPlace=yes
       overwrite=yes
       ;;
 
-    -c|--copy)
+    (-c|--copy)
       copy=yes
       ;;
 
-    -D|--debug)
+    (-D|--debug)
       debug=yes
       ;;
 
-    --)
+    (--)
       shift
       break
       ;;
 
-    -h|--help)
+    (-h|--help)
       USAGE
       ;;
 
-    *)
+    (*)
       USAGE 'invalid option: %s' "${1}"
       ;;
   esac
@@ -134,7 +153,7 @@ then
 
 elif [ X"${InPlace}" = X"yes" ]
 then
-  for source in "$@"
+  for source in "${@}"
   do
     EmacsIndentAndTabity "${verbose}" "${overwrite}" "${source}" "${source}"
   done
