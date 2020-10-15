@@ -6,12 +6,17 @@
 CommandLineEditors="mg: jove: emacs:-nw vim: vi: nano:"
 FrameEditors="emacsclient gnuclient"
 
-
 ERROR() {
   printf 'error: '
   printf "${@}"
   printf '\n'
   exit 1
+}
+
+VERBOSE() {
+  [ X"${verbose}" = X"no" ] && return 0
+  printf "${@}"
+  printf '\n'
 }
 
 USAGE() {
@@ -21,16 +26,15 @@ USAGE() {
     printf "${@}"
     printf '\n'
   fi
-  echo usage: "$(basename "${0}")" '<options> <files>'
+  echo usage: "${0##*/}" '<options> <files>'
   echo '       --help                 -h            this message'
   echo '       --verbose              -v            more messages'
   echo '       --no-frame             -n            use console editor'
   echo '       --no-wait              -b            background the frame editor'
-  echo '       --desktop-number       -D            show the desktop number (1..n or 0 if not supported)'
-  echo '       --debug                -d            show debug information'
+  echo '       --desktop-number       -d            show the desktop number (1..n or 0 if not supported)'
+  echo '       --debug                -D            show debug information'
   exit 1
 }
-
 
 DesktopNumber() {
   local CurrentDesktop kwin
@@ -51,82 +55,68 @@ DesktopNumber() {
 
 
 # main program
-
 verbose=no
+debug=no
 frame=yes
 wait=yes
 
-getopt=
-case "$(uname)" in
-  (FreeBSD|DragonFly)
-    getopt=/usr/local/bin/getopt
-    ;;
-  (NetBSD)
-    getopt=/usr/pkg/bin/getopt
-    ;;
-  (OpenBSD)
-    getopt=/usr/local/bin/gnugetopt
-    ;;
-  (Darwin)
-    getopt=/usr/local/opt/gnu-getopt/bin/getopt
-    ;;
-  (Linux)
-    getopt=/usr/bin/getopt
-    ;;
-  (*)
-    ERROR 'OS: %s is not supported' "$(uname)"
-    ;;
-esac
-[ -x "${getopt}" ] || ERROR 'getopt: "%s" is not executable or not installed' "${getopt}"
-
-args=$(${getopt} -o hvnbDd --long=help,verbose,no-frame,no-wait,desktop-number,debug -- "${@}") ||exit 1
-
-# replace the arguments with the parsed values
-eval set -- "${args}"
-
-while :
+# parse options
+while getopts :hvbdnD-: option
 do
-  case "${1}" in
-    (-v|--verbose)
+  # convert long options
+  if [ X"${option}" = X"-" ]
+  then
+    option="${OPTARG%%=*}"
+    OPTARG="${OPTARG#${option}}"
+    OPTARG="${OPTARG#=}"
+  fi
+  case "${option}" in
+    (v|verbose)
       verbose=yes
       ;;
 
-    (-n|--no-frame)
-      frame=no
-      ;;
-
-    (-b|--no-wait)
+    (b|no-wait)
       wait=no
       ;;
 
-    (-D|--desktop-number)
+    (d|desktop-number)
       DesktopNumber
       exit 0
-      shift
       ;;
 
-    (-d|--debug)
-      debug=yes
+    (n|no-frame)
+      frame=no
       ;;
 
     (--)
-      shift
       break
       ;;
 
-    (-h|--help)
+    (D|debug)
+      debug=yes
+      ;;
+
+    (h|help)
       USAGE
       ;;
 
+    ('?')
+      USAGE 'invalid option: -%s' "${OPTARG}"
+      ;;
+
     (*)
-      USAGE 'invalid argument: "%s"' "${1}"
+      USAGE 'invalid option: --%s' "${option}"
       ;;
   esac
-  shift
 done
 
+shift $((OPTIND - 1))
+
+# verify arguments
+#[ ${#} -ne 0 ] && USAGE 'extraneous arguments: %s' "${*}"
 [ ${#} -eq 0 ] && USAGE 'missing arguments'
 
+# enable debugging
 [ X"${debug}" = X"yes" ] && set -x
 
 # command line edit

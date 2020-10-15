@@ -8,6 +8,12 @@ ERROR() {
   exit 1
 }
 
+VERBOSE() {
+  [ X"${verbose}" = X"no" ] && return 0
+  printf "${@}"
+  printf '\n'
+}
+
 USAGE() {
   if [ -n "${1}" ]
   then
@@ -15,14 +21,14 @@ USAGE() {
     printf "${@}"
     printf '\n'
   fi
-  echo usage: "$(basename "${0}")" '<options...> <arguments....>'
+  echo usage: "${0##*/}" '<options...> <arguments....>'
   echo '       --help                 -h            this message'
   echo '       --verbose              -v            more messages'
   echo '       --copy src dst         -c src dst    copy indented and tabified source to destination'
   echo '       --in-place files...    -i files...   in place tabify and indent of each file'
   echo '       --overwrite            -o            for --copy to overwrite destination'
   echo '       --no-indent            -n            only remove extraneous whitespace, no re-indentation'
-  echo '       --debug                -D            debugging messages'
+  echo '       --debug                -D            show debug information'
   exit 1
 }
 
@@ -63,82 +69,69 @@ EmacsIndentAndTabity() {
 
 
 # main program
-# ------------
-
 verbose=no
+debug=no
 overwrite=no
 InPlace=no
 copy=no
-debug=no
 
-getopt=
-case "$(uname)" in
-  (FreeBSD|DragonFly)
-    getopt=/usr/local/bin/getopt
-    ;;
-  (NetBSD)
-    getopt=/usr/pkg/bin/getopt
-    ;;
-  (OpenBSD)
-    getopt=/usr/local/bin/gnugetopt
-    ;;
-  (Darwin)
-    getopt=/usr/local/opt/gnu-getopt/bin/getopt
-    ;;
-  (Linux)
-    getopt=/usr/bin/getopt
-    ;;
-  (*)
-    ERROR 'OS: %s is not supported' "$(uname)"
-    ;;
-esac
-[ -x "${getopt}" ] || ERROR 'getopt: "%s" is not executable or not installed' "${getopt}"
-
-args=$(${getopt} -o hvoicD --long=help,verbose,overwrite,in-place,copy,debug -- "${@}") || exit 1
-
-# replace the arguments with the parsed values
-eval set -- "${args}"
-
-while :
+# parse options
+while getopts :hvcioD-: option
 do
-  case "${1}" in
-    (-v|--verbose)
+  # convert long options
+  if [ X"${option}" = X"-" ]
+  then
+    option="${OPTARG%%=*}"
+    OPTARG="${OPTARG#${option}}"
+    OPTARG="${OPTARG#=}"
+  fi
+  case "${option}" in
+    (v|verbose)
       verbose=yes
       ;;
 
-    (-o|--overwrite)
-      overwrite=yes
-      ;;
-
-    (-i|--in-place)
+    (i|in-place)
       InPlace=yes
       overwrite=yes
       ;;
 
-    (-c|--copy)
+    (c|copy)
       copy=yes
       ;;
 
-    (-D|--debug)
-      debug=yes
+    (o|overwrite)
+      overwrite=yes
       ;;
 
     (--)
-      shift
       break
       ;;
 
-    (-h|--help)
+    (D|debug)
+      debug=yes
+      ;;
+
+    (h|help)
       USAGE
       ;;
 
+    ('?')
+      USAGE 'invalid option: -%s' "${OPTARG}"
+      ;;
+
     (*)
-      USAGE 'invalid option: %s' "${1}"
+      USAGE 'invalid option: --%s' "${option}"
       ;;
   esac
-  shift
 done
 
+shift $((OPTIND - 1))
+
+# verify arguments
+#[ ${#} -ne 0 ] && USAGE 'extraneous arguments: %s' "${*}"
+[ ${#} -eq 0 ] && USAGE 'missing arguments'
+
+# enable debugging
 [ X"${debug}" = X"yes" ] && set -x
 
 [ X"${InPlace}" = X"${copy}" ] && USAGE 'must have only one option set'
