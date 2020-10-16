@@ -21,14 +21,16 @@ USAGE() {
     printf "${@}"
     printf '\n'
   fi
-  echo usage: "${0##*/}" '<options...> <arguments....>'
-  echo '       --help                 -h            this message'
-  echo '       --verbose              -v            more messages'
-  echo '       --copy src dst         -c src dst    copy indented and tabified source to destination'
-  echo '       --in-place files...    -i files...   in place tabify and indent of each file'
-  echo '       --overwrite            -o            for --copy to overwrite destination'
-  echo '       --no-indent            -n            only remove extraneous whitespace, no re-indentation'
-  echo '       --debug                -D            show debug information'
+  cat <<EOF
+usage: ${0##*/} <options...> <arguments....>
+       --help                 -h            this message
+       --verbose              -v            more messages
+       --copy src dst         -c src dst    copy indented and tabified source to destination
+       --in-place files...    -i files...   in place tabify and indent of each file
+       --overwrite            -o            for --copy to overwrite destination
+       --no-indent            -n            only remove extraneous whitespace, no re-indentation
+       --debug                -D            show debug information
+EOF
   exit 1
 }
 

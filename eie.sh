@@ -26,13 +26,15 @@ USAGE() {
     printf "${@}"
     printf '\n'
   fi
-  echo usage: "${0##*/}" '<options> <files>'
-  echo '       --help                 -h            this message'
-  echo '       --verbose              -v            more messages'
-  echo '       --no-frame             -n            use console editor'
-  echo '       --no-wait              -b            background the frame editor'
-  echo '       --desktop-number       -d            show the desktop number (1..n or 0 if not supported)'
-  echo '       --debug                -D            show debug information'
+  cat <<EOF
+usage: ${0##*/} <options> <files>
+       --help                 -h            this message
+       --verbose              -v            more messages
+       --no-frame             -n            use console editor
+       --no-wait              -b            background the frame editor
+       --desktop-number       -d            show the desktop number (1..n or 0 if not supported)
+       --debug                -D            show debug information
+EOF
   exit 1
 }
 
