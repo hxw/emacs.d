@@ -40,6 +40,7 @@ all:
 	 while : ; \
 	 do \
 	   [ X"$${PWD}" = X"${PROJECTS_DIR}" ] && break ; \
+	   [ X"$${PWD}" = X"/" ] && break ; \
 	   [ -d "command" ] && program_root="$${PWD}" ; \
 	   [ -f "main.go" ] && main_root="$${PWD}" ; \
 	   printf '\n===> check dir: %s\n' "$${PWD}" ; \
