@@ -282,8 +282,8 @@
         (set (make-local-variable 'compile-command)
              (concat "make -f " the-makefile " " target))
       (loop for the-dir = default-directory
-            then (file-truename (concat the-dir "/.."))
-            until (string-equal "/" the-dir)
+            then (file-name-directory (directory-file-name the-dir))
+            until (or (null the-dir) (string-equal "/" the-dir))
             when (file-exists-p (concat the-dir "/../" the-makefile))
             do (progn
                  (message "dir = %s  makefile = %s" the-dir the-makefile)
@@ -970,7 +970,7 @@
 (add-hook 'java-mode-hook #'(lambda ()
                               (c-set-style "java")
                               (setq indent-tabs-mode t)
-                              (setq c-basic-offset 8)))
+                              (setq c-basic-offset 2)))
 
 
 ;; awk mode
