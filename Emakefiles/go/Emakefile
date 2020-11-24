@@ -41,6 +41,7 @@ all:
 	 do \
 	   [ X"$${PWD}" = X"${PROJECTS_DIR}" ] && break ; \
 	   [ X"$${PWD}" = X"/" ] && break ; \
+	   [ -d "cmd" ] && program_root="$${PWD}" ; \
 	   [ -d "command" ] && program_root="$${PWD}" ; \
 	   [ -d "commands" ] && program_root="$${PWD}" ; \
 	   [ -d "services" ] && program_root="$${PWD}" ; \
