@@ -226,7 +226,7 @@ emacs-10:
 emacs-99:
 	@printf '\n===> \033[1;34;47m%s\033[0m\n\n' 'install Go tools'
 .for t in ${TOOLS}
-	cd "${THIS_DIR}" && go install -v "${t}"
+	cd "${THIS_DIR}" && go get -v "${t}"
 .endfor
 
 
