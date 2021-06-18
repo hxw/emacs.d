@@ -1188,6 +1188,7 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\.sample\\'" . json-mode))
+(add-to-list 'auto-mode-alist '("\\.jsonld\\'" . json-mode))
 (add-to-list 'auto-mode-alist '("\\.less\\'" . css-mode))
 (add-to-list 'auto-mode-alist '("\\.a77\\'" . asm-mode))
 (add-to-list 'auto-mode-alist '("\\.inc\\'" . asm-mode))
