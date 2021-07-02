@@ -280,7 +280,7 @@
 
     (if (file-exists-p the-makefile)
         (set (make-local-variable 'compile-command)
-             (concat "make -f " the-makefile " " target))
+             (concat "make -f " the-makefile " THIS_DIR=. PROJECTS_DIR=. " target))
       (loop for the-dir = default-directory
             then (file-name-directory (directory-file-name the-dir))
             until (or (null the-dir) (string-equal "/" the-dir))
