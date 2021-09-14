@@ -281,7 +281,7 @@
     (if (file-exists-p the-makefile)
         (set (make-local-variable 'compile-command)
              (concat "make -f " the-makefile " THIS_DIR=. PROJECTS_DIR=. " target))
-      (loop for the-dir = default-directory
+      (cl-loop for the-dir = default-directory
             then (file-name-directory (directory-file-name the-dir))
             until (or (null the-dir) (string-equal "/" the-dir))
             when (file-exists-p (concat the-dir "/../" the-makefile))
@@ -294,7 +294,7 @@
                               "' THIS_DIR='" default-directory
                               "' PROJECTS_DIR='" (file-truename (concat base-directory-for-compile "/.."))
                               "' " target))
-                 (return))))
+                 (cl-return))))
     (message "recompile = %s" compile-command)
     (delete-other-windows)
     (recompile)
@@ -399,12 +399,10 @@
 
 (message "init.el: unicode characters")
 
-(require 'cl)
-
 (defun unicode-symbol (name)
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
   or GREATER-THAN into an actual Unicode character code. "
-  (decode-char 'ucs (case name
+  (decode-char 'ucs (cl-case name
                       ;; arrows
                       ('left-arrow 8592)
                       ('up-arrow 8593)
@@ -479,15 +477,15 @@
 
 (defun pretty-greek ()
   (let ((greek '("alpha" "beta" "gamma" "delta" "epsilon" "zeta" "eta" "theta" "iota" "kappa" "lambda" "mu" "nu" "xi" "omicron" "pi" "rho" "sigma_final" "sigma" "tau" "upsilon" "phi" "chi" "psi" "omega")))
-    (loop for word in greek
+    (cl-loop for word in greek
           for code = 97 then (+ 1 code)
           do  (let ((greek-char (make-char 'greek-iso8859-7 code)))
                 (font-lock-add-keywords nil
-                                        `((,(concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[a-zA-Z]")
+                                        `((,(cl-concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[a-zA-Z]")
                                            (0 (progn (decompose-region (match-beginning 2) (match-end 2))
                                                      nil)))))
                 (font-lock-add-keywords nil
-                                        `((,(concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[^a-zA-Z]")
+                                        `((,(cl-concatenate 'string "\\(^\\|[^a-zA-Z0-9]\\)\\(" word "\\)[^a-zA-Z]")
                                            (0 (progn (compose-region (match-beginning 2) (match-end 2)
                                                                      ,greek-char)
                                                      nil)))))))))
@@ -654,7 +652,7 @@
               (turn-on-haskell-simple-indent)
               (setq indent-line-function 'tab-to-tab-stop)
               (setq tab-stop-list
-                    (loop for i from 2 upto 120 by 2 collect i))
+                    (cl-loop for i from 2 upto 120 by 2 collect i))
               (local-set-key (kbd "RET") 'newline-and-indent-relative))
             )
   )
