@@ -764,10 +764,8 @@
     (setq gofmt-args (list "-s" "-r=(a) -> a"))
     (gofmt-before-save)
     (setq gofmt-command "goimports")
-    (setq gofmt-args (list "-local"
-                           (if (boundp 'goimports-local)
-                               goimports-local
-                             "github.com/")))
+    (setq gofmt-args (if (boundp 'goimports-local)
+                         (list "-local" goimports-local)))
     (gofmt-before-save)))
 
 (global-set-key (kbd "S-<f7>") (lambda (arg)
