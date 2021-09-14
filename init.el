@@ -14,16 +14,14 @@
 ;; ------------------
 (require 'package)
 
-(if t
-    (add-to-list 'package-archives
-                 '("melpa-stable" . "http://stable.melpa.org/packages/") t)
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/") t))
-
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(setq package-archives '(("melpa" . "http://melpa.org/packages/")
+                         ("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
+
+;; This is only needed once, near the top of the file
+(eval-when-compile
+  ;; Following line is not needed if use-package.el is in ~/.emacs.d
+  (require 'use-package))
 
 
 ;; enable or disable some options
@@ -374,24 +372,6 @@
                         (not (string= "*scratch*" name))))))
            (buffer-list))))
   )
-
-;; w3m
-;; ---
-
-;;* (message "init.el: w3m")
-;;*
-;;* ;; load the interface
-;;* (autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
-;;* (setq w3m-home-page "http://127.0.0.1/")
-
-;; To use emacs-w3m on Wanderlust:
-;; (require 'mime-w3m)
-
-;; To use octet stream viewer:
-
-;; (require 'w3m)
-;; (require 'octet)
-;; (octet-mime-setup)
 
 
 ;; Unicode
