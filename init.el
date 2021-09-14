@@ -825,6 +825,7 @@
 ;; --------
 
 (when (require 'sqlup-mode "sqlup-mode" t)
+  (modify-syntax-entry ?" "\"" sql-mode-syntax-table)
   (message "init.el: sqlup-mode available")
   (add-hook 'sql-mode-hook 'sqlup-mode)
   (add-hook 'sql-interactive-mode-hook 'sqlup-mode))
@@ -887,7 +888,8 @@
       (message "untabifying buffer before save")
       (save-excursion
         (untabify (point-min) (point-max))
-        (sqlup-capitalize-keywords-in-region (point-min) (point-max)))
+        ;;;(sqlup-capitalize-keywords-in-region (point-min) (point-max))
+        )
       )
      )
     ))
