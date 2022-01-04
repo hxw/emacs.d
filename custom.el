@@ -55,7 +55,7 @@
  '(mouse-buffer-menu-maxlen 30)
  '(mouse-buffer-menu-mode-mult 30)
  '(package-selected-packages
-   '(lua-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-theme-modern rainbow-delimiters rainbow-identifiers rainbow-mode nim-mode go-autocomplete ctags-update tuareg qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode json-mode js2-mode htmlize haskell-mode flylisp aggressive-indent))
+   '(janet-mode lua-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-theme-modern rainbow-delimiters rainbow-identifiers rainbow-mode nim-mode go-autocomplete ctags-update tuareg qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode json-mode js2-mode htmlize haskell-mode flylisp aggressive-indent))
  '(perl-indent-level 2)
  '(ps-font-size '(12 . 12))
  '(ps-landscape-mode t)
