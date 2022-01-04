@@ -653,7 +653,7 @@
   (interactive)
   (substitute-patterns-with-unicode
    (list (cons "[^<]\\(<-\\)" 'left-arrow)
-         (cons "\\(->\\)[^>]" 'right-arrow)
+         (cons "[^-]\\(->\\)[^>]" 'right-arrow)
          (cons "\\(==\\)" 'identical)
          (cons "\\(/=\\)" 'not-identical)
          (cons "\\(()\\)" 'nil)
@@ -1196,6 +1196,33 @@
 ;;             (setq asm-comment-char ?@)
 ;;           )
 ;;        )
+
+
+;; MMM
+;; ---
+
+(message "init.el: MMM-mode")
+
+(require 'mmm-auto)
+
+(mmm-add-classes
+ '((shell-script-awk
+    :submode awk-mode
+    :delimiter-mode nil
+    :face mmm-code-submode-face
+    :front "awk.*'[[:space:]]*\n"
+    :back "\n[[:space:]]*'")
+   (nginx-embedded-lua
+    :submode lua-mode
+    :delimiter-mode nil
+    :face mmm-code-submode-face
+    :front "content_by_lua_block[[:space:]]*{[[:space:]]*\n"
+    :back "\n[[:space:]]*}[[:space:]]*#[[:space:]]*lua_end")))
+
+
+(setq mmm-global-mode 'maybe)
+(mmm-add-mode-ext-class 'sh-mode nil 'shell-script-awk)
+(mmm-add-mode-ext-class 'conf-mode nil 'nginx-embedded-lua)
 
 
 ;; highlighting and removing spaces at end-of-line
