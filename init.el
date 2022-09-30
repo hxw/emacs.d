@@ -1,4 +1,4 @@
-;; init.el
+;; init.el  -*- lexical-binding: t; -*-
 ;; =======
 
 ;; load-path
@@ -169,14 +169,20 @@
 (global-set-key (kbd "C-<print>") 'my-control-print-screen)
 
 
+;; in cases where mode-name is a structure (e.g., in "Elisp" mode)
+(defun mode-name-string ()
+  "if list, return the car else return the string"
+  (or (and (stringp mode-name) mode-name) (car mode-name)))
+
+
 ;; PrtScn key handler
 (defun my-control-print-screen (arg)
   "Do something useful with the Ctrl-PrtScn"
   (interactive "P")
-  (when (stringp mode-name)
-    (cond ((string= mode-name "Markdown")
+  (let ((mn (mode-name-string)))
+    (cond ((string= mn "Markdown")
            (my-markdown-to-pdf arg))
-          ((string= mode-name "Org")
+          ((string= mn "Org")
            (my-org-to-html arg))
           (t
            (my-recompile arg) ; on t580 <print> is in the <menu> position
@@ -414,6 +420,11 @@
                       ('logical-and #X2227)
                       ('logical-or #X2228)
                       ('logical-neg #X00AC)
+
+                      ;; :=
+                      ('colon-equals #X2254)
+                      ('equals-colon #X2255)
+                      ('function #X0192)
 
                       ;; misc
                       ('nil #X2205)
@@ -757,16 +768,17 @@
 
 (defun go-tidy-up ()
   "run all go tidying processes"
-  (when (string= mode-name "Go")
-    (compact-go-imports)
-    (fix-go-break-continue)
-    (setq gofmt-command "gofmt")
-    (setq gofmt-args (list "-s" "-r=(a) -> a"))
-    (gofmt-before-save)
-    (setq gofmt-command "goimports")
-    (setq gofmt-args (if (boundp 'goimports-local)
-                         (list "-local" goimports-local)))
-    (gofmt-before-save)))
+  (let ((mn (mode-name-string)))
+    (when (string= mn "Go")
+      (compact-go-imports)
+      (fix-go-break-continue)
+      (setq gofmt-command "gofmt")
+      (setq gofmt-args (list "-s" "-r=(a) -> a"))
+      (gofmt-before-save)
+      (setq gofmt-command "goimports")
+      (setq gofmt-args (if (boundp 'goimports-local)
+                           (list "-local" goimports-local)))
+      (gofmt-before-save))))
 
 (global-set-key (kbd "S-<f7>") (lambda (arg)
                                  "insert if err → return"
@@ -775,12 +787,38 @@
                                        '("if nil != err {" "return err" "}"))
                                  (newline 1 t)))
 
+(defun golang-unicode ()
+  (interactive)
+  (substitute-patterns-with-unicode
+   (list (cons "[^<]\\(<-\\)" 'left-arrow)
+         (cons "\\(->\\)[^>]" 'right-arrow)
+         ;;(cons "[^<]\\(<=\\)" 'leftwards-double-arrow)
+         ;;(cons "\\(=>\\)[^>]" 'rightwards-double-arrow)
+         ;;(cons "\\(=:=\\)" 'identical)
+         ;;(cons "\\(=/=\\)" 'not-identical)
+         (cons "\\(:=\\)" 'colon-equals)
+         (cons "[^=]\\(==\\)[^=]" 'identical)
+         (cons "[^=]\\(!=\\)" 'not-equal)
+         ;;(cons "[^=/<>]\\(=\\)[^=/<>]" 'equivalent-to)
+         ;;(cons "\\(\\[\\]\\)" 'nil)
+         (cons "\\<\\(func\\)\\>" 'function)
+         (cons "\\<\\(nil\\)\\>" 'nil)
+         (cons "\\<\\(sqrt\\)\\>" 'square-root)
+         (cons "\\(&&\\)" 'logical-and)
+         (cons "\\(||\\)" 'logical-or)
+         ;;(cons "\\<\\(not\\)\\>" 'logical-neg)
+         (cons "\\(>\\)[^=]" 'greater-than)
+         (cons "\\(<\\)[^=]" 'less-than)
+         (cons "\\(>=\\)" 'greater-than-or-equal-to)
+         (cons "\\(<=\\)" 'less-than-or-equal-to)
+         )))
 
 (when (require 'go-mode "go-mode" t)
   (message "init.el: go mode")
-  ;(require 'auto-complete)
-  ;(require 'go-autocomplete)
-  ;(add-hook 'go-mode-hook #'go-eldoc-setup)
+  ;;(require 'auto-complete)
+  ;;(require 'go-autocomplete)
+  ;;(add-hook 'go-mode-hook #'go-eldoc-setup)
+  (add-hook 'go-mode-hook #'golang-unicode)
   (add-hook 'before-save-hook #'go-tidy-up t))
 
 
@@ -825,7 +863,7 @@
 ;; --------
 
 (when (require 'sqlup-mode "sqlup-mode" t)
-  (modify-syntax-entry ?" "\"" sql-mode-syntax-table)
+  ;; (modify-syntax-entry ?" "\"" sql-mode-syntax-table)
   (message "init.el: sqlup-mode available")
   (add-hook 'sql-mode-hook 'sqlup-mode)
   (add-hook 'sql-interactive-mode-hook 'sqlup-mode))
@@ -869,22 +907,22 @@
 (defun my-tabify ()
   "tabify the buffer for certain file types"
   (interactive)
-  (when (stringp mode-name)
+  (let ((mn (mode-name-string)))
     (cond
-     ((or (string= (substring mode-name 0 (min 2 (length mode-name))) "C/")
-          (string= (substring mode-name 0 (min 4 (length mode-name))) "C++/"))
+     ((or (string= (substring mn 0 (min 2 (length mn))) "C/")
+          (string= (substring mn 0 (min 4 (length mn))) "C++/"))
       (message "tabifying buffer before save")
       (save-excursion
         (clang-format-region (point-min) (point-max)))
       )
-     ((or (string= (substring mode-name 0 (min 7 (length mode-name))) "Haskell")
-          (string= (substring mode-name 0 (min 10 (length mode-name))) "Emacs-Lisp"))
+     ((or (string= (substring mn 0 (min 7 (length mn))) "Haskell")
+          (string= (substring mn 0 (min 10 (length mn))) "Emacs-Lisp"))
       (message "untabifying buffer before save")
       (save-excursion
         (untabify (point-min) (point-max)))
       )
-     ((or (string= (substring mode-name 0 (min 3 (length mode-name))) "SQL")
-          (string= (substring mode-name 0 (min 3 (length mode-name))) "sql"))
+     ((or (string= (substring mn 0 (min 3 (length mn))) "SQL")
+          (string= (substring mn 0 (min 3 (length mn))) "sql"))
       (message "untabifying buffer before save")
       (save-excursion
         (untabify (point-min) (point-max))
@@ -977,10 +1015,11 @@
 
 (defun my-show-rustfmt ()
   "if rust format failed split window to show errors"
-  (when (string= mode-name "Rust")
-    (delete-other-windows)
-    (when (get-buffer "*rustfmt*")
-      (set-window-buffer (split-window-sensibly) "*rustfmt*"))))
+  (let ((mn (mode-name-string)))
+    (when (string= mn "Rust")
+      (delete-other-windows)
+      (when (get-buffer "*rustfmt*")
+        (set-window-buffer (split-window-sensibly) "*rustfmt*")))))
 
 (defun rust-unicode ()
   (interactive)
@@ -1240,9 +1279,9 @@
 (defun my-delete-trailing-whitespace ()
   "remove trailing whilespace from certain file types"
   (interactive)
-  (when (stringp mode-name)
-    (cond ((string= mode-name "Hexl") t)
-          ((string= mode-name "Diff") t)
+  (let ((mn (mode-name-string)))
+    (cond ((string= mn "Hexl") t)
+          ((string= mn "Diff") t)
           (t
            (message "removing trailing whitespace before save")
            (delete-trailing-whitespace)))))
