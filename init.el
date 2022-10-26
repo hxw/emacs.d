@@ -784,7 +784,7 @@
                                  "insert if err → return"
                                  (interactive "p")
                                  (mapc (lambda (s) (newline 1 t) (insert s))
-                                       '("if nil != err {" "return err" "}"))
+                                       '("if err != nil {" "return err" "}"))
                                  (newline 1 t)))
 
 (defun golang-unicode ()
