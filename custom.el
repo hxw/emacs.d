@@ -24,7 +24,7 @@
  '(css-indent-offset 2)
  '(ctags-update-command "/usr/local/bin/uctags")
  '(ctags-update-other-options
-   '("--fields=+iaSt" "--extras=+q" "--exclude=.#*" "--exclude=*.elc" "--exclude=*.class" "--exclude=.git" "--exclude=.svn" "--exclude=SCCS" "--exclude=RCS" "--exclude=CVS" "--exclude=EIFGEN" "--exclude=node_modules"))
+   '("--fields=+iaSt" "--extras=+q" "--exclude=.#*" "--exclude=*.elc" "--exclude=*.class" "--exclude=.git" "--exclude=.svn" "--exclude=SCCS" "--exclude=RCS" "--exclude=CVS" "--exclude=EIFGEN" "--exclude=node_modules" "--exclude=@.gitignore"))
  '(current-language-environment "UTF-8")
  '(custom-enabled-themes '(hsw-deep-blue))
  '(custom-file "~/.emacs.d/custom.el")
