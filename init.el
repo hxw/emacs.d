@@ -912,9 +912,7 @@
      ((or (string= (substring mn 0 (min 2 (length mn))) "C/")
           (string= (substring mn 0 (min 4 (length mn))) "C++/"))
       (message "tabifying buffer before save")
-      (save-excursion
-        (clang-format-region (point-min) (point-max)))
-      )
+      (save-excursion (clang-format-buffer)))
      ((or (string= (substring mn 0 (min 7 (length mn))) "Haskell")
           (string= (substring mn 0 (min 10 (length mn))) "Emacs-Lisp"))
       (message "untabifying buffer before save")
@@ -940,9 +938,6 @@
 ;; for clang-format
 ;; ----------------
 
-(setq load-path (append
-                 '("/usr/local/llvm90/share/clang")
-                 load-path))
 (require 'clang-format)
 ;;(fset 'c-indent-region 'clang-format-region)
 
@@ -955,6 +950,7 @@
 (add-hook 'c-mode-hook #'my-clang-setup)
 (add-hook 'c++-mode-hook #'my-clang-setup)
 
+
 ;; exuberant ctags
 ;; ---------------
 
@@ -964,7 +960,7 @@
 ;;(ac-exuberant-ctags-setup)
 
 (autoload 'turn-on-ctags-auto-update-mode "ctags-update" "turn on `ctags-auto-update-mode'." t)
-(add-hook 'c-mode-common-hook  'turn-on-ctags-auto-update-mode)
+;;(add-hook 'c-mode-common-hook  'turn-on-ctags-auto-update-mode)
 (add-hook 'emacs-lisp-mode-hook  'turn-on-ctags-auto-update-mode)
 (add-hook 'go-mode-hook  'turn-on-ctags-auto-update-mode)
 

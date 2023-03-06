@@ -19,7 +19,8 @@
      (statement-cont . +)) t)
  '(c-offsets-alist '((statement-case-open . 0)))
  '(case-fold-search t)
- '(clang-format-executable "clang-format90")
+ '(clang-format-fallback-style "llvm")
+ '(clang-format-style "file")
  '(coffee-tab-width 2)
  '(css-indent-offset 2)
  '(ctags-update-command "/usr/local/bin/uctags")
@@ -55,7 +56,7 @@
  '(mouse-buffer-menu-maxlen 30)
  '(mouse-buffer-menu-mode-mult 30)
  '(package-selected-packages
-   '(typescript-mode mmm-mode janet-mode lua-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-theme-modern rainbow-delimiters rainbow-identifiers rainbow-mode nim-mode go-autocomplete ctags-update tuareg qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode json-mode js2-mode htmlize haskell-mode flylisp aggressive-indent))
+   '(clang-format typescript-mode mmm-mode janet-mode lua-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-theme-modern rainbow-delimiters rainbow-identifiers rainbow-mode nim-mode go-autocomplete ctags-update tuareg qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode json-mode js2-mode htmlize haskell-mode flylisp aggressive-indent))
  '(perl-indent-level 2)
  '(ps-font-size '(12 . 12))
  '(ps-landscape-mode t)
@@ -82,6 +83,7 @@
  '(time-stamp-format "%:y-%02m-%02dT%02H:%02M:%02S %:z")
  '(tool-bar-mode nil)
  '(tooltip-mode nil nil (tooltip))
+ '(typescript-indent-level 2)
  '(uniquify-buffer-name-style 'forward nil (uniquify)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
