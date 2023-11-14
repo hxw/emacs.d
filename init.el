@@ -204,6 +204,13 @@
 (ido-toggle-prefix) ; ensure start in sub-string match
 
 
+;; project-explorer
+;; ----------------
+
+(when (require 'project-explorer "project-explorer" t)
+  (global-set-key (kbd "S-<f8>") 'project-explorer-toggle))
+
+
 ;; compilation keys
 ;; ----------------
 
