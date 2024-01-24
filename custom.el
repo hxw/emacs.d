@@ -6,6 +6,7 @@
  '(Buffer-menu-buffer+size-width 100)
  '(Buffer-menu-mode-width 120)
  '(ac-exuberant-ctags-tag-file-name "TAGS")
+ '(awk-mode-hook '((closure (t) nil (setq c-basic-offset 2))))
  '(buffers-menu-max-size 30)
  '(c-electric-pound-behavior '(alignleft))
  '(c-file-offsets
