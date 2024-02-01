@@ -967,12 +967,14 @@
 ;;(ac-exuberant-ctags-setup)
 
 (autoload 'turn-on-ctags-auto-update-mode "ctags-update" "turn on `ctags-auto-update-mode'." t)
-;;(add-hook 'c-mode-common-hook  'turn-on-ctags-auto-update-mode)
-(add-hook 'emacs-lisp-mode-hook  'turn-on-ctags-auto-update-mode)
-(add-hook 'go-mode-hook  'turn-on-ctags-auto-update-mode)
 
-;; (autoload 'ctags-update "ctags-update" "update TAGS using ctags" t)
-;; (global-set-key "\C-cE" 'ctags-update)
+;;(add-hook 'c-mode-common-hook  'turn-on-ctags-auto-update-mode)
+;;(add-hook 'emacs-lisp-mode-hook  'turn-on-ctags-auto-update-mode)
+;;(add-hook 'go-mode-hook  'turn-on-ctags-auto-update-mode)
+
+(autoload 'ctags-update "ctags-update" "update TAGS using ctags" t)
+(global-set-key "\C-cE" #'ctags-update)
+
 
 ;; for QT pro files
 ;; ----------------
