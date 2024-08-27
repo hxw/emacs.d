@@ -57,7 +57,7 @@
  '(mouse-buffer-menu-maxlen 30)
  '(mouse-buffer-menu-mode-mult 30)
  '(package-selected-packages
-   '(project-explorer dart-mode clang-format typescript-mode mmm-mode janet-mode lua-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-theme-modern rainbow-delimiters rainbow-identifiers rainbow-mode nim-mode go-autocomplete ctags-update tuareg qt-pro-mode cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode json-mode js2-mode htmlize haskell-mode flylisp aggressive-indent use-package))
+   '(solidity-mode project-explorer dart-mode clang-format typescript-mode janet-mode lua-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-theme-modern rainbow-delimiters rainbow-identifiers rainbow-mode go-autocomplete ctags-update tuareg cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode json-mode js2-mode htmlize haskell-mode flylisp aggressive-indent use-package))
  '(pe/width 30)
  '(perl-indent-level 2)
  '(ps-font-size '(12 . 12))
@@ -65,6 +65,7 @@
  '(ps-lpr-command "/usr/local/bin/lpr-cups")
  '(ps-multibyte-buffer 'bdf-font-except-latin)
  '(ps-printer-name-option "-P")
+ '(python-indent-offset 2)
  '(quack-pretty-lambda-p t)
  '(quack-smart-open-paren-p t)
  '(rust-format-on-save t)

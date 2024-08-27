@@ -44,31 +44,11 @@
     selected))
 
 
-;; emacs customisation
-;; -------------------
-
-(message "init.el: Customisation")
-(require 'ps-mule)
-
-
 ;; menubar/toolbar
 ;; ---------------
 
 (tool-bar-mode 0)
 (menu-bar-mode 0)
-
-
-;; adjust window size
-;; ------------------
-
-(defun w32-maximize-frame ()
-  "Maximize the current frame (windows only)"
-  (interactive)
-  (w32-send-sys-command 61488))
-
-(when (eq system-type 'windows-nt)
-    (progn
-      (add-hook 'window-setup-hook 'w32-maximize-frame t)))
 
 
 ;; special options for X11
@@ -111,7 +91,7 @@
                                    (comment-indent)
                                    (unless (looking-at tag) (insert tag)))))
 
-(global-set-key (kbd "<f6>") (lambda (arg)
+(global-set-key (kbd "<f6>") #'(lambda (arg)
                        "set up flyspell"
                        (interactive "p")
                        (flyspell-mode 1)
@@ -123,19 +103,6 @@
 (global-set-key (kbd "<f8>") 'call-last-kbd-macro)
 
 (global-set-key (kbd "<f9>") 'delete-trailing-whitespace)
-
-(when (require 'mml "mml" t)
-  (global-set-key (kbd "C-<f9>") (lambda () "mime to mml"
-                                   (interactive)
-                                   (toggle-read-only 0)
-                                   (mime-to-mml)
-                                   (not-modified)
-                                   (toggle-read-only 1))))
-
-(global-set-key (kbd "S-<f9>") (lambda (arg) "git blame via (vc-annotate)"
-                                 (interactive "p")
-                                 (vc-annotate (buffer-file-name) (vc-working-revision buffer-file-name))
-                                 (vc-annotate-toggle-annotation-visibility)))
 
 (global-set-key (kbd "<f10>") 'bury-buffer)
 (global-set-key (kbd "<f11>") 'my-server-edit)
@@ -207,6 +174,7 @@
 ;; project-explorer
 ;; ----------------
 
+;; toggle on/off a sidebar of files and directories in current directory
 (when (require 'project-explorer "project-explorer" t)
   (global-set-key (kbd "S-<f8>") 'project-explorer-toggle))
 
@@ -362,31 +330,6 @@
 (global-set-key (kbd "<mouse-5>") 'my-mouse-wheel-up)
 
 
-;; tabbar
-;; ------
-
-;; from: http://www.emacswiki.org/emacs/TabBarMode
-
-(when *local-tabbar-enabled*
-  (require 'tabbar)
-  (tabbar-mode)
-
-  (setq tabbar-buffer-groups-function
-        (lambda ()
-          (list "All Buffers")))
-
-  (setq tabbar-buffer-list-function
-        (lambda ()
-          (remove-if
-           (lambda(buffer)
-             (let ((name (buffer-name buffer)))
-               (or (string-match "\\.html-template-indent-buffer$" name)
-                   (and (find (aref name 0) " *")
-                        (not (string= "*scratch*" name))))))
-           (buffer-list))))
-  )
-
-
 ;; Unicode
 ;; -------
 
@@ -394,60 +337,60 @@
 
 (defun unicode-symbol (name)
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
-  or GREATER-THAN into an actual Unicode character code. "
+  or GREATER-THAN into an actual Unicode character code."
   (decode-char 'ucs (cl-case name
                       ;; arrows
-                      ('left-arrow 8592)
-                      ('up-arrow 8593)
-                      ('right-arrow 8594)
-                      ('down-arrow 8595)
+                      (left-arrow 8592)
+                      (up-arrow 8593)
+                      (right-arrow 8594)
+                      (down-arrow 8595)
 
-                      ('leftwards-double-arrow #X21D0)
-                      ('upwards-double-arrow #X21D1)
-                      ('rightwards-double-arrow #X21D2)
-                      ('downwards-double-arrow #X21D3)
+                      (leftwards-double-arrow #X21D0)
+                      (upwards-double-arrow #X21D1)
+                      (rightwards-double-arrow #X21D2)
+                      (downwards-double-arrow #X21D3)
 
                       ;; boxes
-                      ('double-vertical-bar #X2551)
+                      (double-vertical-bar #X2551)
 
                       ;; relational operators
-                      ('equal #X003d)
-                      ('not-equal #X2260)
-                      ('identical #X2261)
-                      ('not-identical #X2262)
-                      ('less-than #X003c)
-                      ('greater-than #X003e)
-                      ('less-than-or-equal-to #X2264)
-                      ('greater-than-or-equal-to #X2265)
+                      (equal #X003d)
+                      (not-equal #X2260)
+                      (identical #X2261)
+                      (not-identical #X2262)
+                      (less-than #X003c)
+                      (greater-than #X003e)
+                      (less-than-or-equal-to #X2264)
+                      (greater-than-or-equal-to #X2265)
 
-                      ('equivalent-to #X224D)
-                      ('strictly-equivalent-to #X2263)
+                      (equivalent-to #X224D)
+                      (strictly-equivalent-to #X2263)
 
                       ;; logical operators
-                      ('logical-and #X2227)
-                      ('logical-or #X2228)
-                      ('logical-neg #X00AC)
+                      (logical-and #X2227)
+                      (logical-or #X2228)
+                      (logical-neg #X00AC)
 
                       ;; :=
-                      ('colon-equals #X2254)
-                      ('equals-colon #X2255)
-                      ('function #X0192)
+                      (colon-equals #X2254)
+                      (equals-colon #X2255)
+                      (func #X0192)
 
                       ;; misc
-                      ('nil #X2205)
-                      ('horizontal-ellipsis #X2026)
-                      ('double-exclamation #X203C)
-                      ('prime #X2032)
-                      ('double-prime #X2033)
-                      ('for-all #X2200)
-                      ('there-exists #X2203)
-                      ('element-of #X2208)
-                      ('double-plus #X29FA)
+                      (void #X2205)
+                      (horizontal-ellipsis #X2026)
+                      (double-exclamation #X203C)
+                      (prime #X2032)
+                      (double-prime #X2033)
+                      (for-all #X2200)
+                      (there-exists #X2203)
+                      (element-of #X2208)
+                      (double-plus #X29FA)
 
                       ;; mathematical operators
-                      ('square-root #X221A)
-                      ('squared #X00B2)
-                      ('cubed #X00B3)
+                      (square-root #X221A)
+                      (squared #X00B2)
+                      (cubed #X00B3)
 
                       )))
 
@@ -489,6 +432,7 @@
                                                      nil)))))))))
 (add-hook 'lisp-mode-hook 'pretty-greek)
 (add-hook 'emacs-lisp-mode-hook 'pretty-greek)
+
 
 ;; rainbow mode
 ;; ------------
@@ -562,7 +506,7 @@
            (cons "\\(==\\)" 'identical)
            (cons "\\(\\!=\\)" 'not-identical)
            (cons "\\(<>\\)" 'not-equal)
-           (cons "\\(()\\)" 'nil)
+           (cons "\\(()\\)" 'void)
            (cons "\\<\\(sqrt\\)\\>" 'square-root)
            (cons "\\(&&\\)" 'logical-and)
            (cons "\\(||\\)" 'logical-or)
@@ -674,7 +618,7 @@
          (cons "[^-]\\(->\\)[^>]" 'right-arrow)
          (cons "\\(==\\)" 'identical)
          (cons "\\(/=\\)" 'not-identical)
-         (cons "\\(()\\)" 'nil)
+         (cons "\\(()\\)" 'void)
          (cons "\\<\\(sqrt\\)\\>" 'square-root)
          (cons "\\(&&\\)" 'logical-and)
          (cons "[^|]\\(||\\)[^|]" 'logical-or)
@@ -691,54 +635,6 @@
 
 (add-hook 'haskell-mode-hook 'haskell-unicode)
 (add-hook 'haskell-mode-hook 'pretty-greek)
-
-
-;; Erlang mode
-;; -----------
-
-(defun erlang-unicode ()
-  (interactive)
-  (substitute-patterns-with-unicode
-   (list (cons "[^<]\\(<-\\)" 'left-arrow)
-         (cons "\\(->\\)[^>]" 'right-arrow)
-         (cons "[^<]\\(<=\\)" 'leftwards-double-arrow)
-         (cons "\\(=>\\)[^>]" 'rightwards-double-arrow)
-         (cons "\\(=:=\\)" 'identical)
-         (cons "\\(=/=\\)" 'not-identical)
-         (cons "[^=]\\(==\\)[^=]" 'equal)
-         (cons "[^=]\\(/=\\)" 'not-equal)
-         (cons "[^=/<>]\\(=\\)[^=/<>]" 'equivalent-to)
-         ;;(cons "\\(\\[\\]\\)" 'nil)
-         (cons "\\<\\(sqrt\\)\\>" 'square-root)
-         ;;(cons "\\(&&\\)" 'logical-and)
-         ;;(cons "\\(||\\)" 'logical-or)
-         ;;(cons "\\<\\(not\\)\\>" 'logical-neg)
-         (cons "\\(>\\)[^=]" 'greater-than)
-         (cons "[^=]\\(<\\)" 'less-than)
-         (cons "\\(>=\\)" 'greater-than-or-equal-to)
-         (cons "\\(=<\\)" 'less-than-or-equal-to)
-         (cons "\\(!!\\)" 'double-exclamation)
-         )))
-
-(add-hook 'erlang-mode-hook 'erlang-unicode)
-
-;; FreeBSD EMACS mode is installed in a special place
-(if (eq system-type 'berkeley-unix)
-    (let*
-        ((lib-prefix "/usr/local/lib")
-         (erlang-libs (directory-files lib-prefix t "^erlang")))
-      (when erlang-libs
-        (let*
-            ((erlang-local-dir (car (nreverse erlang-libs)))
-             (erlang-lib-dir (concat erlang-local-dir "/lib"))
-             (erlang-bin-dir (concat erlang-local-dir "/bin"))
-             (erlang-tools-dir (car (nreverse
-                                     (directory-files erlang-lib-dir t "^tools-"))))
-             (erlang-emacs-dir (concat erlang-tools-dir "/emacs")))
-          (setq load-path (cons erlang-emacs-dir load-path))
-          (setq erlang-root-dir erlang-local-dir)
-          (setq exec-path (cons erlang-bin-dir exec-path))
-      (require 'erlang-start)))))
 
 
 ;; Go mode
@@ -787,10 +683,10 @@
                            (list "-local" goimports-local)))
       (gofmt-before-save))))
 
-(global-set-key (kbd "S-<f7>") (lambda (arg)
+(global-set-key (kbd "S-<f7>") #'(lambda (arg)
                                  "insert if err → return"
                                  (interactive "p")
-                                 (mapc (lambda (s) (newline 1 t) (insert s))
+                                 (mapc #'(lambda (s) (newline 1 t) (insert s))
                                        '("if err != nil {" "return err" "}"))
                                  (newline 1 t)))
 
@@ -807,9 +703,9 @@
          (cons "[^=]\\(==\\)[^=]" 'identical)
          (cons "[^=]\\(!=\\)" 'not-equal)
          ;;(cons "[^=/<>]\\(=\\)[^=/<>]" 'equivalent-to)
-         ;;(cons "\\(\\[\\]\\)" 'nil)
-         (cons "\\<\\(func\\)\\>" 'function)
-         (cons "\\<\\(nil\\)\\>" 'nil)
+         ;;(cons "\\(\\[\\]\\)" 'void)
+         (cons "\\<\\(func\\)\\>" 'func)
+         (cons "\\<\\(nil\\)\\>" 'void)
          (cons "\\<\\(sqrt\\)\\>" 'square-root)
          (cons "\\(&&\\)" 'logical-and)
          (cons "\\(||\\)" 'logical-or)
@@ -874,21 +770,6 @@
   (message "init.el: sqlup-mode available")
   (add-hook 'sql-mode-hook 'sqlup-mode)
   (add-hook 'sql-interactive-mode-hook 'sqlup-mode))
-
-
-
-;; Ruby mode
-;; ---------
-
-(message "init.el: ruby")
-
-(setq ruby-program-name "/usr/local/bin/ruby")
-(autoload 'ruby-mode "ruby-mode" "Mode for editing ruby source files")
-(add-to-list 'auto-mode-alist '("\\.rb$" . ruby-mode))
-(add-to-list 'interpreter-mode-alist '("ruby" . ruby-mode))
-(autoload 'run-ruby "inf-ruby" "Run an inferior Ruby process")
-(autoload 'inf-ruby-keys "inf-ruby" "Set local key defs for inf-ruby in ruby-mode")
-(add-hook 'ruby-mode-hook #'(lambda () (inf-ruby-keys)))
 
 
 ;; C mode
@@ -976,24 +857,6 @@
 (global-set-key "\C-cE" #'ctags-update)
 
 
-;; for QT pro files
-;; ----------------
-
-(require 'qt-pro-mode)
-(add-to-list 'auto-mode-alist '("\\.pr[io]$" . qt-pro-mode))
-
-
-;; Java mode
-;; ---------
-
-(message "init.el: Java styles")
-
-(add-hook 'java-mode-hook #'(lambda ()
-                              (c-set-style "java")
-                              (setq indent-tabs-mode t)
-                              (setq c-basic-offset 2)))
-
-
 ;; awk mode
 ;; --------
 
@@ -1002,13 +865,6 @@
 (add-hook 'awk-mode-hook
           #'(lambda ()
              (setq c-basic-offset 4)))
-
-
-;; nim mode
-;; --------
-
-;; (add-hook 'nim-mode-hook 'nimsuggest-mode)
-;;  (setq nimsuggest-path "path/to/nimsuggest")
 
 
 ;; rust mode
@@ -1034,7 +890,7 @@
          (cons "\\(=>\\)[^>]" 'rightwards-double-arrow)
          (cons "\\(==\\)" 'identical)
          (cons "\\(/=\\)" 'not-identical)
-         (cons "[^a-zA-Z0-9_>:]\\(()\\)" 'nil)
+         (cons "[^a-zA-Z0-9_>:]\\(()\\)" 'void)
          (cons "\\<\\(sqrt\\)\\>" 'square-root)
          (cons "\\(&&\\)" 'logical-and)
          (cons "[^|]\\(||\\)[^|]" 'logical-or)
@@ -1053,51 +909,10 @@
 (add-hook 'rust-mode-hook 'pretty-greek)
 
 
-
-;; Python and Django
-;; -----------------
-
-;; see this: http://stackoverflow.com/questions/1257236/django-emacs-as-textmate-replacement
-;; look at the answer by: http://stackoverflow.com/users/2354/benjamin-pollack
-
-
-(defun my-set-flymake-mode ()
-  (flymake-mode 1))
-
-(when (require 'flymake "flymake" t)
-  (defun flymake-pyflakes-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "pyflakes" (list local-file))))
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pyflakes-init))
-
-  (add-hook 'python-mode-hook 'my-set-flymake-mode))
-
-
-;; nXhtml mode, from: http://ourcomments.org/Emacs/nXhtml/doc/nxhtml.html
-;; ----------------------------------------------------------------------
-
-(when (load "~/nxhtml/autostart.el" t)
-  (message "init.el: nXhtml")
-  (setq mumamo-background-colors nil)
-  (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mumamo-mode))
-  ;; Workaround the annoying warnings:
-  ;; Warning (mumamo-per-buffer-local-vars):
-  ;; Already 'permanent-local t: buffer-file-name
-  (when (string< "24.1" (format "%d.%d" emacs-major-version emacs-minor-version))
-    (eval-after-load "mumamo"
-      '(setq mumamo-per-buffer-local-vars
-             (delq 'buffer-file-name mumamo-per-buffer-local-vars)))))
-
 ;; miscellaneous items
 ;; -------------------
 
 (message "init.el: miscellaneous")
-
 
 (line-number-mode 1)
 
@@ -1135,6 +950,10 @@
 (setq tramp-debug-buffer t)
 (setq tramp-verbose 10)
 (setq tramp-default-method "ssh")
+
+;;; preserve initial login path for tramp
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+(add-to-list 'tramp-remote-path (expand-file-name "~/go/bin") t)
 
 
 ;; Org mode
@@ -1235,45 +1054,11 @@
               )
           )
 
-;;(add-hook 'asm-mode-set-comment-hook
-;;          #'(lambda ()
-;;             (setq asm-comment-char ?@)
-;;           )
-;;        )
-
-
-;; MMM
-;; ---
-
-(message "init.el: MMM-mode")
-
-(require 'mmm-auto)
-
-(mmm-add-classes
- '((shell-script-awk
-    :submode awk-mode
-    :delimiter-mode nil
-    :face mmm-code-submode-face
-    :front "awk.*'[[:space:]]*\n"
-    :back "\n[[:space:]]*'")
-   (nginx-embedded-lua
-    :submode lua-mode
-    :delimiter-mode nil
-    :face mmm-code-submode-face
-    :front "content_by_lua_block[[:space:]]*{[[:space:]]*\n"
-    :back "\n[[:space:]]*}[[:space:]]*#[[:space:]]*lua_end")))
-
-
-(setq mmm-global-mode 'maybe)
-(mmm-add-mode-ext-class 'sh-mode nil 'shell-script-awk)
-(mmm-add-mode-ext-class 'conf-mode nil 'nginx-embedded-lua)
-
 
 ;; highlighting and removing spaces at end-of-line
 ;; -----------------------------------------------
 
 (message "init.el: Remove spaces")
-
 
 (defun my-trailing-whitespace ()
   "highlight trailing whilespace"
@@ -1304,156 +1089,6 @@
   (interactive "p")
   (cond ((looking-at "\\s\(") (forward-list 1) (backward-char 1))
         ((looking-at "\\s\)") (forward-char 1) (backward-list 1))))
-
-
-;; spreadsheet calculation
-;; -----------------------
-
-(message "init.el: Spreadsheet")
-
-(global-set-key (kbd "C-<kp-multiply>") 'sc-calc)
-(global-set-key (kbd "C-<kp-add>") 'sc-total)
-
-(defun sc-calc (arg)
-  "multiply quantity by unit price"
-  (interactive "p")
-  (let (
-        (qty 0)
-        (unit-price 0)
-        (total-price 0)
-        )
-    (if (search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" nil t)
-        (let (
-              (start-pos (point))
-              (end-pos (progn (end-of-line) (point)))
-              )
-          (goto-char start-pos)
-          (backward-char 1)
-          (setq qty (string-to-number (match-string 1)))
-          (message "qty = %s" qty)
-          (if (search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" end-pos t)
-              (progn
-                (setq unit-price (string-to-number (match-string 1)))
-                (message "unit price = %s" unit-price)
-                (setq total-price (* unit-price qty))
-                (backward-char 1)
-                (message "total price = %s" total-price)
-                (if (search-forward-regexp "|[^|]+|" end-pos t)
-                    (progn
-                      (replace-match (format "| %7.2f |" total-price))
-                      )
-                  )
-                )
-            )
-          )
-      )
-    )
-  )
-
-(defun sc-replace-total (format-string total-value)
-  "replace the current match with the new value"
-  (message "current match  = %s" (match-string 0))
-  (let* (
-         (tot (format format-string total-value))
-         (len (- (length (match-string 0)) (length tot) 2))
-         )
-    (replace-match (concat "|" tot))
-    (dotimes (i len)
-      (insert " ")
-      )
-    (insert "|")
-    )
-  )
-
-(defun sc-total (arg)
-  "sum a column of numbers"
-  (interactive "p")
-  (let (
-        (current-value 0)
-        (total-value 0)
-        )
-    (while
-        (let (
-              (start-pos (point))
-              (end-pos (progn (end-of-line) (point)))
-              )
-          (goto-char start-pos)
-          (cond
-           ((looking-at "\\+") (next-line 1) t)
-           ((looking-at "|[[:space:]]+|") (next-line 1) t)
-
-           ((search-forward-regexp "|[[:space:]]*\\([0-9.]+\\)[[:space:]]*|" end-pos t)
-            (setq current-value (string-to-number (match-string 1)))
-            (message "value = %s" current-value)
-            (setq total-value (+ total-value current-value))
-            (backward-char (string-width (match-string 0)))
-            (next-line 1)
-            t
-            )
-
-           ((looking-at "|=[^|]+|")
-            (sc-replace-total "=%7.2f" total-value)
-            nil
-            )
-
-           ((looking-at "|#[^|]+|")
-            (sc-replace-total "#%5d" total-value)
-            nil
-            )
-
-           (t (message "total value = %s" total-value) nil)
-           )
-          )
-      )
-    )
-  )
-
-
-;; binary numbering
-;; ----------------
-
-(message "init.el: Binary numbering")
-
-(global-set-key (kbd "C-<kp-divide>") 'binary-increment)
-
-
-(defun binary-increment-string (bin-str)
-  "increment a string looking like '  1111 0101 1110 '"
-  (let ((carry 1))
-    (concat
-     (reverse
-      (mapcar #'(lambda (x)
-                 (cond
-                  ((and (= carry 1) (= x ?1)) ?0)
-                  ((and (= carry 1) (= x ?0)) (setq carry 0) ?1)
-                  (t x)))
-              (reverse (string-to-list bin-str))))))
-  )
-
-
-(defun binary-increment (arg)
-  "read a binary string from the cursor and place the incremented value below it"
-  (interactive "p")
-  (beginning-of-line)
-  (let ((re "[[:space:]]*\\([01]+[01[:space:]]*\\)+"))
-    (if (looking-at re)
-        (let ((start-pos (point)))
-          (goto-char start-pos)
-          (if (looking-at re)
-              (let ((binary-string (match-string 0)))
-                (goto-char start-pos)
-                (forward-line)
-                (if (looking-at re)
-                    (delete-region (match-beginning 0) (match-end 0)))
-                (insert-string (binary-increment-string binary-string))
-                (goto-char start-pos)
-                (forward-line)
-                )
-            )
-          )
-      )
-    )
-  )
 
 
 ;; Toggle case of letter at the cursor
@@ -1529,17 +1164,6 @@
 
 (add-hook 'before-save-hook 'my-html-replace-timestamp)
 
-;; for XEmacs html mode
-;;(setq html-helper-timestamp-hook 'my-html-insert-timestamp)
-
-
-;; email system
-;; ------------
-
-;;(message "init.el: loading Wanderlust Email Reader")
-
-;;(require 'wanderlust-startup)
-
 
 ;; for the F11 key: if server edit dispatch the buffer, else just kill it
 ;; ----------------------------------------------------------------------
@@ -1569,51 +1193,24 @@
 ;; "-s <socket>" option.
 ;; The socket path looks like: /tmp/emacs<uid>-<desktop>
 
-(if (eq system-type 'darwin)
-    (message "init.el: OS: darwin")
-  (progn
-    (message "init.el: OS: other")
+(when window-system
+  (message "init.el: Starting server")
 
-    (message "init.el: Starting server")
+  (let ((qdesktop (executable-find "eie"))
+        (work-buffer "*CurrentScreen*")
+        )
+    (if qdesktop
+        (save-excursion
+          (if (bufferp work-buffer) (kill-buffer work-buffer))
+          (call-process qdesktop nil work-buffer nil "--desktop-number")
+          (set-buffer work-buffer)
+          (let ((screen-number (string-to-number (buffer-string))))
+            (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number))
+            )
+          (kill-buffer work-buffer))))
 
-    (let ((qdesktop (executable-find "eie"))
-          (work-buffer "*CurrentScreen*")
-          )
-      (if qdesktop
-          (save-excursion
-            (if (bufferp work-buffer) (kill-buffer work-buffer))
-            (call-process qdesktop nil work-buffer nil "--desktop-number")
-            (set-buffer work-buffer)
-            (let ((screen-number (string-to-number (buffer-string))))
-              (setq server-socket-dir (format "/tmp/emacs%d-%d" (user-uid) screen-number))
-              )
-            (kill-buffer work-buffer))))
-
-    (when window-system
-      (message (format "init.el: server-socket-dir = %s" server-socket-dir))
-      ;;(if (and (boundp 'gnuserv-process) (not gnuserv-process)) (gnuserv-start))
-      (server-start))))
-
-
-;; git blame override
-;; ------------------
-
-(eval-after-load "vc-annotate"
-  '(defun vc-annotate-get-time-set-line-props ()
-    (let ((bol (point))
-          (date (vc-call-backend vc-annotate-backend 'annotate-time))
-          (inhibit-read-only t))
-      (assert (>= (point) bol))
-      (put-text-property bol (point) 'invisible 'vc-annotate-annotation)
-      (when (string-equal "Git" vc-annotate-backend)
-      (save-excursion
-        (goto-char bol)
-        (search-forward "(")
-        (let ((p1 (point)))
-          (re-search-forward " [0-9]")
-          (remove-text-properties p1 (1- (point)) '(invisible nil))
-          )))
-    date)))
+  (message (format "init.el: server-socket-dir = %s" server-socket-dir))
+  (server-start))
 
 
 ;; custom set variable at end to override any internal package defaults
@@ -1621,7 +1218,7 @@
 
 (message "init.el: Customising variables")
 
-(mapcar (lambda (file-name)
+(mapcar #'(lambda (file-name)
           (let ((file-name (concat init-dir "/" file-name)))
             (when (file-exists-p file-name)
               (message "init.el: Loading: %s" file-name)
@@ -1637,7 +1234,7 @@
 (if (eq system-type 'gnu/linux)
   (setq ps-lpr-command "/usr/bin/lpr"))
 
-;; detech default printer name
+;; detect default printer name
 (when (file-exists-p "/usr/local/bin/lpstat")
   (let ((work-buffer "*CurrentPrinter*"))
     (save-excursion
@@ -1661,5 +1258,4 @@
 
 (if window-system
     (message "init.el: Initialisation complete (X11)")
-  (message "init.el: Initialisation complete (command)")
-  )
+  (message "init.el: Initialisation complete (command)"))
