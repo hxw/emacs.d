@@ -109,6 +109,48 @@
 (global-set-key (kbd "<f12>") 'delete-other-windows)
 
 
+(global-set-key (kbd "S-<f9>") #'(lambda (arg)
+                                   "create an empty lstlisting block for H-Code example code"
+                                   (interactive "p")
+                                   (cond
+                                    ((> arg 0) ;; default if nothing set
+                                     (insert "\\begin{addmargin}[1cm]{1em}%\n\\begin{lstlisting}\n")
+                                     (forward-line arg)
+                                     (insert "\\end{lstlisting}\n\\end{addmargin}\n"))
+                                    ((< arg 0) ;; <esc> 0 S-<f9>
+                                     (insert "\\begin{addmargin}[1cm]{1em}%\n\\begin{math}\n")
+                                     (forward-line (- arg))
+                                     (insert "\\end{math}\n\\end{addmargin}\n"))
+                                    )))
+
+(global-set-key (kbd "C-<f9>") #'(lambda (arg)
+                                   "set next n words ad mytt or if n<0 underline next n words"
+                                   (interactive "p")
+                                   (cond
+                                    ((> arg 0) ;; default if nothing set
+                                     (insert "\\mytt{")
+                                     (forward-word arg)
+                                     (insert "}"))
+                                    ((< arg 0) ;; <esc> 0 S-<f9>
+                                     (insert "\\myuline{")
+                                     (forward-word (- arg))
+                                     (insert "}"))
+                                    )))
+
+(global-set-key (kbd "M-<f9>") #'(lambda (arg)
+                                   "create a Roman Numeral numbered list block with commented Note prefix for item 1"
+                                   (interactive "p")
+                                   (cond
+                                    ((> arg 0) ;; default if nothing set
+                                     (insert "% first renew is Note prefix for item 1, second is plain Roman numeral\n")
+                                     (insert "%\\renewcommand{\\labelenumi}{\\ifnum\\value{enumi}=1 \\myuline{Note} (\\roman{enumi})\\else (\\roman{enumi})\\fi}\n")
+                                     (insert "\\renewcommand{\\labelenumi}{(\\roman{enumi})}\n")
+                                     (insert "\\begin{enumerate}\n\\def\\theenumi{\\roman{enumi}}\n")
+                                     (forward-line arg)
+                                     (insert "\\end{enumerate}\n"))
+                                    )))
+
+
 ;; miscellaneous keys
 ;; ------------------
 
