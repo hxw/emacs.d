@@ -1092,7 +1092,8 @@
 
 (add-hook 'asm-mode-hook
           #'(lambda ()
-              (setq comment-column '54)
+              (setq comment-column '32)
+              (setq tab-width '2)
               )
           )
 
