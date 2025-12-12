@@ -82,7 +82,15 @@
  '(mouse-buffer-menu-maxlen 30)
  '(mouse-buffer-menu-mode-mult 30)
  '(package-selected-packages
-   '(solidity-mode project-explorer dart-mode clang-format typescript-mode janet-mode lua-mode color-theme-sanityinc-tomorrow color-theme-sanityinc-solarized color-theme-modern rainbow-delimiters rainbow-identifiers rainbow-mode go-autocomplete ctags-update tuareg cargo go-eldoc go-mode yaml-mode sqlup-mode markdown-mode json-mode js2-mode htmlize haskell-mode flylisp aggressive-indent use-package))
+   '(ada-mode aggressive-indent cargo clang-format color-theme-modern
+              color-theme-sanityinc-solarized
+              color-theme-sanityinc-tomorrow ctags-update dart-mode
+              flylisp go-autocomplete go-eldoc go-mode haskell-mode
+              htmlize janet-mode js2-mode json-mode lsp-mode lua-mode
+              markdown-mode project-explorer rainbow-delimiters
+              rainbow-identifiers rainbow-mode solidity-mode
+              sqlup-mode tuareg typescript-mode use-package
+              wisitoken-grammar-mode yaml-mode))
  '(pe/width 30)
  '(perl-indent-level 2)
  '(ps-font-size '(12 . 12))
